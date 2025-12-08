@@ -1,4 +1,4 @@
-package jp.co.sfrontier.ss3.game.controller;
+package jp.co.sfrontier.ss3.game.controller.play;
 
 import java.io.IOException;
 import java.sql.SQLException;
