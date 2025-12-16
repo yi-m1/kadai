@@ -1,8 +1,17 @@
-# Eclipse
-.project
-.classpath
-.settings
+# Maven build
+target/
 
-# Maven
-target
-/bin/
+# Logs
+*.log
+logs/
+hs_err_pid*.log
+replay_pid*.log
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
