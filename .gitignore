@@ -15,3 +15,12 @@ replay_pid*.log
 # OS
 .DS_Store
 Thumbs.db
+
+# temp merge compare files
+pom.kadai.xml
+pom.mygame.xml
+web.kadai.xml
+web.mygame.xml
+index.kadai.jsp
+index.mygame.jsp
+

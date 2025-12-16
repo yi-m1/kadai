@@ -2,9 +2,9 @@ package jp.co.sfrontier.ss3.game.tag;
 
 import java.io.IOException;
 
-import jakarta.servlet.jsp.JspException;
-import jakarta.servlet.jsp.JspWriter;
-import jakarta.servlet.jsp.tagext.SimpleTagSupport;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 /**
  * 方向コード(１～４)を矢印(↑↓←→)に変換して出力するカスタムタグ
