@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.sfrontier.ss3.game.common.Direction;
 import jp.co.sfrontier.ss3.game.common.ResultCode;
-import jp.co.sfrontier.ss3.game.service.lookoverthere.LookOverTherePlayService;
+import jp.co.sfrontier.ss3.game.service.lookoverthere.AcchiMuiteHoiService;
 import jp.co.sfrontier.ss3.game.service.lookoverthere.value.Player;
 import jp.co.sfrontier.ss3.game.value.LookOverThereMatchHistory;
 import jp.co.sfrontier.ss3.game.value.LookOverThereMatchResult;
@@ -31,7 +31,7 @@ public class LookOverThereController {
 	private static final Logger logger = LoggerFactory.getLogger(LookOverThereController.class);
 
 	@Autowired
-	private LookOverTherePlayService lookOverTherePlayService;
+	private AcchiMuiteHoiService lookOverTherePlayService;
 
 	/**
 	 *  「あっちむいてほい」の初期画面を表示する<br>

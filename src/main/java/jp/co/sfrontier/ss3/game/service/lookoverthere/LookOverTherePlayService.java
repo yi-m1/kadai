@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +25,7 @@ import jp.co.sfrontier.ss3.game.value.LookOverThereMatchHistory;
 @Transactional
 public class LookOverTherePlayService {
 
-	private static final Logger logger = LoggerFactory.getLogger(LookOverTherePlayService.class);
+//	private static final Logger logger = LoggerFactory.getLogger(AcchiMuiteHoiService.class);
 
 	public static final Long GAME_ID = Long.valueOf(2L);
 
@@ -42,7 +40,7 @@ public class LookOverTherePlayService {
 	 */
 
 	public long fight(Player player) {
-		logger.info("call fight");
+//		logger.info("call fight");
 
 		// CPU の向きを決める
 		Player cpu = createCpuPlayer();
@@ -62,17 +60,17 @@ public class LookOverTherePlayService {
 	 * @param defender
 	 */
 	public Long fight(Player attacker, Player defender) {
-		logger.debug("attacker={},defender={}", attacker.getDirection().name(), defender.getDirection().name());
+//		logger.debug("attacker={},defender={}", attacker.getDirection().name(), defender.getDirection().name());
 
 		Long winnerId = null;
 
 		if (attacker.getDirection() == defender.getDirection()) {
-			logger.debug("attackerの勝ちです");
+//			logger.debug("attackerの勝ちです");
 			attacker.setWin(true);
 			defender.setWin(false);
 			winnerId = attacker.getId();
 		} else {
-			logger.debug("attackerの負けです");
+//			logger.debug("attackerの負けです");
 			attacker.setWin(false);
 			defender.setWin(true);
 			winnerId = defender.getId();
@@ -130,7 +128,7 @@ public class LookOverTherePlayService {
 
 	    matchResultMapper.insert(matchResult);
 
-	    logger.debug("登録完了:match_result_id={}", matchResult.getMatchResultId());
+//	    logger.debug("登録完了:match_result_id={}", matchResult.getMatchResultId());
 
 	    return matchResult;
 	}
