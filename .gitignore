@@ -11,6 +11,8 @@ replay_pid*.log
 .classpath
 .project
 .settings/
+.factorypath
+bin/
 
 # OS
 .DS_Store
