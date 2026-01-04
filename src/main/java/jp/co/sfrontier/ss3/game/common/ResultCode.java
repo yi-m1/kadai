@@ -10,7 +10,9 @@ public enum ResultCode {
 
 	LOSE(2),
 
-	DRAW(3);
+	DRAW(3),
+
+	INIT(4);
 
 	private final int code;
 
