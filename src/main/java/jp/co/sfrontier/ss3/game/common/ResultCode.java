@@ -6,19 +6,19 @@ package jp.co.sfrontier.ss3.game.common;
  */
 public enum ResultCode {
 
-	WIN,
-	
-	LOSE,
-	
-	DRAW,
-	/** 未処理状態*/
-	INIT,
-	
-	OK,
-	
-	INPUT_ERROR,
-	
-	SYSTEM_ERROR,
-	;
-	
+	WIN(1),
+
+	LOSE(2),
+
+	DRAW(3);
+
+	private final int code;
+
+	ResultCode(int code) {
+		this.code = code;
+	}
+
+	public int getCode() {
+		return code;
+	}
 }

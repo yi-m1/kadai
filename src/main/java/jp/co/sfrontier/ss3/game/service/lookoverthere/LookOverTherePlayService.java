@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sfrontier.ss3.game.common.Direction;
+import jp.co.sfrontier.ss3.game.common.ResultCode;
 import jp.co.sfrontier.ss3.game.mapper.MatchResultMapper;
 import jp.co.sfrontier.ss3.game.model.MatchResult;
+import jp.co.sfrontier.ss3.game.service.lookoverthere.value.LookOverThereResult;
 import jp.co.sfrontier.ss3.game.service.lookoverthere.value.Player;
 import jp.co.sfrontier.ss3.game.value.LookOverThereMatchHistory;
 
@@ -162,5 +164,26 @@ public class LookOverTherePlayService {
 
 		return matchResultMapper.selectRecentHistory(fromDate, toDate, playerId);
 	}
+	
+	public LookOverThereResult play(Direction attackerDirection) {
+
+	    // attacker（ユーザー）
+	    Player attacker = new Player();
+	    attacker.setId(1L); // 仮ID（後でセッション連携）
+	    attacker.setDirection(attackerDirection);
+
+	    // CPU
+	    Player defender = createCpuPlayer();
+
+	    // 勝敗判定（既存ロジック再利用）
+	    fight(attacker, defender);
+
+	    // 結果を Controller 用にまとめる
+	    return new LookOverThereResult(
+	            attacker.isWin() ? ResultCode.WIN : ResultCode.LOSE,
+	            defender.getDirection()
+	    );
+	}
+
 
 }
