@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>あっちむいてほい</title>
+</head>
+<body>
+<h1>あっちむいてほい</h1>
+
+<form th:action="@{/look-over-there/play}" method="post">
+    <p>向きを選んでください</p>
+
+    <label>
+        <input type="radio" name="direction" value="1" required> 上
+    </label><br>
+    <label>
+        <input type="radio" name="direction" value="2"> 下
+    </label><br>
+    <label>
+        <input type="radio" name="direction" value="3"> 左
+    </label><br>
+    <label>
+        <input type="radio" name="direction" value="4"> 右
+    </label><br><br>
+
+    <button type="submit">勝負！</button>
+</form>
+
+</body>
+</html>
