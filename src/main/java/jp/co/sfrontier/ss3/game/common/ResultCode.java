@@ -1,26 +1,27 @@
 package jp.co.sfrontier.ss3.game.common;
 
-/**
- * 処理結果を定義する<br>
- * 
- */
 public enum ResultCode {
 
-	WIN(1),
+	WIN(1, "勝ち"),
 
-	LOSE(2),
+	LOSE(0, "負け"),
 
-	DRAW(3),
-
-	INIT(4);
+	INIT(10, "初期化失敗"),
+	;
 
 	private final int code;
+	private final String label;
 
-	ResultCode(int code) {
+	ResultCode(int code, String label) {
 		this.code = code;
+		this.label = label;
 	}
 
 	public int getCode() {
 		return code;
+	}
+
+	public String getLabel() {
+		return label;
 	}
 }

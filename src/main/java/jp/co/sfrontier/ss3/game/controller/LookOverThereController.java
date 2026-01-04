@@ -22,50 +22,51 @@ import jp.co.sfrontier.ss3.game.service.lookoverthere.value.LookOverThereResult;
 @RequestMapping("/look-over-there")
 public class LookOverThereController {
 
-    private final LookOverTherePlayService playService;
-    private final MatchResultService matchResultService;
+	private final LookOverTherePlayService playService;
+	private final MatchResultService matchResultService;
 
-    public LookOverThereController(
-            LookOverTherePlayService playService,
-            MatchResultService matchResultService) {
-        this.playService = playService;
-        this.matchResultService = matchResultService;
-    }
-    
-    @GetMapping
-    public String show() {
-        return "lookoverthere/play";
-    }
-    
-    @PostMapping("/play")
-    public String play(
-            @RequestParam("direction") Integer attackerDirection,
-            HttpSession session,
-            Model model) {
+	public LookOverThereController(
+			LookOverTherePlayService playService,
+			MatchResultService matchResultService) {
+		this.playService = playService;
+		this.matchResultService = matchResultService;
+	}
 
-        Long attackerId = (Long) session.getAttribute("playerId");
-        if (attackerId == null) {
-            attackerId = 1L; // 仮
-        }
+	@GetMapping
+	public String show(HttpSession session) {
 
-        Direction attackerDir = Direction.get(attackerDirection);
+		if (session.getAttribute("playerId") == null) {
+			// 仮ユーザーID（ログイン実装後に削除）
+			session.setAttribute("playerId", 1L);
+		}
 
-        LookOverThereResult result =
-                playService.play(attackerDir);
+		return "lookoverthere/play";
+	}
 
-        matchResultService.save(
-                attackerId,
-                0L,
-                result.getResultCode(),
-                attackerDir.getVal(),
-                result.getDefenderDirection().getVal(),
-                LookOverTherePlayService.GAME_ID
-        );
+	@PostMapping("/play")
+	public String play(
+			@RequestParam("direction") Integer attackerDirection,
+			HttpSession session,
+			Model model) {
 
-        model.addAttribute("result", result);
-        return "lookoverthere/result";
-    }
+		Long attackerId = (Long) session.getAttribute("playerId");
+		Long defenderId = 0L; // CPU
+		Long gameId = LookOverTherePlayService.GAME_ID;
 
+		Direction attackerDir = Direction.get(attackerDirection);
+
+		LookOverThereResult result = playService.play(attackerDir);
+
+		matchResultService.save(
+				attackerId,
+				defenderId,
+				result.getResultCode(),
+				attackerDir.getVal(),
+				result.getDefenderDirection().getVal(),
+				gameId);
+
+		model.addAttribute("result", result);
+		return "lookoverthere/result";
+	}
 
 }
-
