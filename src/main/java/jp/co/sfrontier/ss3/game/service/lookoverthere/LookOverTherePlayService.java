@@ -37,7 +37,7 @@ public class LookOverTherePlayService {
 
 	private final MatchResultService matchResultService;
 
-	private final Random random;
+	private final Random random = new Random();
 
 	/** 
 	 * 「あっちむいてほい」を1回実行し、結果を保存した上で Controller 用の結果を返す<br>
