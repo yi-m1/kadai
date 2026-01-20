@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import jp.co.sfrontier.ss3.game.model.MatchResult;
+import jp.co.sfrontier.ss3.game.entity.MatchResult;
 import jp.co.sfrontier.ss3.game.value.LookOverThereMatchHistory;
 
 @Mapper

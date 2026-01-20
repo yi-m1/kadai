@@ -85,7 +85,7 @@ public class LookOverTherePlayService {
 			Direction attackerDirection,
 			Direction defenderDirection,
 			ResultCode resultCode) {
-		// TODO 後でセッション連携
+		// TODO 後でセッション連携する
 		Long attackerId = 1L;
 		Long defenderId = CPU_ID;
 

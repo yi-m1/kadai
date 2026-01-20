@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sfrontier.ss3.game.common.ResultCode;
+import jp.co.sfrontier.ss3.game.entity.MatchResult;
 import jp.co.sfrontier.ss3.game.mapper.MatchResultMapper;
-import jp.co.sfrontier.ss3.game.model.MatchResult;
 
 /**
  * 対戦結果を保存するサービスクラス<br>

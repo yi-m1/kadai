@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import jp.co.sfrontier.ss3.game.model.MatchResult;
+import jp.co.sfrontier.ss3.game.entity.MatchResult;
 
 /**
  * {@link MatchResultMapper}用の単体テストクラス<br>
