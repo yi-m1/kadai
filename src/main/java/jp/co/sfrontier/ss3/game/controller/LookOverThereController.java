@@ -61,16 +61,13 @@ public class LookOverThereController {
 		Long defenderId = 0L;
 		Long gameId = LookOverTherePlayService.GAME_ID;
 
-		// 不正値を Service に渡さないために、入力値を Direction に変換しておく
-		Direction attackerDir = Direction.get(attackerDirection);
-
-		LookOverThereResult result = playService.play(attackerDir);
+		LookOverThereResult result = playService.play(Direction.get(attackerDirection));
 
 		matchResultService.save(
 				attackerId,
 				defenderId,
 				result.getResultCode(),
-				attackerDir.getVal(),
+				result.getAttackerDirection().getVal(),
 				result.getDefenderDirection().getVal(),
 				gameId);
 
@@ -79,6 +76,12 @@ public class LookOverThereController {
 		return "lookoverthere/result";
 	}
 
+	/**
+	 * 対戦履歴を表示する<br>
+	 * <br>
+	 * @param model 対戦履歴画面に渡すモデル
+	 * @return 対戦履歴画面
+	 */
 	@GetMapping("/history")
 	public String history(Model model) {
 		// ログイン未実装のため固定 ID
