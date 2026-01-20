@@ -144,6 +144,29 @@
 		</trim>
 	</insert>
 	
+	<select id="selectRecentHistoryAll"
+        parameterType="long"
+        resultType="jp.co.sfrontier.ss3.game.model.MatchResult">
+
+	    SELECT
+	        MATCH_RESULT_ID,
+	        ATTACKER_ID,
+	        DEFENDER_ID,
+	        GAME_ID,
+	        MATCH_DATETIME,
+	        JUDGE,
+	        CREATED_AT,
+	        UPDATED_AT,
+	        VERSION,
+	        ATTACKER_DIRECTION,
+	        DEFENDER_DIRECTION
+	    FROM GAME.MATCH_RESULT
+	    WHERE ATTACKER_ID = #{playerId}
+	    ORDER BY MATCH_DATETIME DESC
+
+	</select>
+	
+	
 	<select id="selectByAttackerId" resultMap="BaseResultMap">
 		SELECT
 		  <include refid="Base_Column_List" />

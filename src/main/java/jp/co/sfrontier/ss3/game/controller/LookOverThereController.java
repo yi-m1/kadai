@@ -4,7 +4,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +12,7 @@ import jp.co.sfrontier.ss3.game.common.Direction;
 import jp.co.sfrontier.ss3.game.service.MatchResultService;
 import jp.co.sfrontier.ss3.game.service.lookoverthere.LookOverTherePlayService;
 import jp.co.sfrontier.ss3.game.service.lookoverthere.value.LookOverThereResult;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 「あっちむいてほい」のリクエストを受け取るためのコントローラークラス<br>
@@ -20,29 +20,20 @@ import jp.co.sfrontier.ss3.game.service.lookoverthere.value.LookOverThereResult;
  */
 @Controller
 @RequestMapping("/look-over-there")
+@RequiredArgsConstructor
 public class LookOverThereController {
 
 	private final LookOverTherePlayService playService;
 	private final MatchResultService matchResultService;
 
-	public LookOverThereController(
-			LookOverTherePlayService playService,
-			MatchResultService matchResultService) {
-		this.playService = playService;
-		this.matchResultService = matchResultService;
-	}
-
-	@GetMapping
-	public String show(HttpSession session) {
-
-		if (session.getAttribute("playerId") == null) {
-			// 仮ユーザーID（ログイン実装後に削除）
-			session.setAttribute("playerId", 1L);
-		}
-
-		return "lookoverthere/play";
-	}
-
+	/**
+	 * 「あっちむいてほい」を1回プレイ後、結果を保存したうえで結果画面を表示する<br>
+	 * <br>
+	 * @param attackerDirection アタッカーが選択した方向
+	 * @param session セッション
+	 * @param model 結果画面に表示する情報を格のするモデル
+	 * @return 結果画面のテンプレート名
+	 */
 	@PostMapping("/play")
 	public String play(
 			@RequestParam("direction") Integer attackerDirection,
@@ -50,9 +41,11 @@ public class LookOverThereController {
 			Model model) {
 
 		Long attackerId = (Long) session.getAttribute("playerId");
-		Long defenderId = 0L; // CPU
+		// ディフェンダーは CPU に固定する
+		Long defenderId = 0L;
 		Long gameId = LookOverTherePlayService.GAME_ID;
 
+		// 不正値を Service に渡さないために、入力値を Direction に変換しておく
 		Direction attackerDir = Direction.get(attackerDirection);
 
 		LookOverThereResult result = playService.play(attackerDir);
@@ -66,6 +59,7 @@ public class LookOverThereController {
 				gameId);
 
 		model.addAttribute("result", result);
+
 		return "lookoverthere/result";
 	}
 
