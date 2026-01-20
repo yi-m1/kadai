@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
-	<title>ホーム画面</title>
+	<title>トップ</title>
 </head>
 
 <body>
+
 	<h1>ゲーム選択</h1>
 
-	<ul>
-		<li><a href="@{/janken}">じゃんけん</a></li>
-		<li><a href="@{/acchi}">あっちむいてほい</a></li>
-	</ul>
+	<form th:action="@{/janken}" method="get">
+		<button type="submit">じゃんけん</button>
+	</form>
+
+	<form th:action="@{/look-over-there}" method="get">
+		<button type="submit">あっちむいてほい</button>
+	</form>
+
 </body>
 
 </html>

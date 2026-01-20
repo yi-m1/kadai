@@ -26,7 +26,7 @@ public class LookOverThereController {
 
 	private final LookOverTherePlayService playService;
 	private final MatchResultService matchResultService;
-	
+
 	/**
 	 * 「あっちむいてほい」の対戦画面を表示する<br>
 	 * <br>
@@ -51,7 +51,12 @@ public class LookOverThereController {
 			HttpSession session,
 			Model model) {
 
-		Long attackerId = (Long) session.getAttribute("playerId");
+		// セッションでアタッカー ID を受け取る
+		// Long attackerId = (Long) session.getAttribute("playerId");
+		
+		// 仮のユーザーとして ID は固定する
+		Long attackerId = 1L; 
+		
 		// ディフェンダーは CPU に固定する
 		Long defenderId = 0L;
 		Long gameId = LookOverTherePlayService.GAME_ID;
