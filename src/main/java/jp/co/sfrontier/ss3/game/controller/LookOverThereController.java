@@ -13,11 +13,13 @@ import jp.co.sfrontier.ss3.game.common.Direction;
 import jp.co.sfrontier.ss3.game.service.lookoverthere.LookOverTherePlayService;
 import jp.co.sfrontier.ss3.game.service.lookoverthere.value.LookOverThereResult;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 「あっちむいてほい」のリクエストを受け取るためのコントローラークラス<br>
  * <br>
  */
+@Slf4j
 @Controller
 @RequestMapping("/look-over-there")
 @RequiredArgsConstructor
@@ -32,6 +34,7 @@ public class LookOverThereController {
 	 */
 	@GetMapping
 	public String show() {
+		log.info("あっちむいてほい対戦画面を表示");
 		return "lookoverthere/play";
 	}
 
@@ -52,14 +55,13 @@ public class LookOverThereController {
 		// セッションでアタッカー ID を受け取る
 		// Long attackerId = (Long) session.getAttribute("playerId");
 
-		// 仮のユーザーとして ID は固定する
-		Long attackerId = 1L;
-
-		// ディフェンダーは CPU に固定する
-		Long defenderId = 0L;
-		Long gameId = LookOverTherePlayService.GAME_ID;
-
 		LookOverThereResult result = playService.play(Direction.get(attackerDirection));
+
+		log.info(
+				"結果 resultCode={}, attackerDirection={}, defenderDirection={}",
+				result.getResultCode(),
+				result.getAttackerDirection(),
+				result.getDefenderDirection());
 
 		model.addAttribute("result", result);
 

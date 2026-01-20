@@ -1,48 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>あっちむいてほい</title>
+	<meta charset="UTF-8">
+	<title>あっちむいてほい</title>
 </head>
+
 <body>
 
-<h1>あっちむいてほい</h1>
+	<h1>あっちむいてほい</h1>
 
-<!--
+	<!--
   向きを選択して勝負するフォーム
   POST /look-over-there/play に送信される
 -->
-<form th:action="@{/look-over-there/play}" method="post">
+	<form th:action="@{/look-over-there/play}" method="post">
 
-    <p>向きを選んでください</p>
+		<p>向きを選んでください</p>
 
-    <label>
-        <input type="radio" name="direction" value="1" required>
-        上
-    </label><br>
+		<label>
+			<input type="radio" name="direction" value="1" required>
+			上
+		</label><br>
 
-    <label>
-        <input type="radio" name="direction" value="2">
-        下
-    </label><br>
+		<label>
+			<input type="radio" name="direction" value="2">
+			下
+		</label><br>
 
-    <label>
-        <input type="radio" name="direction" value="3">
-        左
-    </label><br>
+		<label>
+			<input type="radio" name="direction" value="3">
+			左
+		</label><br>
 
-    <label>
-        <input type="radio" name="direction" value="4">
-        右
-    </label><br><br>
+		<label>
+			<input type="radio" name="direction" value="4">
+			右
+		</label><br><br>
 
-    <button type="submit">勝負！</button>
-</form>
+		<button type="submit">勝負！</button>
+	</form>
 
-<hr>
+	<hr>
 
-<!-- トップページに戻る -->
-<a th:href="@{/}">トップページに戻る</a>
+	<form th:action="@{/}" method="get">
+		<button>トップへ戻る</button>
+	</form>
 
 </body>
+
 </html>

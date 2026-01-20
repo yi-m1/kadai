@@ -13,6 +13,7 @@ import jp.co.sfrontier.ss3.game.service.MatchResultService;
 import jp.co.sfrontier.ss3.game.service.lookoverthere.value.LookOverThereResult;
 import jp.co.sfrontier.ss3.game.value.LookOverThereMatchHistory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 「あっちむいてほい」についての各種サービスを提供するクラス<br>
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
  * ※現在は CPU 対戦のみだが、Defender の方向決定ロジックを切り出しているため、
  * 将来的に対人戦へ拡張可能
  */
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -53,9 +55,16 @@ public class LookOverTherePlayService {
 	 */
 	public LookOverThereResult play(Direction attackerDirection) {
 
+		log.debug("play() 開始 attackerDirection={}", attackerDirection);
+
 		Direction defenderDirection = decideDefenderDirection();
 
+		log.debug("CPU方向決定 defenderDirection={}", defenderDirection);
+
 		ResultCode resultCode = judge(attackerDirection, defenderDirection);
+
+		log.info("勝敗判定 attacker={}, defender={}, result={}",
+				attackerDirection, defenderDirection, resultCode);
 
 		saveMatchResult(attackerDirection, defenderDirection, resultCode);
 
