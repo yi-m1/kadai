@@ -42,7 +42,7 @@ public class LookOverThereController {
 	 * <br>
 	 * @param attackerDirection アタッカーが選択した方向
 	 * @param session セッション
-	 * @param model 結果画面に表示する情報を格のするモデル
+	 * @param model 結果画面に表示する情報を格納するモデル
 	 * @return 結果画面
 	 */
 	@PostMapping("/play")
@@ -53,10 +53,10 @@ public class LookOverThereController {
 
 		// セッションでアタッカー ID を受け取る
 		// Long attackerId = (Long) session.getAttribute("playerId");
-		
+
 		// 仮のユーザーとして ID は固定する
-		Long attackerId = 1L; 
-		
+		Long attackerId = 1L;
+
 		// ディフェンダーは CPU に固定する
 		Long defenderId = 0L;
 		Long gameId = LookOverTherePlayService.GAME_ID;

@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>結果</title>
+	<meta charset="UTF-8">
+	<title>結果</title>
 </head>
+
 <body>
 
-<h1>対戦結果</h1>
+	<h1>対戦結果</h1>
 
-<p>
-    結果：
-    <span th:text="${result.resultCode}">WIN</span>
-</p>
+	<p>
+		結果：
+		<span th:text="${result.resultCode.label}">勝ち！</span>
+	</p>
 
-<p>
-    CPUの向き：
-    <span th:text="${result.defenderDirection}">UP</span>
-</p>
+	<p>
+		あなたの向き：
+		<span th:text="${result.attackerDirection.label}">上</span>
+	</p>
 
-<hr>
+	<p>
+		CPUの向き：
+		<span th:text="${result.defenderDirection.label}">上</span>
+	</p>
 
-<form th:action="@{/look-over-there}" method="get">
-    <button>続ける</button>
-</form>
+	<hr>
 
-<form th:action="@{/}" method="get">
-    <button>やめる</button>
-</form>
+	<form th:action="@{/look-over-there}" method="get">
+		<button>続ける</button>
+	</form>
 
-<form th:action="@{/look-over-there/history}" method="get">
-    <button>対戦履歴</button>
-</form>
+	<form th:action="@{/}" method="get">
+		<button>やめる</button>
+	</form>
+
+	<form th:action="@{/look-over-there/history}" method="get">
+		<button>対戦履歴</button>
+	</form>
 
 </body>
+
 </html>

@@ -13,6 +13,7 @@ import lombok.Value;
 public class LookOverThereResult {
 
 	ResultCode resultCode;
+	Direction attackerDirection;
 	Direction defenderDirection;
 
 }

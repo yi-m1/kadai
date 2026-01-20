@@ -55,7 +55,7 @@ public class LookOverTherePlayService {
 		saveMatchResult(attackerDirection, defenderDirection, resultCode);
 
 		// Controller 用の結果を返す
-		return new LookOverThereResult(resultCode, defenderDirection);
+		return new LookOverThereResult(resultCode, attackerDirection, defenderDirection);
 	}
 
 	/**
