@@ -1,5 +1,6 @@
 package jp.co.sfrontier.ss3.game.service.lookoverthere;
 
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
@@ -7,8 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sfrontier.ss3.game.common.Direction;
 import jp.co.sfrontier.ss3.game.common.ResultCode;
+import jp.co.sfrontier.ss3.game.mapper.MatchResultMapper;
 import jp.co.sfrontier.ss3.game.service.MatchResultService;
 import jp.co.sfrontier.ss3.game.service.lookoverthere.value.LookOverThereResult;
+import jp.co.sfrontier.ss3.game.value.LookOverThereMatchHistory;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -36,6 +39,8 @@ public class LookOverTherePlayService {
 	private static final Long CPU_ID = Long.valueOf(0L);
 
 	private final MatchResultService matchResultService;
+
+	private final MatchResultMapper matchResultMapper;
 
 	private final Random random = new Random();
 
@@ -116,6 +121,16 @@ public class LookOverTherePlayService {
 	 */
 	private Direction getRandomDirection() {
 		return Direction.get(random.nextInt(4) + 1);
+	}
+
+	/**
+	 * 対戦履歴の一覧を取得する<br>
+	 * <br>
+	 * @param playerId プレイヤーID
+	 * @return 対戦履歴の一覧
+	 */
+	public List<LookOverThereMatchHistory> getHistory(Long playerId) {
+		return matchResultMapper.selectHistory(playerId);
 	}
 
 }

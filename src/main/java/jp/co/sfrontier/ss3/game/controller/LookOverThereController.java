@@ -79,4 +79,14 @@ public class LookOverThereController {
 		return "lookoverthere/result";
 	}
 
+	@GetMapping("/history")
+	public String history(Model model) {
+		// ログイン未実装のため固定 ID
+		Long playerId = 1L;
+
+		model.addAttribute("histories", playService.getHistory(playerId));
+
+		return "lookoverthere/history";
+	}
+
 }

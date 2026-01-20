@@ -24,4 +24,22 @@ public enum ResultCode {
 	public String getLabel() {
 		return label;
 	}
+
+	/**
+     * DB の数値から ResultCode を取得する <br>
+	 * <br>
+	 * @param code DB から受け取った数値
+	 * @return ResultCode
+	 */
+	public static ResultCode fromCode(Integer code) {
+		if (code == null) {
+			return null;
+		}
+		for (ResultCode rc : values()) {
+			if (rc.code == code) {
+				return rc;
+			}
+		}
+		throw new IllegalArgumentException("Unknown ResultCode: " + code);
+	}
 }

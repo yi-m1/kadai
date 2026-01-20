@@ -61,4 +61,11 @@ public interface MatchResultMapper {
 	List<MatchResult> selectRecentHistoryAll(
 			@Param("playerId") Long playerId);
 
+	/**
+	 * あっちむいてほいの表示確認用の簡易対戦履歴を取得する<br>
+	 * <br>
+	 */
+	List<LookOverThereMatchHistory> selectHistory(
+			@Param("playerId") Long playerId);
+
 }
