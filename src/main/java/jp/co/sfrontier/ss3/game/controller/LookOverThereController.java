@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.sfrontier.ss3.game.common.Direction;
-import jp.co.sfrontier.ss3.game.service.MatchResultService;
 import jp.co.sfrontier.ss3.game.service.lookoverthere.LookOverTherePlayService;
 import jp.co.sfrontier.ss3.game.service.lookoverthere.value.LookOverThereResult;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 public class LookOverThereController {
 
 	private final LookOverTherePlayService playService;
-	private final MatchResultService matchResultService;
 
 	/**
 	 * 「あっちむいてほい」の対戦画面を表示する<br>
@@ -63,33 +61,8 @@ public class LookOverThereController {
 
 		LookOverThereResult result = playService.play(Direction.get(attackerDirection));
 
-		matchResultService.save(
-				attackerId,
-				defenderId,
-				result.getResultCode(),
-				result.getAttackerDirection().getVal(),
-				result.getDefenderDirection().getVal(),
-				gameId);
-
 		model.addAttribute("result", result);
 
 		return "lookoverthere/result";
 	}
-
-	/**
-	 * 対戦履歴を表示する<br>
-	 * <br>
-	 * @param model 対戦履歴画面に渡すモデル
-	 * @return 対戦履歴画面
-	 */
-	@GetMapping("/history")
-	public String history(Model model) {
-		// ログイン未実装のため固定 ID
-		Long playerId = 1L;
-
-		model.addAttribute("histories", playService.getHistory(playerId));
-
-		return "lookoverthere/history";
-	}
-
 }
