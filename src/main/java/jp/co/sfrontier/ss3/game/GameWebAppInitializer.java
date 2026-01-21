@@ -1,13 +1,15 @@
-package jp.co.sfrontier.ss3.game.init;
+package jp.co.sfrontier.ss3.game;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.ComponentScan;
 
+/**
+ * アプリの起点となるクラス<br>
+ * <br>
+ */
 @SpringBootApplication
-@ComponentScan(basePackages = { "jp.co.sfrontier.ss3.game.config" })
 public class GameWebAppInitializer extends SpringBootServletInitializer {
 
 	/**

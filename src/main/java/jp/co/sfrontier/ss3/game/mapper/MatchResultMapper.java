@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import jp.co.sfrontier.ss3.game.model.MatchResult;
+import jp.co.sfrontier.ss3.game.entity.MatchResult;
 import jp.co.sfrontier.ss3.game.value.LookOverThereMatchHistory;
 
 @Mapper
@@ -33,7 +33,7 @@ public interface MatchResultMapper {
 	/**
 	 * プレイヤーの対戦履歴を取り出す<br>
 	 * 対戦日の新しい順に取り出す
-	 * @param attackerId
+	 * @param attackerId アタッカーID
 	 * @returnt 対戦結果が存在しない場合、空のリストを返す
 	 */
 	List<MatchResult> selectByAttackerId(@Param("attackerId") long attackerId, @Param("gameId") long gameId);
@@ -41,14 +41,31 @@ public interface MatchResultMapper {
 	/**
 	 * 1日の最新対戦履歴を取得する<br>
 	 * <br>
-	 */
-	/**
-	 * 1日の最新対戦履歴を取得する<br>
-	 * <br>
+	 * @param fromDate 開始日
+	 * @param toDate 終了日
+	 * @param playerId プレイヤーID
+	 * @return 1日の最新対戦履歴
 	 */
 	List<LookOverThereMatchHistory> selectRecentHistory(
-	        @Param("fromDate") LocalDateTime fromDate,
-	        @Param("toDate") LocalDateTime toDate,
-	        @Param("playerId") Long playerId);
+			@Param("fromDate") LocalDateTime fromDate,
+			@Param("toDate") LocalDateTime toDate,
+			@Param("playerId") Long playerId);
+
+	/**
+	 * プレイヤーの全対戦履歴を取得する（全ゲーム共通）<br>
+	 * 対戦日時の降順<br>
+	 * <br>
+	 * @param playerId プレイヤーID
+	 * @return プレイヤーの全対戦履歴
+	 */
+	List<MatchResult> selectRecentHistoryAll(
+			@Param("playerId") Long playerId);
+
+	/**
+	 * あっちむいてほいの表示確認用の簡易対戦履歴を取得する<br>
+	 * <br>
+	 */
+	List<LookOverThereMatchHistory> selectHistory(
+			@Param("playerId") Long playerId);
 
 }
