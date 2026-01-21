@@ -1,69 +1,50 @@
 package jp.co.sfrontier.ss3.janken_game.service.history;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import jp.co.sfrontier.ss3.janken_game.model.ResultHistory;
-import jp.co.sfrontier.ss3.janken_game.repository.DbUtil;
-import jp.co.sfrontier.ss3.janken_game.repository.ResultHistoryDao;
+import jp.co.sfrontier.ss3.janken_game.dto.ResultHistoryDto;
+import jp.co.sfrontier.ss3.janken_game.mapper.ResultHistoryMapper;
+import jp.co.sfrontier.ss3.janken_game.model.GameType;
 
 /**
- * 履歴についてのサービスを提供する。<br>
- * <br>
- * @author sf0537
- * @version 1.0.0
+ * 対戦履歴に関する処理を提供するサービスクラス。
  */
+
+@Service
 public class HistoryService {
 
-	private static final Logger logger
-			= LogManager.getLogger(HistoryService.class);
+	@Autowired
+	private ResultHistoryMapper resultHistoryMapper;
 
 	/**
-	 * 対戦履歴を取得する。<br>
-	 * <br>
-	 * 該当ユーザーの全履歴を取り出す。<br>
-	 * <br>
-	 * @param userId このユーザーの履歴を取得する
-	 * @return 履歴一覧を降順で返す。該当データが存在しない場合空のリストを返す。
-	 * @throws SQLException DBへの接続エラー等が発生した場合。
+	 * すべての対戦履歴一覧を取得する。
+	 *
+	 * <p>
+	 * Mapper に null を渡すことで、
+	 * MatchResultMapper.xmlで絞り込み条件をしない検索を行う。
+	 * </p>
+	 *
+	 * @return 全対戦履歴の一覧。履歴がなければ空のList
 	 */
-	public List<ResultHistory> getHistory(int userId) throws SQLException {
-
-		// DBから履歴情報を取得する。
-		// 1. DBに繋ぐ
-		// 2. DBからデータを検索してくる。
-		// 3. DBから切断する。
-		Connection conn = DbUtil.getConnection();
-		ResultHistoryDao resultHistoryDao = new ResultHistoryDao(conn);
-		try {
-			List<ResultHistory> list
-					= resultHistoryDao.getResultHistoryInfo(userId);
-			DbUtil.commit(conn);
-
-			return list;
-		} catch (SQLException e) {
-			logger.error("履歴の検索に失敗しました。[userId={}]", userId, e);
-			rollback(conn);
-			throw e;
-		} finally {
-			DbUtil.close(conn);
-		}
+	public List<ResultHistoryDto> findAll(Long userId) {
+		return resultHistoryMapper.selectHistoryRows(userId, null);
 	}
 
 	/**
-	 * ロールバックする際の例外をスローさせないために作った
-	 * @param conn
+	 * 指定されたゲームタイプに該当する対戦履歴一覧を取得する。
+	 * 
+	 * <p>
+	 * 引数で受け取った GameType からゲームタイプIDを取得し、
+	 * DB検索用の条件として Mapper に渡す。
+	 * </p>
+	 * 
+	 * @param gameType 取得対象のゲームタイプ（例：JANKEN、ACCHI）
+	 * @return 指定されたゲームタイプに該当する履歴の一覧。履歴がなければ空のList
 	 */
-	private void rollback(Connection conn) {
-		try {
-			DbUtil.rollback(conn);
-		} catch (SQLException e) {
-			logger.error("ロールバックに失敗しました", e);
-		}
+	public List<ResultHistoryDto> findByGameType(Long userId, GameType gameType) {
+		return resultHistoryMapper.selectHistoryRows(userId, gameType.getId());
 	}
-
 }

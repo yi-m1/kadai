@@ -1,0 +1,27 @@
+package jp.co.sfrontier.ss3.janken_game.model;
+
+/**
+ * ゲームの種別を表す列挙型。
+ */
+public enum GameType {
+	JANKEN(0, "じゃんけん"), ACCHI(1, "あっちむいてほい");
+
+	/** DBに入る値 */
+	private final int id;
+	
+	/** 画面に表示する名前 */
+	private final String label;
+
+	GameType(int id, String label) {
+		this.id = id;
+		this.label = label;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+}
