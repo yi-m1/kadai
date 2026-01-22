@@ -1,13 +1,17 @@
 package jp.co.sfrontier.ss3.game.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+/**
+ * アプリのトップページ表示を制御するコントローラクラス<br>
+ * <br>
+ */
+@Controller
 public class HomeController {
 
-    @GetMapping("/ping")
-    public String ping() {
-        return "OK";
-    }
+	@GetMapping("/")
+	public String show() {
+		return "home";
+	}
 }

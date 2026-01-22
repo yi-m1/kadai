@@ -1,4 +1,4 @@
-package jp.co.sfrontier.ss3.game.model;
+package jp.co.sfrontier.ss3.game.entity;
 
 import java.util.Date;
 
