@@ -1,4 +1,4 @@
-package jp.co.sfrontier.ss3.game.common;
+package jp.co.sfrontier.ss3.game.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +12,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import jp.co.sfrontier.ss3.game.service.login.UserDetailsServiceImpl;
 
+/**
+ * Spring Security を用いてログイン、権限制御、パスワード暗号化の設定を行うクラス
+ */
 @Configuration
 public class SecurityConfig {
 
@@ -22,25 +25,49 @@ public class SecurityConfig {
 	}
 
 	/**
+	 * Spring Security のセキュリティ設定を定義する。<br>
+	 * <br>
+	 * 管理ユーザはユーザ全員の対戦履歴を表示でき、一般ユーザは自分の履歴のみ表示できる。<br>
 	 *
-	 * @param http
-	 * @return
-	 * @throws Exception
+	 * @param http ttpSecurity 設定用オブジェクト
+	 * @return 構築された SecurityFilterChain
+	 * @throws Exception セキュリティ設定時に発生する例外
 	 */
 	@Bean
 	protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests(authz -> authz.antMatchers("/login", "/register", "/changePassword").permitAll()
-				.anyRequest().authenticated())
-				.formLogin(login -> login.loginPage("/login").loginProcessingUrl("/login")
-						.usernameParameter("userNameOrMailAddress").passwordParameter("password")
-						.defaultSuccessUrl("/menu", true).failureUrl("/login?error").permitAll())
-				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login"));
+		http.authorizeHttpRequests(authz -> authz
+				// 誰でもアクセス可能
+				.antMatchers("/login", "/register", "/changePassword").permitAll()
+
+				// 管理ユーザのみアクセス可能(ユーザ全員の履歴を表示可能)
+				.antMatchers("/history/all").hasRole("ADMIN")
+
+				// 一般ユーザのみアクセス可能(自分だけの履歴を表示可能)
+				.antMatchers("/history").hasRole("USER")
+
+				// ログインしていればアクセス可能
+				.anyRequest().authenticated()
+		)
+		.formLogin(login -> login
+				.loginPage("/login")
+				.loginProcessingUrl("/login")
+				.usernameParameter("userNameOrMailAddress")
+				.passwordParameter("password")
+				.defaultSuccessUrl("/menu", true)
+				.failureUrl("/login?error")
+				.permitAll()
+		)
+		.logout(logout -> logout
+				.logoutUrl("/logout")
+				.logoutSuccessUrl("/login")
+		);
 
 		return http.build();
 	}
 
 	/**
 	 * BCryptPasswordEncoderはデフォルトで10という強度値を使用する。<br>
+	 * <br>
 	 * より高いセキュリティが必要な場合は、コンストラクタで強度を指定できる(今回はデフォルトで使用)。<br>
 	 *
 	 * @return

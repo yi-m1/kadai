@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ログイン</title>
+</head>
+<body>
+	<h1>ゲームアプリ ログイン</h1>
+
+	<p th:if="${loginError}" th:text="${loginError}" style="color: red;"></p>
+
+	<form th:action="@{/login}" th:object="${loginForm}" method="post">
+		<input type="text" th:field="*{userNameOrMailAddress}"
+			placeholder="ユーザ名 or メールアドレス" />
+		<br>
+		<div style="color: red;"
+			th:if="${#fields.hasErrors('userNameOrMailAddress')}"
+			th:errors="*{userNameOrMailAddress}"></div>
+
+		<br>
+		<input type="password" th:field="*{password}" placeholder="パスワード" />
+		<br>
+		<div style="color: red;" th:if="${#fields.hasErrors('password')}"
+			th:errors="*{password}"></div>
+
+		<br>
+		<button type="submit">ログイン</button>
+	</form>
+
+	<div>
+		<a th:href="@{/register}">アカウントをお持ちでない方</a>
+		<br>
+		<a th:href="@{/changePassword}">パスワードを忘れた方</a>
+	</div>
+</body>
+</html>
