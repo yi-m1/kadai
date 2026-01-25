@@ -1,8 +1,28 @@
-# Eclipse
-.project
-.classpath
-.settings
+# Maven build
+target/
 
-# Maven
-target
-/bin/
+# Logs
+*.log
+logs/
+hs_err_pid*.log
+replay_pid*.log
+
+# Eclipse
+.classpath
+.project
+.settings/
+.factorypath
+bin/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# temp merge compare files
+pom.kadai.xml
+pom.mygame.xml
+web.kadai.xml
+web.mygame.xml
+index.kadai.jsp
+index.mygame.jsp
+

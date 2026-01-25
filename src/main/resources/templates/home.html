@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>トップ</title>
+</head>
+
+<body>
+
+	<h1>AWS 勉強会2025作成ゲーム(仮）</h1>
+	<h2>ゲーム選択</h2>
+
+	<form th:action="@{/janken}" method="get">
+		<button type="submit">じゃんけん</button>
+	</form>
+
+	<form th:action="@{/look-over-there}" method="get">
+		<button type="submit">あっちむいてほい</button>
+	</form>
+
+	<hr>
+	<form th:action="@{history}" method="get">
+		<button type="submit">対戦履歴</button>
+	</form>
+
+</body>
+
+</html>

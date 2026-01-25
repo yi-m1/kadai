@@ -1,0 +1,3 @@
+logging:
+  level:
+    jp.co.sfrontier.ss3.game.mapper: DEBUG
