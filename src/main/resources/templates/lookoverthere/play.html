@@ -17,30 +17,27 @@
 
 		<form th:action="@{/look-over-there/play}" method="post">
 
-			<div class="opponent">
-				<img th:src="@{/images/finger_ready.png}" alt="指" class="finger-img">
-			</div>
+			<p class="direction-title">方向を選んでください</p>
 
-			<p>方向を選んでください</p>
 
 			<div class="direction-buttons">
 
-				<label class="direction-button">
+				<label class="direction-button up">
 					<input type="radio" name="direction" value="1" required>
 					<span>↑</span>
 				</label>
 
-				<label class="direction-button">
+				<label class="direction-button down">
 					<input type="radio" name="direction" value="2">
 					<span>↓</span>
 				</label>
 
-				<label class="direction-button">
+				<label class="direction-button left">
 					<input type="radio" name="direction" value="3">
 					<span>←</span>
 				</label>
 
-				<label class="direction-button">
+				<label class="direction-button right">
 					<input type="radio" name="direction" value="4">
 					<span>→</span>
 				</label>

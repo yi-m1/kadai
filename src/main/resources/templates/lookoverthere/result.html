@@ -11,20 +11,26 @@
 	<div class="container result">
 		<h1>対戦結果</h1>
 
-		<p>
-			結果：
-			<span th:text="${result.resultCode.label}">勝ち！</span>
-		</p>
+		<div class="opponent-result">
+			<img th:src="@{/images/{img}(img=${faceImage})}" alt="対戦相手" class="opponent-img">
+			<p class="result-defender">
+				CPUの向き：
+				<span th:text="${result.defenderDirection.label}">上</span>
+			</p>
+		</div>
 
-		<p class="result-win">
+		<p class="result-attacker">
 			あなたの向き：
 			<span th:text="${result.attackerDirection.label}">上</span>
 		</p>
 
-		<p class="result-lose">
-			CPUの向き：
-			<span th:text="${result.defenderDirection.label}">上</span>
-		</p>
+		<div class="result-text" th:classappend="
+		        ${result.resultCode.name() == 'WIN'}  ? ' win' :
+		        (${result.resultCode.name() == 'LOSE'} ? ' lose' : ' draw')">
+			結果：あなたの
+			<span th:text="${result.resultCode.label}">勝ち！</span>
+		</div>
+
 
 		<hr>
 
