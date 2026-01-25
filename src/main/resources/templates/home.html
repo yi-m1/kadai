@@ -3,27 +3,29 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 	<title>トップ</title>
 </head>
 
 <body>
+	<div class="container">
+		<h1>AWS 勉強会2025作成ゲーム(仮）</h1>
+		<h2>ゲーム選択</h2>
+		<div class="game-menu">
+			<form th:action="@{/janken}" method="get">
+				<button type="submit">じゃんけん</button>
+			</form>
 
-	<h1>AWS 勉強会2025作成ゲーム(仮）</h1>
-	<h2>ゲーム選択</h2>
+			<form th:action="@{/look-over-there}" method="get">
+				<button type="submit">あっちむいてほい</button>
+			</form>
 
-	<form th:action="@{/janken}" method="get">
-		<button type="submit">じゃんけん</button>
-	</form>
-
-	<form th:action="@{/look-over-there}" method="get">
-		<button type="submit">あっちむいてほい</button>
-	</form>
-
-	<hr>
-	<form th:action="@{history}" method="get">
-		<button type="submit">対戦履歴</button>
-	</form>
-
+			<hr>
+			<form th:action="@{history}" method="get">
+				<button type="submit">対戦履歴</button>
+			</form>
+		</div>
+	</div>
 </body>
 
 </html>

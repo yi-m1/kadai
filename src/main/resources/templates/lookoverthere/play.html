@@ -3,49 +3,59 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 	<title>あっちむいてほい</title>
 </head>
 
 <body>
+	<div class="container">
+		<h1>あっちむいてほい!</h1>
 
-	<h1>あっちむいてほい</h1>
+		<div class="opponent">
+			<img th:src="@{/images/face_ready.png}" alt="対戦相手" class="opponent-img">
+		</div>
 
-	<!--
-  向きを選択して勝負するフォーム
-  POST /look-over-there/play に送信される
--->
-	<form th:action="@{/look-over-there/play}" method="post">
+		<form th:action="@{/look-over-there/play}" method="post">
 
-		<p>向きを選んでください</p>
+			<div class="opponent">
+				<img th:src="@{/images/finger_ready.png}" alt="指" class="finger-img">
+			</div>
 
-		<label>
-			<input type="radio" name="direction" value="1" required>
-			上
-		</label><br>
+			<p>方向を選んでください</p>
 
-		<label>
-			<input type="radio" name="direction" value="2">
-			下
-		</label><br>
+			<div class="direction-buttons">
 
-		<label>
-			<input type="radio" name="direction" value="3">
-			左
-		</label><br>
+				<label class="direction-button">
+					<input type="radio" name="direction" value="1" required>
+					<span>↑</span>
+				</label>
 
-		<label>
-			<input type="radio" name="direction" value="4">
-			右
-		</label><br><br>
+				<label class="direction-button">
+					<input type="radio" name="direction" value="2">
+					<span>↓</span>
+				</label>
 
-		<button type="submit">勝負！</button>
-	</form>
+				<label class="direction-button">
+					<input type="radio" name="direction" value="3">
+					<span>←</span>
+				</label>
 
-	<hr>
+				<label class="direction-button">
+					<input type="radio" name="direction" value="4">
+					<span>→</span>
+				</label>
 
-	<form th:action="@{/}" method="get">
-		<button>トップへ戻る</button>
-	</form>
+			</div>
+
+			<button type="submit">勝負！</button>
+		</form>
+
+		<hr>
+
+		<form th:action="@{/}" method="get">
+			<button>トップへ戻る</button>
+		</form>
+	</div>
 
 </body>
 

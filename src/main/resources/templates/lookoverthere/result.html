@@ -3,42 +3,43 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 	<title>結果</title>
 </head>
 
 <body>
+	<div class="container result">
+		<h1>対戦結果</h1>
 
-	<h1>対戦結果</h1>
+		<p>
+			結果：
+			<span th:text="${result.resultCode.label}">勝ち！</span>
+		</p>
 
-	<p>
-		結果：
-		<span th:text="${result.resultCode.label}">勝ち！</span>
-	</p>
+		<p class="result-win">
+			あなたの向き：
+			<span th:text="${result.attackerDirection.label}">上</span>
+		</p>
 
-	<p>
-		あなたの向き：
-		<span th:text="${result.attackerDirection.label}">上</span>
-	</p>
+		<p class="result-lose">
+			CPUの向き：
+			<span th:text="${result.defenderDirection.label}">上</span>
+		</p>
 
-	<p>
-		CPUの向き：
-		<span th:text="${result.defenderDirection.label}">上</span>
-	</p>
+		<hr>
 
-	<hr>
+		<form th:action="@{/look-over-there}" method="get">
+			<button>続ける</button>
+		</form>
 
-	<form th:action="@{/look-over-there}" method="get">
-		<button>続ける</button>
-	</form>
+		<form th:action="@{/}" method="get">
+			<button>やめる</button>
+		</form>
 
-	<form th:action="@{/}" method="get">
-		<button>やめる</button>
-	</form>
-
-	<form th:action="@{/history}" method="get">
-		<button>対戦履歴</button>
-	</form>
-
+		<form th:action="@{/history}" method="get">
+			<button>対戦履歴</button>
+		</form>
+	</div>
 </body>
 
 </html>

@@ -1,0 +1,260 @@
+/* =========================
+   共通設定
+========================= */
+body {
+	font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+	background-color: #f5f7fa;
+	margin: 0;
+	padding: 0;
+	color: #333;
+}
+
+h1 {
+	text-align: center;
+	margin-top: 40px;
+}
+
+/* =========================
+   共通レイアウト
+========================= */
+.container {
+	max-width: 480px;
+	margin: 40px auto;
+	padding: 24px;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================
+   ボタン
+========================= */
+button {
+	display: block;
+	width: 100%;
+	padding: 12px;
+	margin: 12px 0;
+	font-size: 16px;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	background-color: #4a90e2;
+	color: #fff;
+}
+
+button:hover {
+	background-color: #357abd;
+}
+
+/* =========================
+   ホーム画面
+========================= */
+.game-menu {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	margin-top: 32px;
+}
+
+.game-button {
+	width: 240px;
+	padding: 14px 0;
+	font-size: 18px;
+	border-radius: 8px;
+	border: none;
+	cursor: pointer;
+	background-color: #4f8ef7;
+	color: white;
+}
+
+.game-button:hover {
+	background-color: #3b73c9;
+}
+
+/* =========================
+   あっちむいてほい：対戦画面
+========================= */
+/* 向き選択全体 */
+.direction-list {
+	display: flex;
+	gap: 12px;
+	margin: 16px 0;
+	justify-content: center;
+}
+
+/* ラジオボタン自体は非表示 */
+.direction-button input[type="radio"] {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* 見た目をボタン化 */
+label.direction-button {
+	display: inline-flex;
+	width: 48px;
+	height: 48px;
+	border: 2px solid #ccc;
+	border-radius: 10px;
+	cursor: pointer;
+	user-select: none;
+	transition: all 0.2s ease;
+}
+
+/* 矢印を中央に */
+label.direction-button>span {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 22px;
+}
+
+/* 選択中 */
+label.direction-button input[type="radio"]:checked+span {
+	background-color: #4a90e2;
+	color: #fff;
+	border-radius: 8px;
+}
+
+/* hover */
+label.direction-button:hover {
+	border-color: #4a90e2;
+}
+
+/* 対戦相手 */
+.opponent {
+	display: flex;
+	justify-content: center;
+	margin: 12px 0 20px;
+}
+
+.opponent-img {
+	width: 140px;
+	height: auto;
+}
+
+/* 方向選択：画像カード */
+.direction-grid {
+	display: flex;
+	justify-content: center;
+	gap: 14px;
+	flex-wrap: wrap;
+	margin: 12px 0 18px;
+}
+
+/* radio自体は隠す */
+.direction-card input[type="radio"] {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.direction-card {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 96px;
+	padding: 10px 8px;
+	border: 2px solid #ddd;
+	border-radius: 12px;
+	background: #fff;
+	cursor: pointer;
+	user-select: none;
+	transition: transform 0.1s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.direction-card:hover {
+	transform: translateY(-2px);
+	border-color: #4a90e2;
+	box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.direction-img {
+	width: 64px;
+	height: auto;
+}
+
+.direction-text {
+	margin-top: 6px;
+	font-size: 14px;
+}
+
+/* 選択状態（checked） */
+.direction-card input[type="radio"]:checked+img {
+	/* input の直後が img なのでこれでOK */
+	filter: drop-shadow(0 2px 6px rgba(74, 144, 226, 0.35));
+}
+
+.direction-card input[type="radio"]:checked+img+.direction-text {
+	font-weight: bold;
+}
+
+.direction-card:has(input[type="radio"]:checked) {
+	border-color: #4a90e2;
+	box-shadow: 0 6px 14px rgba(74, 144, 226, 0.18);
+}
+
+.finger-img {
+	width: 120px;
+	/* ← まずはこのくらい */
+	height: auto;
+	/* 縦横比を保つ */
+	display: block;
+	margin: 0 auto 16px;
+}
+
+
+/* =========================
+   結果画面
+========================= */
+.result {
+	text-align: center;
+	font-size: 18px;
+}
+
+.result-win {
+	color: #e74c3c;
+	font-weight: bold;
+}
+
+.result-lose {
+	color: #3498db;
+	font-weight: bold;
+}
+
+.result-draw {
+	color: #666;
+	font-weight: bold;
+}
+
+/* =========================
+   対戦履歴
+========================= */
+.history-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 16px;
+}
+
+.history-table th,
+.history-table td {
+	border-bottom: 1px solid #ddd;
+	padding: 8px;
+	text-align: center;
+}
+
+.history-table th {
+	background-color: #f0f0f0;
+}
+
+/* =========================
+   エラー画面
+========================= */
+.error-message {
+	text-align: center;
+	color: #e74c3c;
+	font-size: 18px;
+}
