@@ -8,6 +8,8 @@
 </head>
 
 <body>
+	<script th:src="@{/js/look-over-there.js}"></script>
+
 	<div class="container">
 		<h1>あっちむいてほい!</h1>
 
@@ -23,27 +25,26 @@
 			<div class="direction-buttons">
 
 				<label class="direction-button up">
-					<input type="radio" name="direction" value="1" required>
+					<input type="radio" name="direction" value="1" id="dir-up" required>
 					<span>↑</span>
 				</label>
 
 				<label class="direction-button down">
-					<input type="radio" name="direction" value="2">
+					<input type="radio" name="direction" value="2" id="dir-down">
 					<span>↓</span>
 				</label>
 
 				<label class="direction-button left">
-					<input type="radio" name="direction" value="3">
+					<input type="radio" name="direction" value="3" id="dir-left">
 					<span>←</span>
 				</label>
 
 				<label class="direction-button right">
-					<input type="radio" name="direction" value="4">
+					<input type="radio" name="direction" value="4" id="dir-right">
 					<span>→</span>
 				</label>
 
 			</div>
-
 			<button type="submit">勝負！</button>
 		</form>
 
