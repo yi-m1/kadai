@@ -15,22 +15,22 @@
 			<img th:src="@{/images/{img}(img=${faceImage})}" alt="対戦相手" class="opponent-img">
 			<p class="result-defender">
 				CPUの向き：
-				<span th:text="${result.defenderDirection.label}">上</span>
+				<span th:text="${result.defenderDirection.label}">↑</span>
 			</p>
 		</div>
 
 		<p class="result-attacker">
 			あなたの向き：
-			<span th:text="${result.attackerDirection.label}">上</span>
+			<span th:text="${result.attackerDirection.label}">↑</span>
 		</p>
+
 
 		<div class="result-text" th:classappend="
 		        ${result.resultCode.name() == 'WIN'}  ? ' win' :
 		        (${result.resultCode.name() == 'LOSE'} ? ' lose' : ' draw')">
-			結果：あなたの
+			あなたの
 			<span th:text="${result.resultCode.label}">勝ち！</span>
 		</div>
-
 
 		<hr>
 
