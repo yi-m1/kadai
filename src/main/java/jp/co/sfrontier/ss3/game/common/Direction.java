@@ -67,9 +67,9 @@ public enum Direction {
 			return null;
 		}
 
-		for (Direction derection : Direction.values()) {
-			if (derection.eq(val)) {
-				return derection;
+		for (Direction direction : Direction.values()) {
+			if (direction.eq(val)) {
+				return direction;
 			}
 		}
 

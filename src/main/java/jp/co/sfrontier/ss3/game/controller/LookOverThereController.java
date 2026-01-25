@@ -1,127 +1,92 @@
 package jp.co.sfrontier.ss3.game.controller;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.sfrontier.ss3.game.common.Direction;
-import jp.co.sfrontier.ss3.game.common.ResultCode;
 import jp.co.sfrontier.ss3.game.service.lookoverthere.LookOverTherePlayService;
-import jp.co.sfrontier.ss3.game.service.lookoverthere.value.Player;
-import jp.co.sfrontier.ss3.game.value.LookOverThereMatchHistory;
-import jp.co.sfrontier.ss3.game.value.LookOverThereMatchResult;
+import jp.co.sfrontier.ss3.game.service.lookoverthere.value.LookOverThereResult;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 「あっちむいてほい」のリクエストを受け取るためのコントローラークラス<br>
  * <br>
  */
+@Slf4j
 @Controller
-@RequestMapping("/lookoverthere")
+@RequestMapping("/look-over-there")
+@RequiredArgsConstructor
 public class LookOverThereController {
 
-	private static final Logger logger = LoggerFactory.getLogger(LookOverThereController.class);
-
-	@Autowired
-	private LookOverTherePlayService lookOverTherePlayService;
+	private final LookOverTherePlayService playService;
 
 	/**
-	 *  「あっちむいてほい」の初期画面を表示する<br>
-	 *  <br>
+	 * 「あっちむいてほい」の対戦画面を表示する<br>
+	 * <br>
+	 * @return 「あっちむいてほい」の対戦画面
 	 */
-	@GetMapping("/play")
-	public ModelAndView play() {
-		logger.info("「あっちむいてほい」の初期画面");
-
-		// ★ サービスから履歴（DTO のリスト）を取得
-		List<LookOverThereMatchHistory> recentHistory = lookOverTherePlayService.getHistory();
-
-		ModelAndView mav = new ModelAndView("lookoverthere/play");
-		mav.addObject("name", "山田太郎");
-		// ★ 取得した履歴を "historyList" という名前で画面に渡す
-		mav.addObject("historyList", recentHistory);
-		// CPU が出した直近5戦の手 (ディフェンダーの方向) を矢印のリストに変換
-		List<String> cpuLast5Hands = recentHistory.stream()
-				.limit(5) // 先頭から5件だけ
-				.map(h -> toArrow(h.getDefenderDirection())) // ★ getter 名は実際に合わせて
-				.toList();
-		mav.addObject("cpuLast5Hands", cpuLast5Hands);
-
-		return mav;
-
+	@GetMapping
+	public String show() {
+		log.info("あっちむいてほい対戦画面を表示");
+		return "lookoverthere/play";
 	}
 
 	/**
-	 * ゲームを実行する<br>
+	 *  * 「あっちむいてほい」を1回プレイ後、結果を生成したうえで結果画面へリダイレクトする<br>
 	 * <br>
+	 * @param attackerDirection アタッカーの方向
+	 * @param redirectAttributes フラッシュスコープで保持する対戦結果の情報
+	 * @return 対戦結果画面へのリダイレクト
 	 */
 	@PostMapping("/play")
-	@ResponseBody
-	public LookOverThereMatchResult play(@RequestParam(name = "d", required = true) String direction) {
-		// 入力チェック
-		// ・ユーザーの指定した方向が正しいかどうか？
-		if (validate()) {
-			// 入力エラーがあったので処理を中断する
-			LookOverThereMatchResult result = new LookOverThereMatchResult();
-			result.setResultCode(ResultCode.INPUT_ERROR);
+	public String play(
+			@RequestParam("direction") Integer attackerDirection,
+			RedirectAttributes redirectAttributes) {
 
-			return result;
+		try {
+			LookOverThereResult result = playService.play(Direction.get(attackerDirection));
+
+			redirectAttributes.addFlashAttribute("result", result);
+
+			log.info("対戦結果 resultCode={}, attacker={}, defender={}",
+					result.getResultCode(),
+					attackerDirection,
+					result.getDefenderDirection());
+
+			return "redirect:/look-over-there/result";
+
+		} catch (IllegalArgumentException e) {
+			log.warn("不正な入力", e);
+			redirectAttributes.addFlashAttribute("errorMessage", "不正な入力です");
+			return "redirect:/error";
+
+		} catch (Exception e) {
+			log.error("予期しないエラー", e);
+			redirectAttributes.addFlashAttribute("errorMessage", "システムエラーが発生しました");
+			return "redirect:/error";
 		}
-
-		Player player = new Player();
-		player.setId(Long.valueOf(10L));
-		player.setPlayerName("山田太郎");
-		player.setDirection(Direction.get(Integer.valueOf(direction)));
-
-		// 基本的なユーザ情報（ログイン情報）をサービスに渡すためのEntityクラスに変換する
-		// TODO ログイン情報の取り出しは共通で実装されているのでそちらを後で使う
-
-		// 対戦する
-		lookOverTherePlayService.fight(player);
-
-		// 対戦結果を返す
-		// TODO ダミーデータ
-		LookOverThereMatchResult result = new LookOverThereMatchResult();
-		result.setResultCode(ResultCode.OK);
-		result.setWin(player.isWin());
-		return result;
 	}
 
 	/**
-	 * 入力チェックを行う。<br>
+	 * 対戦結果画面を表示する<br>
 	 * <br>
-	 * @return 入力エラーがあった場合、<code>true</code>を返す。
+	 * @param model 対戦結果の情報のモデル
+	 * @return 対戦結果画面
 	 */
-	private boolean validate() {
-		// TODO 入力チェックの実装
-		return false;
-	}
+	@GetMapping("/result")
+	public String result(Model model) {
 
-	/** 方向コード(1〜4)を矢印文字に変換するヘルパー */
-	private String toArrow(Integer direction) {
-		if (direction == null) {
-			return "-";
+		if (!model.containsAttribute("result")) {
+			throw new IllegalStateException("不正な操作が行われました");
 		}
-		switch (direction) {
-		case 1:
-			return "↑";
-		case 2:
-			return "↓";
-		case 3:
-			return "←";
-		case 4:
-			return "→";
-		default:
-			return "-";
-		}
+
+		return "lookoverthere/result";
 	}
 
 }
