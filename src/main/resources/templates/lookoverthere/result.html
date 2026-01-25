@@ -42,9 +42,11 @@
 			<button>やめる</button>
 		</form>
 
-		<form th:action="@{/history}" method="get">
-			<button>対戦履歴</button>
-		</form>
+		<div class="menu-actions">
+			<form th:action="@{/}" method="get">
+				<button class="menu-button">トップへ戻る</button>
+			</form>
+		</div>
 	</div>
 </body>
 
