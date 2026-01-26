@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/head :: head_fragment(
+		title = 'ユーザーステータス更新',
+		scripts = ~{::script},
+		links = ~{::link}
+		)">
+</head>
+
+<body>
+	<div class="container">
+
+		<div th:if="${validationError}">
+			<div th:each="error : ${validationError}">
+				<p class="text-danger" th:text="${error}"></p>
+			</div>
+		</div>
+		<h1>ユーザーステータス更新</h1>
+		<form th:action="@{/user/update}" th:object="${userUpdateRequest}" th:method="post">
+
+			<input type="hidden" th:field="*{userId}" />
+			<input type="hidden" th:field="*{version}" />
+
+			<div class="row mb-3">
+				<div class="col-3 pt-3 border bg-light">
+					ステータス<span class="text-danger">※</span>
+				</div>
+				<div class="col border p-2">
+					<select class="form-select" th:field="*{status}">
+						<option value="">選択してください</option>
+						<option value="0">無効</option>
+						<option value="1">有効</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="text-center">
+				<button type="submit" class="btn btn-primary">更新</button>
+				<a th:href="@{/user/list}" class="btn btn-secondary">キャンセル</a>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>
