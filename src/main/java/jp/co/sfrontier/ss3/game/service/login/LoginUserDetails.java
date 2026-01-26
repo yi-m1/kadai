@@ -62,4 +62,8 @@ public class LoginUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	public UserInformationTbl getUser() {
+		return user;
+	}
 }
