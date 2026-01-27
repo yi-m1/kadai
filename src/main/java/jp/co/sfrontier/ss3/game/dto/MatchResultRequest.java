@@ -11,12 +11,12 @@ public class MatchResultRequest {
 	private String userName;
 
 	/**
-	 * // 0 / 1（判定用）
+	 * 0 / 1（判定用）
 	 */
 	private int gameTypeId;
 
 	/**
-	 * // "じゃんけん"/"あっちむいてほい"（表示用）
+	 * "じゃんけん"/"あっちむいてほい"（表示用）
 	 */
 	private String gameTypeName;
 
