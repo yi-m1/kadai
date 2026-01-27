@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>メニュー</title>
+</head>
+<body>
+	<h1>メニュー</h1>
+
+	<p>ログイン成功</p>
+
+	<p>ログインユーザ：<span th:text="${username}"></span></p>
+
+	<form th:action="@{/logout}" method="post">
+		<button type="submit">ログアウト</button>
+	</form>
+</body>
+</html>
