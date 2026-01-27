@@ -1,4 +1,4 @@
-package jp.co.sfrontier.ss3.game.controller;
+package jp.co.sfrontier.ss3.game.controller.history;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

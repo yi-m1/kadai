@@ -1,4 +1,4 @@
-package jp.co.sfrontier.ss3.game.controller;
+package jp.co.sfrontier.ss3.game.controller.lookoverthere;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -82,9 +82,20 @@ public class LookOverThereController {
 	@GetMapping("/result")
 	public String result(Model model) {
 
+		LookOverThereResult result = (LookOverThereResult) model.getAttribute("result");
+
 		if (!model.containsAttribute("result")) {
 			throw new IllegalStateException("不正な操作が行われました");
 		}
+
+		String faceImage = switch (result.getDefenderDirection()) {
+		case UP -> "face_up.png";
+		case DOWN -> "face_down.png";
+		case LEFT -> "face_left.png";
+		case RIGHT -> "face_right.png";
+		};
+
+		model.addAttribute("faceImage", faceImage);
 
 		return "lookoverthere/result";
 	}
