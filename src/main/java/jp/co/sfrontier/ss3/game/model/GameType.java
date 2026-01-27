@@ -1,4 +1,4 @@
-package jp.co.sfrontier.ss3.janken_game.model;
+package jp.co.sfrontier.ss3.game.model;
 
 /**
  * ゲームの種別を表す列挙型。
@@ -25,3 +25,4 @@ public enum GameType {
 		return label;
 	}
 }
+

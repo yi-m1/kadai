@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import jp.co.sfrontier.ss3.game.dto.MatchResultRequest;
 import jp.co.sfrontier.ss3.game.entity.MatchResult;
 import jp.co.sfrontier.ss3.game.value.LookOverThereMatchHistory;
 
@@ -67,5 +68,19 @@ public interface MatchResultMapper {
 	 */
 	List<LookOverThereMatchHistory> selectHistory(
 			@Param("playerId") Long playerId);
+
+	/**
+	 * 対戦履歴一覧を取得する。
+	 *
+	 * <p>
+	 * 引数 gameTypeId が null の場合は
+	 * ゲームタイプによる絞り込みを行わず、
+	 * 全ゲーム種別の履歴を対象として取得する。
+	 * </p>
+	 *
+	 * @param gameTypeId ゲームタイプID（null の場合は全件取得）
+	 * @return 条件に合致する対戦履歴の一覧
+	 */
+	List<MatchResultRequest> selectHistoryRows(@Param("gameTypeId") Integer gameTypeId);
 
 }
