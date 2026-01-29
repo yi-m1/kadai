@@ -13,14 +13,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MenuController {
 
 	@GetMapping("/menu")
-	public String showMenu(Model model) {
+	public String showMenu() {
 
 		// 現在ログインしているユーザ名を取得する
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = auth.getName();
 
-		// モデルにユーザ名をセットする
-		model.addAttribute("username", username);
-		return "login/menu";
+		// ログインしたユーザが ROLE_ADMIN を持っているか判定する
+		boolean isAdmin = auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+		if (isAdmin) {
+			return "login/adminmenu";
+		} else {
+			return "login/menu";
+		}
 	}
 }

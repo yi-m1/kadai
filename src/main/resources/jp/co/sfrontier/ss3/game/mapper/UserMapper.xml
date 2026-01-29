@@ -12,6 +12,7 @@
 		<result column="user_name" property="userName" />
 		<result column="mail_address" property="mailAddress" />
 		<result column="password" property="password" />
+		<result column="status" property="status" />
 		<result column="create_datetime" property="createDatetime" />
 		<result column="update_datetime" property="updateDatetime" />
 		<result column="version" property="version" />
@@ -42,9 +43,9 @@
 	<insert id="addUser"
 		parameterType="jp.co.sfrontier.ss3.game.entity.UserInformationTbl">
 		INSERT INTO user_information_tbl(user_name,
-		mail_address, password)
+		mail_address, password, status)
 		VALUES(#{userName}, #{mailAddress},
-		#{password})
+		#{password}, #{status})
 	</insert>
 
 	<update id="updatePassword"
@@ -53,7 +54,8 @@
 		SET password = #{password},
 		update_datetime = CURRENT_TIMESTAMP,
 		version = version + 1
-		WHERE user_name = #{userName}
+		WHERE
+		user_name = #{userName}
 	</update>
 
 </mapper>
