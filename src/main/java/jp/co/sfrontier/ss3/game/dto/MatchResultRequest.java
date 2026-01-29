@@ -2,6 +2,9 @@ package jp.co.sfrontier.ss3.game.dto;
 
 import lombok.Data;
 
+/**
+ * 対戦履歴一覧画面に表示するための対戦結果情報を保持する DTO クラス。
+ */
 @Data
 public class MatchResultRequest {
 
