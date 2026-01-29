@@ -5,7 +5,8 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 対戦履歴1行分の情報を定義するエンティティクラス
+ * 「あっちむいてほい」の対戦履歴を画面表示用にまとめた DTO<br>
+ * <br>
  */
 @Data
 public class LookOverThereMatchHistory {
@@ -17,4 +18,5 @@ public class LookOverThereMatchHistory {
 	private String winner;
 	private Integer attackerDirection;
 	private Integer defenderDirection;
+	
 }

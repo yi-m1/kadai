@@ -1,168 +1,145 @@
 package jp.co.sfrontier.ss3.game.service.lookoverthere;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sfrontier.ss3.game.common.Direction;
+import jp.co.sfrontier.ss3.game.common.ResultCode;
 import jp.co.sfrontier.ss3.game.mapper.MatchResultMapper;
-import jp.co.sfrontier.ss3.game.model.MatchResult;
-import jp.co.sfrontier.ss3.game.service.lookoverthere.value.Player;
+import jp.co.sfrontier.ss3.game.service.MatchResultService;
+import jp.co.sfrontier.ss3.game.service.lookoverthere.value.LookOverThereResult;
 import jp.co.sfrontier.ss3.game.value.LookOverThereMatchHistory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * 「あっちむいてほい」についての各種サービスを提供する。<br>
+ * 「あっちむいてほい」についての各種サービスを提供するクラス<br>
+ * <ul>
+ * <li>「あっちむいてほい」の勝敗を判定する
+ * <li>判定結果を履歴に保存する
+ * <li>Controller に返却する結果を生成する
+ * </ul>
  * <br>
+ * ※現在は CPU 対戦のみだが、Defender の方向決定ロジックを切り出しているため、
+ * 将来的に対人戦へ拡張可能
  */
+@Slf4j
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class LookOverTherePlayService {
 
-	private static final Logger logger = LoggerFactory.getLogger(LookOverTherePlayService.class);
+	//	private static final Logger logger = LoggerFactory.getLogger(AcchiMuiteHoiService.class);
 
+	/** 「あっちむいてほい」のゲームID */
 	public static final Long GAME_ID = Long.valueOf(2L);
 
-	@Autowired
-	private MatchResultMapper matchResultMapper;
+	/** CPU のプレイヤーID */
+	private static final Long CPU_ID = Long.valueOf(0L);
 
-	/**
-	 * 「あっちむいてほい」を実行して結果を返す。<br>
+	private final MatchResultService matchResultService;
+
+	private final MatchResultMapper matchResultMapper;
+
+	private final Random random = new Random();
+
+	/** 
+	 * 「あっちむいてほい」を1回実行し、結果を保存した上で Controller 用の結果を返す<br>
 	 * <br>
-	 * ユーザ vs CPUの勝負を行う
-	 * @return 勝利したほうのIDを返す
-	 */
-
-	public long fight(Player player) {
-		logger.info("call fight");
-
-		// CPU の向きを決める
-		Player cpu = createCpuPlayer();
-
-		// 勝敗を判定し、結果を DB に保存する
-		Long winnerId = fight(player, cpu);
-
-		// 結果を返す
-		return winnerId.longValue();
-	}
-
-	/**
-	 * あっちむいてほいの対戦を行い、勝敗を判定する<br>
-	 * DB に対戦結果を2レコード（攻撃側視点・防御側視点）を保存する<br>
 	 * 
-	 * @param attacker
-	 * @param defender
+	 * @param attackerDirection アタッカーが選択した方向
+	 * @return 勝敗結果と ディフェンダーの方向
 	 */
-	public Long fight(Player attacker, Player defender) {
-		logger.debug("attacker={},defender={}", attacker.getDirection().name(), defender.getDirection().name());
+	public LookOverThereResult play(Direction attackerDirection) {
 
-		Long winnerId = null;
+		log.debug("play() 開始 attackerDirection={}", attackerDirection);
 
-		if (attacker.getDirection() == defender.getDirection()) {
-			logger.debug("attackerの勝ちです");
-			attacker.setWin(true);
-			defender.setWin(false);
-			winnerId = attacker.getId();
-		} else {
-			logger.debug("attackerの負けです");
-			attacker.setWin(false);
-			defender.setWin(true);
-			winnerId = defender.getId();
-		}
+		Direction defenderDirection = decideDefenderDirection();
 
-		saveMatchResult(attacker, defender);
+		log.debug("CPU方向決定 defenderDirection={}", defenderDirection);
 
-		return winnerId;
+		ResultCode resultCode = judge(attackerDirection, defenderDirection);
+
+		log.info("勝敗判定 attacker={}, defender={}, result={}",
+				attackerDirection, defenderDirection, resultCode);
+
+		saveMatchResult(attackerDirection, defenderDirection, resultCode);
+
+		// Controller 用の結果を返す
+		return new LookOverThereResult(resultCode, attackerDirection, defenderDirection);
 	}
 
 	/**
-	 * 対戦結果を DB に保存する<br>
-	 * 1回の対戦について、攻撃側の視点と防御側の視点の2レコードを登録する。<br>
-	 *
-	 * @param attacker 指をさすプレイヤー
-	 * @param defender 顔を動かすプレイヤー
+	 * 「あっちむいてほい」の勝敗を判定する<br>
+	 * <br>
+	 * ルール：<br>
+	 * アタッカーとディフェンダーの方向が同じならアタッカーの勝利、<br>
+	 * 異なる方向ならアタッカーの敗北。<br>
+	 * 
+	 * @param attacker アタッカーの方向
+	 * @param defender ディフェンダーの方向
+	 * @return 勝敗結果
 	 */
-	private void saveMatchResult(Player attacker, Player defender) {
-	    Date matchDatetime = new Date();
-
-	    // アタッカー視点の1レコード
-	    registMatchResult(attacker, defender, attacker.isWin(), matchDatetime);
-
-	    // ディフェンダー視点の1レコード
-	    registMatchResult(defender, attacker, defender.isWin(), matchDatetime);
+	private ResultCode judge(Direction attacker, Direction defender) {
+		return attacker == defender ? ResultCode.WIN : ResultCode.LOSE;
 	}
 
 	/**
-	 * 1レコード分の対戦結果を DB に登録する。<br>
-	 *
-	 * @param attacker     このレコードの「アタッカー」
-	 * @param defender     このレコードの「ディフェンダー」
-	 * @param isAttackerWin アタッカー視点で勝ちなら true
-	 * @param matchDatetime 対戦日時
-	 * @return 登録した MatchResult エンティティ
+	 * 対戦結果を履歴に保存する<br>
+	 * <br>
+	 * 
+	 * @param attackerDirection アタッカーの方向
+	 * @param defenderDirection ディフェンダーの方向
+	 * @param resultCode 勝敗結果
 	 */
-	private MatchResult registMatchResult(Player attacker, Player defender,boolean isAttackerWin, Date matchDatetime) {
+	private void saveMatchResult(
+			Direction attackerDirection,
+			Direction defenderDirection,
+			ResultCode resultCode) {
+		// TODO 後でセッション連携する
+		Long attackerId = 1L;
+		Long defenderId = CPU_ID;
 
-	    MatchResult matchResult = new MatchResult();
-
-	    matchResult.setAttackerId(attacker.getId());
-	    matchResult.setDefenderId(defender.getId());
-	    matchResult.setGameId(GAME_ID);
-	    matchResult.setMatchDatetime(matchDatetime);
-
-	    // 勝敗（アタッカー視点：勝ち=1 / 負け=0）
-	    matchResult.setJudge(isAttackerWin ? Integer.valueOf(1) : Integer.valueOf(0));
-
-	    matchResult.setAttackerDirection(attacker.getDirection().getVal());
-	    matchResult.setDefenderDirection(defender.getDirection().getVal());
-
-	    matchResult.setCreatedAt(matchDatetime);
-	    matchResult.setUpdatedAt(matchDatetime);
-	    matchResult.setVersion(Integer.valueOf(1));
-
-	    matchResultMapper.insert(matchResult);
-
-	    logger.debug("登録完了:match_result_id={}", matchResult.getMatchResultId());
-
-	    return matchResult;
+		matchResultService.save(
+				attackerId,
+				defenderId,
+				resultCode,
+				attackerDirection.getVal(),
+				defenderDirection.getVal(),
+				GAME_ID);
 	}
 
 	/**
-	 * CPU プレイヤーを生成し、方向を指定する
+	 * ディフェンダーの方向を決定する<br>
+	 * <br>
+	 * 現在は CPU のためランダムに方向を決定する<br>
+	 * 対人戦に拡張する場合は Controller で受け取ったディフェンダーの入力値を渡す形にする
+	 * @return
 	 */
-	private Player createCpuPlayer() {
-		Player cpu = new Player();
-		cpu.setId(Long.valueOf(0L));
-		cpu.setPlayerName("CPU");
-		cpu.setDirection(getRandomDirection());
-		return cpu;
+	private Direction decideDefenderDirection() {
+		return getRandomDirection();
 	}
 
+	/**
+	 * 方向をランダムに取得する<br>
+	 * <br>
+	 * @return 上・下・左・右のランダムな方向
+	 */
 	private Direction getRandomDirection() {
-		return Direction.get((new Random()).nextInt(4) + 1);
+		return Direction.get(random.nextInt(4) + 1);
 	}
 
 	/**
-	 * 本日の対戦履歴 最新10件を取得する。
+	 * 対戦履歴の一覧を取得する<br>
+	 * <br>
+	 * @param playerId プレイヤーID
+	 * @return 対戦履歴の一覧
 	 */
-	public List<LookOverThereMatchHistory> getHistory() {
-		ZoneId zone = ZoneId.of("Asia/Tokyo");
-		LocalDate today = LocalDate.now(zone);
-
-		LocalDateTime fromDate = today.atStartOfDay();
-		LocalDateTime toDate = today.plusDays(1).atStartOfDay();
-
-		Long playerId = 10L;
-
-		return matchResultMapper.selectRecentHistory(fromDate, toDate, playerId);
+	public List<LookOverThereMatchHistory> getHistory(Long playerId) {
+		return matchResultMapper.selectHistory(playerId);
 	}
 
 }
