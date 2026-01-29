@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import jp.co.sfrontier.ss3.game.dto.HistoryPageResult;
+import jp.co.sfrontier.ss3.game.dto.MatchPageResultRequest;
 import jp.co.sfrontier.ss3.game.dto.MatchResultRequest;
 import jp.co.sfrontier.ss3.game.mapper.MatchResultMapper;
 import jp.co.sfrontier.ss3.game.model.GameType;
@@ -71,7 +71,7 @@ public class HistoryService {
 	 * @param size 1ページあたりの表示件数
 	 * @return ページング情報および履歴一覧を保持した結果オブジェクト
 	 */
-	public HistoryPageResult findPageAll(int page, int size) {
+	public MatchPageResultRequest findPageAll(int page, int size) {
 		Long userId = getFilterUserId();
 		long total = matchResultMapper.countHistoryRows(userId, null);
 
@@ -80,7 +80,7 @@ public class HistoryService {
 
 		List<MatchResultRequest> rows = matchResultMapper.selectHistoryRowsPage(userId, null, offset, size);
 
-		HistoryPageResult res = new HistoryPageResult();
+		MatchPageResultRequest res = new MatchPageResultRequest();
 		res.setRows(rows);
 		res.setPage(safePage);
 		res.setSize(size);
@@ -101,7 +101,7 @@ public class HistoryService {
 	 * @param size 1ページあたりの表示件数
 	 * @return ページング情報および履歴一覧を保持した結果オブジェクト
 	 */
-	public HistoryPageResult findPageByGameType(GameType gameType, int page, int size) {
+	public MatchPageResultRequest findPageByGameType(GameType gameType, int page, int size) {
 		Long userId = getFilterUserId();
 		Integer gameTypeId = gameType.getId();
 
@@ -112,7 +112,7 @@ public class HistoryService {
 
 		List<MatchResultRequest> rows = matchResultMapper.selectHistoryRowsPage(userId, gameTypeId, offset, size);
 
-		HistoryPageResult res = new HistoryPageResult();
+		MatchPageResultRequest res = new MatchPageResultRequest();
 		res.setRows(rows);
 		res.setPage(safePage);
 		res.setSize(size);

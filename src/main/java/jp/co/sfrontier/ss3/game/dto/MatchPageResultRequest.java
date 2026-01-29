@@ -14,7 +14,7 @@ import lombok.Data;
  * </p>
  */
 @Data
-public class HistoryPageResult {
+public class MatchPageResultRequest {
 	
     private List<MatchResultRequest> rows;
     private int page;

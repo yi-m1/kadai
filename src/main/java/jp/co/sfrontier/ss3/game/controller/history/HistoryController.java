@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jp.co.sfrontier.ss3.game.dto.HistoryPageResult;
+import jp.co.sfrontier.ss3.game.dto.MatchPageResultRequest;
 import jp.co.sfrontier.ss3.game.model.GameType;
 import jp.co.sfrontier.ss3.game.service.history.HistoryService;
 
@@ -59,8 +59,7 @@ public class HistoryController {
 			Model model) {
 
 		int size = 20;
-		HistoryPageResult result = historyService.findPageAll(page, size);
-
+		MatchPageResultRequest result = historyService.findPageAll(page, size);
 
 		switch (tab) {
 		case "janken":
