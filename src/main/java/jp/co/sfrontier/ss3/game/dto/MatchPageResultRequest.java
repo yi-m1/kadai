@@ -16,9 +16,24 @@ import lombok.Data;
 @Data
 public class MatchPageResultRequest {
 	
+	/**
+	 * 条件に合致する 全履歴
+	 */
     private List<MatchResultRequest> rows;
+    
+    /**
+     * 現在のページ番号
+     */
     private int page;
+    
+    /**
+     * 1ページあたりの表示件数（20）
+     */
     private int size;
+    
+    /**
+     * 条件に合致する 全履歴件数
+     */
     private long totalCount;
     
     /**
