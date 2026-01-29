@@ -277,13 +277,14 @@
 	<select id="countHistoryRows" resultType="long">
 		SELECT COUNT(*)
 		FROM RESULT_HISTORY_TBL rh
-		WHERE 1=1
+		<where>
 		<if test="userId != null">
 			AND rh.USER_ID = #{userId}
 		</if>
 		<if test="gameTypeId != null">
 			AND rh.GAME_TYPE_ID = #{gameTypeId}
 		</if>
+		</where>
 	</select>
 
 	<!-- ページ取得（20件ずつ） -->
@@ -306,13 +307,14 @@
 		INNER JOIN GAME_TYPE_MST gt ON rh.GAME_TYPE_ID =
 		gt.GAME_TYPE_ID
 		INNER JOIN RESULT_MST r ON rh.RESULT_ID = r.RESULT_ID
-		WHERE 1=1
+		<where>
 		<if test="userId != null">
 			AND rh.USER_ID = #{userId}
 		</if>
 		<if test="gameTypeId != null">
 			AND rh.GAME_TYPE_ID = #{gameTypeId}
 		</if>
+		</where>
 		ORDER BY rh.EXECUTE_DATETIME DESC, rh.HISTORY_ID DESC
 
 		OFFSET #{offset}
