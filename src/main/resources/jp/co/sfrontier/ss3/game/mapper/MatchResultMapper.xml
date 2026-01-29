@@ -263,6 +263,9 @@
 		INNER JOIN RESULT_MST r
 		ON rh.RESULT_ID = r.RESULT_ID
 		<where>
+			<if test="userId != null">
+				rh.USER_ID = #{userId}
+			</if>
 			<if test="gameTypeId != null">
 				AND GAME_TYPE_ID = #{gameTypeId}
 			</if>
@@ -270,5 +273,5 @@
 		ORDER BY rh.EXECUTE_DATETIME DESC
 		LIMIT 100
 	</select>
-	
+
 </mapper>

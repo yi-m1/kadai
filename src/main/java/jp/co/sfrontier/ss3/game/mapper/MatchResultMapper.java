@@ -81,6 +81,6 @@ public interface MatchResultMapper {
 	 * @param gameTypeId ゲームタイプID（null の場合は全件取得）
 	 * @return 条件に合致する対戦履歴の一覧
 	 */
-	List<MatchResultRequest> selectHistoryRows(@Param("gameTypeId") Integer gameTypeId);
+	List<MatchResultRequest> selectHistoryRows(@Param("userId") Long userId, @Param("gameTypeId") Integer gameTypeId);
 
 }
