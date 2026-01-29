@@ -127,6 +127,14 @@
 				</tr>
 			</tbody>
 		</table>
+
+		<div>
+			<a th:if="${page > 1}" th:href="@{/history(tab=${tab}, page=${page-1})}">前へ</a>
+
+			<span th:text="|${page} / ${totalPages}|"></span>
+
+			<a th:if="${page < totalPages}" th:href="@{/history(tab=${tab}, page=${page+1})}">次へ</a>
+		</div>
 	</main>
 
 </body>
