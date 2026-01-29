@@ -42,8 +42,8 @@ public class SecurityConfig {
 				// 管理ユーザのみアクセス可能(ユーザ全員の履歴を表示可能)
 				.antMatchers("/history/all").hasRole("ADMIN")
 
-				// 一般ユーザのみアクセス可能(自分だけの履歴を表示可能)
-				.antMatchers("/history").hasRole("USER")
+				// 管理ユーザ、一般ユーザアクセス可能(自分だけの履歴を表示可能)
+				.antMatchers("/history").hasAnyRole("USER","ADMIN")
 
 				// ログインしていればアクセス可能
 				.anyRequest().authenticated()
