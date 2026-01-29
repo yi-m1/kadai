@@ -4,8 +4,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>対戦履歴</title>
-	<link rel="stylesheet" th:href="@{/css/style.css}">
-
 </head>
 
 <body>
@@ -39,11 +37,9 @@
 
 	<br>
 
-	<div class="history-actions">
-		<form th:action="@{/}" method="get">
-			<button class="menu-button">トップへ戻る</button>
-		</form>
-	</div>
+	<form th:action="@{/}" method="get">
+		<button>トップへ戻る</button>
+	</form>
 
 </body>
 

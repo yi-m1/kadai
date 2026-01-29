@@ -8,13 +8,13 @@ import java.util.Objects;
  */
 public enum Direction {
 
-	UP(1, "↑"),
+	UP(1, "上"),
 
-	DOWN(2, "↓"),
+	DOWN(2, "下"),
 
-	LEFT(3, "←"),
+	LEFT(3, "左"),
 
-	RIGHT(4, "→"),
+	RIGHT(4, "右"),
 	;
 
 	/**

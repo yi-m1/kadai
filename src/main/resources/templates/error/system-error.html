@@ -3,28 +3,19 @@
 
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" th:href="@{/css/style.css}">
 	<title>エラー</title>
 </head>
 
 <body>
-	<div class="error-container">
-		<h1>システムエラー</h1>
 
-		<p th:text="${message}" class="error-message">
-			システムエラーが発生しました。
-		</p>
+	<h1>システムエラー</h1>
 
-		<img th:src="@{/images/error.png}" alt="エラー" class="error-image">
+	<p th:text="${message}">
+		システムエラーが発生しました。
+	</p>
 
-		<hr>
+	<a th:href="@{/}">トップへ戻る</a>
 
-		<div class="error-actions">
-			<form th:action="@{/}" method="get">
-				<button class="menu-button">トップへ戻る</button>
-			</form>
-		</div>
-	</div>
 </body>
 
 </html>

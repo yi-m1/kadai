@@ -3,27 +3,21 @@
 
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" th:href="@{/css/style.css}">
 	<title>エラー</title>
 </head>
 
 <body>
-	<div class="error-container">
 
-		<h1>入力エラー</h1>
+	<h1>入力エラー</h1>
 
-		<p th:text="${message}" class="error-message"> 不正な入力です。</p>
+	<p th:text="${message}">不正な入力です。</p>
 
-		<img th:src="@{/images/error.png}" alt="エラー" class="error-image">
+	<hr>
 
-		<hr>
+	<form th:action="@{/}" method="get">
+		<button>トップへ戻る</button>
+	</form>
 
-		<div class="error-actions">
-			<form th:action="@{/}" method="get">
-				<button class="menu-button">トップへ戻る</button>
-			</form>
-		</div>
-	</div>
 </body>
 
 </html>
