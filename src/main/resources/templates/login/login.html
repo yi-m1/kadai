@@ -1,74 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>ログイン</title>
-<style>
-body, html {
-	height: 100%;
-	margin: 0;
-	font-family: Arial, sans-serif;
-}
-
-.container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;       /* 横方向中央 */
-	justify-content: flex-start; /* 上寄せ */
-	height: 100%;
-	text-align: center;
-	padding-top: 50px;        /* 上から少しスペース */
-}
-
-input[type="text"], input[type="password"] {
-	width: 300px;
-	padding: 10px;
-	font-size: 18px;
-	margin-bottom: 10px;
-	box-sizing: border-box;
-}
-
-button {
-	padding: 10px 20px;
-	font-size: 20px;
-	cursor: pointer;
-	display: block;
-	margin: 10px auto;
-}
-
-.error {
-	color: red;
-	margin-bottom: 10px;
-}
-</style>
-
+	<meta charset="UTF-8">
+	<title>ログイン</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
-<div class="container">
-	<h1>ゲームアプリ ログイン</h1>
 
-	<p th:if="${loginError}" th:text="${loginError}" class="error"></p>
+	<div th:replace="fragments/sidebar :: sidebar"></div>
 
-	<form th:action="@{/login}" th:object="${loginForm}" method="post">
-		<input type="text" th:field="*{userNameOrMailAddress}"
-			placeholder="ユーザ名 or メールアドレス" />
-		<div th:if="${#fields.hasErrors('userNameOrMailAddress')}"
-			th:errors="*{userNameOrMailAddress}" class="error"></div>
+	<div class="container">
+		<h1>ゲームアプリ ログイン</h1>
 
-		<br>
-		<input type="password" th:field="*{password}" placeholder="パスワード" />
-		<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-			class="error"></div>
+		<p th:if="${loginError}" th:text="${loginError}" class="error"></p>
 
-		<button type="submit">ログイン</button>
-	</form>
+		<form th:action="@{/login}" th:object="${loginForm}" method="post">
+			<input type="text" th:field="*{userNameOrMailAddress}" placeholder="ユーザ名 or メールアドレス" />
+			<div th:if="${#fields.hasErrors('userNameOrMailAddress')}" th:errors="*{userNameOrMailAddress}"
+				class="error"></div>
 
-	<div>
-		<a th:href="@{/register}">アカウントをお持ちでない方</a>
-		<br>
-		<a th:href="@{/changePassword}">パスワードを忘れた方</a>
+			<br>
+			<input type="password" th:field="*{password}" placeholder="パスワード" />
+			<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div>
+
+			<button type="submit">ログイン</button>
+		</form>
+
+		<div>
+			<a th:href="@{/register}">アカウントをお持ちでない方</a>
+			<br>
+			<a th:href="@{/changePassword}">パスワードを忘れた方</a>
+		</div>
 	</div>
-</div>
 </body>
+
 </html>

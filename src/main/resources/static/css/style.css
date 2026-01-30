@@ -447,3 +447,184 @@ button {
 	font-size: 25px;
 	cursor: pointer;
 }
+
+
+/* =========================
+   パスワード再設定画面
+========================= */
+body,
+html {
+	height: 100%;
+	margin: 0;
+	font-family: Arial, sans-serif;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* 横方向中央 */
+	justify-content: flex-start;
+	/* 上寄せ */
+	height: 100%;
+	text-align: center;
+	padding-top: 50px;
+	/* 上から少しスペース */
+}
+
+input[type="text"],
+input[type="password"] {
+	width: 300px;
+	padding: 10px;
+	font-size: 18px;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+}
+
+button {
+	padding: 10px 20px;
+	font-size: 20px;
+	cursor: pointer;
+	display: block;
+	margin: 10px auto;
+}
+
+.error {
+	color: red;
+	margin-bottom: 10px;
+}
+
+/* =========================
+   パスワード再設定画面
+========================= */
+body,
+html {
+	height: 100%;
+	margin: 0;
+	font-family: Arial, sans-serif;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* 横中央 */
+	justify-content: flex-start;
+	/* 上寄せ */
+	height: 100%;
+	text-align: center;
+	padding-top: 50px;
+	/* 上から少しスペース */
+}
+
+input[type="text"],
+input[type="password"] {
+	width: 300px;
+	padding: 10px;
+	font-size: 18px;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+}
+
+button {
+	padding: 10px 20px;
+	font-size: 20px;
+	cursor: pointer;
+	display: block;
+	margin: 10px auto;
+	/* 中央寄せ */
+}
+
+.error {
+	color: red;
+	margin-bottom: 10px;
+}
+
+
+
+/* =========================
+   メニュー画面
+========================= */
+/* 画面全体を縦横中央に配置 */
+body,
+html {
+	height: 100%;
+	margin: 0;
+	font-family: Arial, sans-serif;
+}
+
+/* 全体を中央に配置するコンテナ */
+.container {
+	display: flex;
+	flex-direction: column;
+	/* 上から下に並べる */
+	align-items: center;
+	/* 横方向中央 */
+	height: 100%;
+}
+
+/* ボタンを縦並びにする */
+.button-container {
+	display: flex;
+	flex-direction: column;
+	/* 縦並び */
+	gap: 30px;
+	/* ボタン間の隙間 */
+	margin-top: 20px;
+	/* h1との間隔 */
+}
+
+/* ボタンの見た目 */
+button {
+	padding: 10px 20px;
+	font-size: 25px;
+	cursor: pointer;
+}
+
+
+
+/* =========================
+   ユーザー新規登録画面
+========================= */
+body,
+html {
+	height: 100%;
+	margin: 0;
+	font-family: Arial, sans-serif;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* 横中央 */
+	justify-content: flex-start;
+	/* 上寄せ */
+	height: 100%;
+	text-align: center;
+	padding-top: 50px;
+	/* 上から少しスペース */
+}
+
+input[type="text"],
+input[type="password"] {
+	width: 300px;
+	padding: 10px;
+	font-size: 18px;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+}
+
+button {
+	padding: 10px 20px;
+	font-size: 20px;
+	cursor: pointer;
+	display: block;
+	margin: 10px auto;
+	/* 中央寄せ */
+}
+
+.error {
+	color: red;
+	margin-bottom: 10px;
+}
