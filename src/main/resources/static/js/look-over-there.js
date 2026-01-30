@@ -54,3 +54,9 @@ function submitIfSelected() {
 	}
 
 }
+
+// サイドメニュー表示をトグルで切り替えられるようにする
+function toggleSidebar() {
+	const sidebar = document.getElementById('sidebar');
+	sidebar.classList.toggle('open');
+}

@@ -55,7 +55,7 @@ public class HistoryController {
 	 * @return 対戦履歴一覧画面（history.html）
 	 */
 	@GetMapping("/history")
-	public String history(@RequestParam(name = "tab", defaultValue = "all") String tab,
+	public String showHistory(@RequestParam(name = "tab", defaultValue = "all") String tab,
 			@RequestParam(name = "page", defaultValue = "1") int page,
 			Model model) {
 
@@ -81,6 +81,8 @@ public class HistoryController {
 		model.addAttribute("size", result.getSize());
 		model.addAttribute("totalPages", result.getTotalPages());
 		model.addAttribute("totalCount", result.getTotalCount());
+		
+	    model.addAttribute("activeMenu", "history");
 
 		return "history";
 	}

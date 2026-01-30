@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+	<div th:fragment="sidebar">
+
+		<button id="hamburger-btn" class="hamburger-btn" onclick="toggleSidebar()">
+			☰
+		</button>
+
+		<nav id="sidebar" class="sidebar">
+
+			<div class="sidebar-user" th:if="${loginUser != null}">
+				<span class="user-label">ログイン中</span>
+				<span class="user-name" th:text="${loginUser.userName}">
+					userName
+				</span>
+			</div>
+
+			<div class="sidebar-user" th:unless="${loginUser != null}">
+				<span class="user-label">未ログイン</span>
+			</div>
+
+			<hr />
+
+			<ul class="sidebar-menu">
+
+				<li th:classappend="${activeMenu == 'home'} ? 'active'">
+					<a th:href="@{/}">ホーム</a>
+				</li>
+
+				<li th:if="${loginUser != null}" th:classappend="${activeMenu == 'janken'} ? 'active'">
+					<a th:href="@{/janken}">じゃんけん</a>
+				</li>
+
+				<li th:if="${loginUser != null}" th:classappend="${activeMenu == 'lookoverthere'} ? 'active'">
+					<a th:href="@{/lookoverthere/play}">あっちむいてほい</a>
+				</li>
+
+				<li th:if="${loginUser != null}" th:classappend="${activeMenu == 'history'} ? 'active'">
+					<a th:href="@{/history}">対戦履歴</a>
+				</li>
+
+				<li th:if="${loginUser != null}">
+					<a th:href="@{/logout}" onclick="return confirm('ログアウトしますか？')">
+						ログアウト
+					</a>
+				</li>
+
+				<li th:unless="${loginUser != null}">
+					<a th:href="@{/login}">ログイン</a>
+				</li>
+
+			</ul>
+
+		</nav>
+
+	</div>
+
+</body>
+
+</html>
