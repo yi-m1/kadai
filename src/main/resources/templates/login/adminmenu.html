@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>メニュー画面</title>
+<title>管理者用メニュー画面</title>
 <link rel="icon" th:href="@{/logo.png}" type="image/png">
 </head>
 
@@ -42,12 +43,15 @@ button {
 <body>
 
 	<div class="container">
-		<h1>メニュー画面</h1>
+		<h1>管理者用メニュー画面</h1>
 		<div class="button-container">
-			<button th:onclick="|location.href='@{/game/play}'|">じゃんけん</button>
-			<button th:onclick="|location.href='@{/look-over-there}'|">あっち向いてほい</button>
-			<button th:onclick="|location.href='@{/history}'|">対戦履歴画面</button>
+			<!-- 管理者用履歴画面 -->
+			<button th:onclick="|location.href='@{/history}'|">管理者用履歴画面</button>
 
+			<!-- 管理画面 -->
+			<button th:onclick="|location.href='@{/user/list}'|">管理画面</button>
+
+			<!-- ログアウト -->
 			<form th:action="@{/logout}" method="post">
 				<button type="submit">ログアウト</button>
 			</form>
@@ -55,4 +59,5 @@ button {
 	</div>
 
 </body>
+
 </html>

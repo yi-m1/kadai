@@ -60,7 +60,7 @@ public class LoginUserDetails implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return user.getStatus() == 1;
 	}
 
 	public UserInformationTbl getUser() {

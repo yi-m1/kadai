@@ -14,6 +14,7 @@ public class UserInformationTbl implements Serializable {
 	private String userName;
 	private String mailAddress;
 	private String password;
+	private int status;
 	private LocalDateTime createDatetime;
 	private LocalDateTime updateDatetime;
 	private Integer version;
@@ -48,6 +49,14 @@ public class UserInformationTbl implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public LocalDateTime getCreateDatetime() {
