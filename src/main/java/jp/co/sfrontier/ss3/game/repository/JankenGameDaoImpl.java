@@ -15,59 +15,79 @@ import jp.co.sfrontier.ss3.game.model.GameResult;
 /**
  * JankenGameDaoImplクラス
  *
+ * じゃんけん結果を result_history_tbl に登録するDAO
+ *
  * @author FLM
  * @version 1.0.0
  */
 public class JankenGameDaoImpl implements JankenGameDao {
 
-	private Connection connection;
+    /** game_type_mst: 0 = じゃんけん */
+    private static final int GAME_TYPE_JANKEN = 0;
 
-	// コンストラクタ（JankenGameDaoImplを初期化）
-	public JankenGameDaoImpl(Connection connection) {
-		this.connection = connection;
-	}
+    private Connection connection;
 
-	private Connection getConnection() {
-		if (connection == null) {
-			throw new IllegalStateException("Connection is not initialized");
-		}
-		return connection;
-	}
+    // コンストラクタ
+    public JankenGameDaoImpl(Connection connection) {
+        this.connection = connection;
+    }
 
-	/**
-	 * ゲームの結果をデータベースに記録します
-	 *
-	 * @param gameResult ゲームの結果
-	 * @throws SQLException SQL例外が発生した場合
-	 */
-	@Override
-	public void recordGameResult(GameResult gameResult) throws SQLException {
-		String sql
-				= "INSERT INTO result_history_tbl (user_id, execute_datetime, opponent, result, user_choice, create_datetime, update_datetime, version) "
-						+
-						"VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1)";
+    private Connection getConnection() {
+        if (connection == null) {
+            throw new IllegalStateException("Connection is not initialized");
+        }
+        return connection;
+    }
 
-		try (PreparedStatement preparedStatement
-				= getConnection().prepareStatement(sql)) {
-			// SQLにパラメータをセット
-			preparedStatement.setInt(1, gameResult.getUserId()); // user_id
-			preparedStatement.setInt(2, gameResult.getUserId());
-			preparedStatement.setString(3, gameResult.getResultMessage()); // result
-			preparedStatement.setString(4, gameResult.getUserChoice()); // user_choice
+    /**
+     * ゲームの結果をデータベースに記録します
+     *
+     * @param gameResult ゲーム結果
+     * @throws SQLException SQL例外
+     */
+    @Override
+    public void recordGameResult(GameResult gameResult) throws SQLException {
 
-			// SQL文を実行
-			int rowsAffected = preparedStatement.executeUpdate();
+        String sql = "INSERT INTO result_history_tbl ("
+                + " user_id, game_type_id, result_id, execute_datetime, opponent,"
+                + " user_choice, create_datetime, update_datetime, version"
+                + ") VALUES ("
+                + " ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1"
+                + ")";
 
-			// もし何も挿入されなかった場合に警告ログを出す（任意）
-			if (rowsAffected == 0) {
-				System.err.println("No rows inserted for the game result.");
-			}
-		} catch (SQLException e) {
-			// 詳細なエラーメッセージを追加
-			throw new SQLException(
-					"Error while recording game result for user ID: "
-							+ gameResult.getUserId(),
-					e);
-		}
-	}
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+
+            ps.setLong(1, gameResult.getUserId()); // user_id
+            ps.setInt(2, GAME_TYPE_JANKEN); // game_type_id（じゃんけん）
+            ps.setInt(3, convertResultId(gameResult)); // result_id
+            ps.setLong(4, gameResult.getUserId()); // opponent
+            ps.setString(5, gameResult.getUserChoice()); // user_choice
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new SQLException(
+                    "Error while recording janken result. userId="
+                            + gameResult.getUserId(),
+                    e);
+        }
+    }
+
+    /**
+     * 勝敗文字列を result_id に変換
+     *
+     * result_mst:
+     * 0 = 勝ち
+     * 1 = 負け
+     * 2 = あいこ
+     */
+    private int convertResultId(GameResult gameResult) {
+        return switch (gameResult.getResultMessage()) {
+        case "WIN" -> 0;
+        case "LOSE" -> 1;
+        case "DROW" -> 2;
+        default -> throw new IllegalArgumentException(
+                "Unknown result message: " + gameResult.getResultMessage());
+        };
+    }
 }

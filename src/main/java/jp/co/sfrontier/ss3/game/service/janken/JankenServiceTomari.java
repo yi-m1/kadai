@@ -22,7 +22,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class JankenServiceTomari {
 
+    /** CPUのユーザID */
     public static final int CPU_ID = 1;
+
+    /** game_type_mst：0 = じゃんけん */
+    private static final int GAME_TYPE_JANKEN = 0;
 
     /**
      * プレイヤー vs CPU のじゃんけん対戦
@@ -38,23 +42,25 @@ public class JankenServiceTomari {
     @Transactional
     public int fight(Player player1, Player player2) throws SQLException {
 
-        // じゃんけんの結果を計算
+        // 勝敗判定
         int result = player1.getHand().compair(player2.getHand());
 
-        // DB に保存
         Date now = new Date();
-
         Connection connection = DbUtil.getConnection();
         log.debug("connection get");
+
         ResultHistoryTblDao dao = new ResultHistoryTblDao(connection);
         log.debug("tblDao new");
 
         try {
+            // player1 視点の結果
             dao.insert(createRecord(player1, player2.getUserId(), result, now));
+
+            // player2 視点の結果（勝敗反転）
             dao.insert(createRecord(player2, player1.getUserId(), result * -1, now));
 
-            log.debug("connection commit");
             DbUtil.commit(connection);
+            log.debug("connection commit");
 
         } catch (SQLException e) {
             log.error("DB保存中にエラー", e);
@@ -69,18 +75,26 @@ public class JankenServiceTomari {
     }
 
     /**
-     * 対戦履歴レコードを作成
+     * 対戦履歴レコードを作成（DDL完全準拠）
      */
-    private ResultHistoryTbl createRecord(Player player, int opponentId, int result, Date targetDate) {
+    private ResultHistoryTbl createRecord(
+            Player player,
+            int opponentId,
+            int result,
+            Date targetDate) {
+
         ResultHistoryTbl entity = new ResultHistoryTbl();
+
         entity.setUserId(player.getUserId());
+        entity.setOpponent(opponentId);
+        entity.setGameTypeId(GAME_TYPE_JANKEN); // じゃんけん
+        entity.setResultId(convertResultId(result)); // 勝敗ID
         entity.setExecuteDatetime(targetDate);
         entity.setCreateDatetime(targetDate);
         entity.setUpdateDatetime(targetDate);
-        entity.setOpponent(opponentId);
-        entity.setResult(getResultText(result));
         entity.setUserChoice(player.getHand().name());
         entity.setVersion(1);
+
         return entity;
     }
 
@@ -98,14 +112,20 @@ public class JankenServiceTomari {
     }
 
     /**
-     * 勝敗結果を文字列に変換
+     * 勝敗結果を result_id に変換
+     *
+     * result_mst:
+     * 0 = 勝ち
+     * 1 = 負け
+     * 2 = あいこ
      */
-    private String getResultText(int result) {
-        if (result > 0)
-            return "WIN";
-        else if (result == 0)
-            return "DROW";
-        else
-            return "LOSE";
+    private int convertResultId(int result) {
+        if (result > 0) {
+            return 0; // 勝ち
+        } else if (result == 0) {
+            return 2; // あいこ
+        } else {
+            return 1; // 負け
+        }
     }
 }
