@@ -238,4 +238,86 @@
 		ORDER BY MATCH_DATETIME DESC
 	</select>
 
+	<!-- 履歴一覧取得 -->
+	<select id="selectHistoryRows"
+		resultType="jp.co.sfrontier.ss3.game.dto.MatchResultRequest">
+		SELECT
+		TO_CHAR(rh.EXECUTE_DATETIME, 'YYYY/MM/DD HH24:MI') AS
+		executeDatetime,
+		u.USER_NAME AS userName,
+		rh.GAME_TYPE_ID AS gameTypeId,
+		gt.GAME_NAME AS gameTypeName,
+		o.USER_NAME AS opponent,
+		r.RESULT_NAME AS
+		result
+		FROM RESULT_HISTORY_TBL rh
+		INNER JOIN USER_INFORMATION_TBL u
+		ON
+		rh.USER_ID = u.USER_ID
+		INNER JOIN USER_INFORMATION_TBL o
+		ON rh.OPPONENT
+		= o.USER_ID
+		INNER JOIN GAME_TYPE_MST gt
+		ON rh.GAME_TYPE_ID =
+		gt.GAME_TYPE_ID
+		INNER JOIN RESULT_MST r
+		ON rh.RESULT_ID = r.RESULT_ID
+		<where>
+			<if test="userId != null">
+				rh.USER_ID = #{userId}
+			</if>
+			<if test="gameTypeId != null">
+				AND GAME_TYPE_ID = #{gameTypeId}
+			</if>
+		</where>
+		ORDER BY rh.EXECUTE_DATETIME DESC
+	</select>
+
+	<!-- ページング -->
+	<select id="countHistoryRows" resultType="long">
+		SELECT COUNT(*)
+		FROM RESULT_HISTORY_TBL rh
+		<where>
+		<if test="userId != null">
+			AND rh.USER_ID = #{userId}
+		</if>
+		<if test="gameTypeId != null">
+			AND rh.GAME_TYPE_ID = #{gameTypeId}
+		</if>
+		</where>
+	</select>
+
+	<!-- ページ取得（20件ずつ） -->
+	<select id="selectHistoryRowsPage"
+		resultType="jp.co.sfrontier.ss3.game.dto.MatchResultRequest">
+		SELECT
+		TO_CHAR(rh.EXECUTE_DATETIME, 'YYYY/MM/DD HH24:MI') AS
+		executeDatetime,
+		u.USER_NAME AS userName,
+		rh.GAME_TYPE_ID AS gameTypeId,
+		gt.GAME_NAME AS gameTypeName,
+		o.USER_NAME AS opponent,
+		r.RESULT_NAME AS
+		result
+		FROM RESULT_HISTORY_TBL rh
+		INNER JOIN USER_INFORMATION_TBL u ON
+		rh.USER_ID = u.USER_ID
+		INNER JOIN USER_INFORMATION_TBL o ON rh.OPPONENT
+		= o.USER_ID
+		INNER JOIN GAME_TYPE_MST gt ON rh.GAME_TYPE_ID =
+		gt.GAME_TYPE_ID
+		INNER JOIN RESULT_MST r ON rh.RESULT_ID = r.RESULT_ID
+		<where>
+		<if test="userId != null">
+			AND rh.USER_ID = #{userId}
+		</if>
+		<if test="gameTypeId != null">
+			AND rh.GAME_TYPE_ID = #{gameTypeId}
+		</if>
+		</where>
+		ORDER BY rh.EXECUTE_DATETIME DESC, rh.HISTORY_ID DESC
+
+		OFFSET #{offset}
+		ROWS FETCH NEXT #{limit} ROWS ONLY
+	</select>
 </mapper>
