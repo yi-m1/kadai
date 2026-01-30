@@ -1,6 +1,5 @@
 package jp.co.sfrontier.ss3.game.controller.history;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jp.co.sfrontier.ss3.game.dto.MatchPageResultRequest;
 import jp.co.sfrontier.ss3.game.model.GameType;
 import jp.co.sfrontier.ss3.game.service.history.HistoryService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 対戦履歴一覧画面に関するリクエストを受け付ける Controller クラス。
@@ -30,10 +30,11 @@ import jp.co.sfrontier.ss3.game.service.history.HistoryService;
  * </p>
  */
 @Controller
+@RequiredArgsConstructor
 public class HistoryController {
 
-	@Autowired
-	private HistoryService historyService;
+	
+	private final HistoryService historyService;
 	
 	/**
 	 * 対戦履歴一覧画面を表示する。
