@@ -1,45 +1,141 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>対戦履歴</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>履歴</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			color: #111;
+			background: #fff;
+		}
+
+		.tabs {
+			display: flex;
+			gap: 24px;
+			padding: 14px 18px;
+			border-bottom: 1px solid #333;
+		}
+
+		.tab {
+			text-decoration: none;
+			color: #111;
+			padding: 6px 10px;
+		}
+
+		.tab.active {
+			font-weight: 900;
+			outline: 1px solid #999;
+			background: #f3f3f3;
+		}
+
+		.container {
+			max-width: 900px;
+			margin: 60px auto 40px;
+			padding: 0 16px;
+		}
+
+		.title-box {
+			width: fit-content;
+			margin: 0 auto 28px;
+			border: 1px solid #333;
+			padding: 14px 44px;
+		}
+
+		.title-box h1 {
+			margin: 0;
+			font-size: 22px;
+			font-weight: 700;
+		}
+
+		.history-table {
+			width: 100%;
+			border-collapse: collapse;
+			table-layout: fixed;
+			font-size: 14px;
+		}
+
+		.history-table th {
+			text-align: center;
+			padding: 12px 8px;
+			border-bottom: 1px solid #999;
+			font-weight: 700;
+		}
+
+		.history-table td {
+			text-align: center;
+			padding: 12px 8px;
+			border-bottom: 1px solid #ddd;
+		}
+
+		.history-table tr.is-gray td {
+			background: #efefef;
+		}
+	</style>
 </head>
 
 <body>
 
-	<h1>対戦履歴</h1>
+	<!-- タブ -->
+	<header class="tabs">
+		<a class="tab" th:href="@{/history(tab='all')}" th:classappend="${tab == 'all'} ? 'active' : ''">すべての履歴</a>
 
-	<table border="1">
-		<tr>
-			<th>日時</th>
-			<th>あなた</th>
-			<th>相手</th>
-			<th>結果</th>
-		</tr>
+		<a class="tab" th:href="@{/history(tab='janken')}"
+			th:classappend="${tab == 'janken'} ? 'active' : ''">じゃんけんゲーム対戦履歴</a>
 
-		<tr th:each="h : ${histories}">
-			<td th:text="${#dates.format(h.matchDatetime, 'yyyy/MM/dd HH:mm:ss')}"></td>
+		<a class="tab" th:href="@{/history(tab='acchi')}"
+			th:classappend="${tab == 'acchi'} ? 'active' : ''">あっちむいてほい対戦履歴</a>
+	</header>
 
-			<td th:text="${T(jp.co.sfrontier.ss3.game.common.Direction)
-	                        .get(h.attackerDirection).label}">
-			</td>
+	<main class="container">
+		<div class="title-box">
+			<h1>
+				すべてのゲーム対戦履歴
+			</h1>
+		</div>
 
-			<td th:text="${T(jp.co.sfrontier.ss3.game.common.Direction)
-	                        .get(h.defenderDirection).label}">
-			</td>
+		<table class="history-table">
+			<thead>
+				<tr>
+					<th>対戦日時</th>
+					<th>ゲームタイプ</th>
+					<th>ユーザー</th>
+					<th>対戦相手</th>
+					<th>対戦結果</th>
+				</tr>
+			</thead>
 
-			<td th:text="${T(jp.co.sfrontier.ss3.game.common.ResultCode)
-	                        .fromCode(h.judge).label}">
-			</td>
-		</tr>
-	</table>
+			<tbody>
+				<!-- rowsが空のとき -->
+				<tr th:if="${#lists.isEmpty(rows)}">
+					<td colspan="5">履歴がありません</td>
+				</tr>
 
-	<br>
+				<!-- rowsを繰り返し表示 -->
+				<tr th:each="row, stat : ${rows}" th:classappend="${stat.index % 2 == 0} ? 'is-gray' : ''">
+					<td><span th:text="${row.executeDatetime}"></span></td>
+					<td><span th:text="${row.gameTypeName}"></span></td>
+					<td><span th:text="${row.userName}"></span></td>
+					<td><span th:text="${row.opponent}"></span></td>
+					<td><span th:text="${row.result}"></span></td>
+				</tr>
+			</tbody>
+		</table>
 
-	<form th:action="@{/}" method="get">
-		<button>トップへ戻る</button>
-	</form>
+		<div>
+			<a th:if="${page > 1}" th:href="@{/history(tab=${tab}, page=${page-1})}">前へ</a>
+
+			<span th:text="|${page} / ${totalPages}|"></span>
+
+			<a th:if="${page < totalPages}" th:href="@{/history(tab=${tab}, page=${page+1})}">次へ</a>
+		</div>
+	</main>
 
 </body>
 

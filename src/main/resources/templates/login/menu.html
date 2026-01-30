@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>メニュー画面</title>
+<link rel="icon" th:href="@{/logo.png}" type="image/png">
+</head>
+
+<style>
+/* 画面全体を縦横中央に配置 */
+body, html {
+	height: 100%;
+	margin: 0;
+	font-family: Arial, sans-serif;
+}
+
+/* 全体を中央に配置するコンテナ */
+.container {
+	display: flex;
+	flex-direction: column; /* 上から下に並べる */
+	align-items: center; /* 横方向中央 */
+	height: 100%;
+}
+
+/* ボタンを縦並びにする */
+.button-container {
+	display: flex;
+	flex-direction: column; /* 縦並び */
+	gap: 30px; /* ボタン間の隙間 */
+	margin-top: 20px; /* h1との間隔 */
+}
+
+/* ボタンの見た目 */
+button {
+	padding: 10px 20px;
+	font-size: 25px;
+	cursor: pointer;
+}
+</style>
+
+<body>
+
+	<div class="container">
+		<h1>メニュー画面</h1>
+		<div class="button-container">
+			<button th:onclick="|location.href='@{/game/play}'|">じゃんけん</button>
+			<button th:onclick="|location.href='@{/look-over-there}'|">あっち向いてほい</button>
+			<button th:onclick="|location.href='@{/history}'|">対戦履歴画面</button>
+
+			<form th:action="@{/logout}" method="post">
+				<button type="submit">ログアウト</button>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>
