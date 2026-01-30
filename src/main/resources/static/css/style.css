@@ -306,34 +306,76 @@ label.direction-button:hover {
 /* =========================
    対戦履歴
 ========================= */
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	color: #111;
+	background: #fff;
+}
+
+.tabs {
+	display: flex;
+	gap: 24px;
+	padding: 14px 18px;
+	border-bottom: 1px solid #333;
+}
+
+.tab {
+	text-decoration: none;
+	color: #111;
+	padding: 6px 10px;
+}
+
+.tab.active {
+	font-weight: 900;
+	outline: 1px solid #999;
+	background: #f3f3f3;
+}
+
+.container {
+	max-width: 900px;
+	margin: 60px auto 40px;
+	padding: 0 16px;
+}
+
+.title-box {
+	width: fit-content;
+	margin: 0 auto 28px;
+	border: 1px solid #333;
+	padding: 14px 44px;
+}
+
+.title-box h1 {
+	margin: 0;
+	font-size: 22px;
+	font-weight: 700;
+}
+
 .history-table {
 	width: 100%;
 	border-collapse: collapse;
-	margin-top: 16px;
-}
-
-.history-table th,
-.history-table td {
-	border-bottom: 1px solid #ddd;
-	padding: 8px;
-	text-align: center;
+	table-layout: fixed;
+	font-size: 14px;
 }
 
 .history-table th {
-	background-color: #f0f0f0;
+	text-align: center;
+	padding: 12px 8px;
+	border-bottom: 1px solid #999;
+	font-weight: 700;
 }
 
-.menu-button {
-	width: auto;
-	min-width: 160px;
-	padding: 10px 24px;
-	font-size: 15px;
+.history-table td {
+	text-align: center;
+	padding: 12px 8px;
+	border-bottom: 1px solid #ddd;
 }
 
-.history-actions {
-	display: flex;
-	justify-content: center;
-	margin-top: 24px;
+.history-table tr.is-gray td {
+	background: #efefef;
 }
 
 /* =========================
