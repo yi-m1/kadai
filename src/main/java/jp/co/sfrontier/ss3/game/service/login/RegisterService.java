@@ -42,7 +42,7 @@ public class RegisterService {
 		user.setUserName(userName);
 		user.setMailAddress(mailAddress);
 		user.setPassword(encodedPassword);
-
+		user.setStatus(1);
 		userMapper.addUser(user);
 	}
 }

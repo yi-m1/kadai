@@ -39,11 +39,13 @@ public class SecurityConfig {
 				// 誰でもアクセス可能
 				.antMatchers("/login", "/register", "/changePassword").permitAll()
 
-				// 管理ユーザのみアクセス可能(ユーザ全員の履歴を表示可能)
-				.antMatchers("/history/all").hasRole("ADMIN")
+				// 管理ユーザのみアクセス可能(ユーザ管理画面)
+				.antMatchers("/user/**").hasRole("ADMIN")
+				// 一般ユーザのみアクセス可能(あっちむいてほい画面、じゃんけん画面)
+				.antMatchers("/look-over-there", "/game/**").hasRole("USER")
 
-				// 管理ユーザ、一般ユーザアクセス可能(自分だけの履歴を表示可能)
-				.antMatchers("/history").hasAnyRole("USER","ADMIN")
+				// 管理ユーザも一般ユーザもアクセス可能(履歴画面)
+				.antMatchers("/history").hasAnyRole("USER", "ADMIN")
 
 				// ログインしていればアクセス可能
 				.anyRequest().authenticated()
