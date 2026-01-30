@@ -31,92 +31,92 @@ import jp.co.sfrontier.ss3.game.service.login.LoginUserDetails;
 @Service
 public class HistoryService {
 
-	@Autowired
-	private MatchResultMapper matchResultMapper;
+    @Autowired
+    private MatchResultMapper matchResultMapper;
 
-	/**
-	 * 現在ログインしているユーザの権限に応じて、履歴検索用のユーザID（フィルタ条件）を取得する。
-	 * 
-	 * 管理ユーザ（ROLE_ADMIN）の場合は {@code null} を返し、 Mapper の SQL 側で USER_ID
-	 * による絞り込みを行わない。
-	 * 一般ユーザ（ROLE_USER）の場合は、ログインユーザ自身の userId を返し、自分の対戦履歴のみ取得する。
-	 *
-	 * @return 管理ユーザの場合は {@code null}、一般ユーザの場合はログインユーザの userId
-	 */
-	private Long getFilterUserId() {
+    /**
+     * 現在ログインしているユーザの権限に応じて、履歴検索用のユーザID（フィルタ条件）を取得する。
+     * 
+     * 管理ユーザ（ROLE_ADMIN）の場合は {@code null} を返し、 Mapper の SQL 側で USER_ID
+     * による絞り込みを行わない。
+     * 一般ユーザ（ROLE_USER）の場合は、ログインユーザ自身の userId を返し、自分の対戦履歴のみ取得する。
+     *
+     * @return 管理ユーザの場合は {@code null}、一般ユーザの場合はログインユーザの userId
+     */
+    private Long getFilterUserId() {
 
-		// Spring Security のセキュリティコンテキストから、現在ログイン中の認証情報を取得する
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        // Spring Security のセキュリティコンテキストから、現在ログイン中の認証情報を取得する
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		// 認証時に設定した UserDetails を取得する
-		LoginUserDetails user = (LoginUserDetails) auth.getPrincipal();
+        // 認証時に設定した UserDetails を取得する
+        LoginUserDetails user = (LoginUserDetails) auth.getPrincipal();
 
-		// ログインユーザが管理者権限(ROLE_ADMIN)を持っているか判定する
-		boolean isAdmin = auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        // ログインユーザが管理者権限(ROLE_ADMIN)を持っているか判定する
+        boolean isAdmin = auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
 
-		// 管理ユーザの場合 null を返し、一般ユーザの場合ログインユーザの userId を返す
-		return isAdmin ? null : user.getUser().getUserId();
-	}
+        // 管理ユーザの場合 null を返し、一般ユーザの場合ログインユーザの userId を返す
+        return isAdmin ? null : user.getUser().getUserId();
+    }
 
-	/**
-	 * 対戦履歴をページングして取得する（全ゲーム種別）。
-	 *
-	 * <p>
-	 * 指定されたページ番号と表示件数をもとに、
-	 * ログインユーザーが参照可能な履歴を
-	 * 新しい順で取得する。
-	 * </p>
-	 *
-	 * @param page 表示するページ番号（1始まり）
-	 * @param size 1ページあたりの表示件数
-	 * @return ページング情報および履歴一覧を保持した結果オブジェクト
-	 */
-	public MatchPageResultRequest findPageAll(int page, int size) {
-		Long userId = getFilterUserId();
-		long total = matchResultMapper.countHistoryRows(userId, null);
+    /**
+     * 対戦履歴をページングして取得する（全ゲーム種別）。
+     *
+     * <p>
+     * 指定されたページ番号と表示件数をもとに、
+     * ログインユーザーが参照可能な履歴を
+     * 新しい順で取得する。
+     * </p>
+     *
+     * @param page 表示するページ番号（1始まり）
+     * @param size 1ページあたりの表示件数
+     * @return ページング情報および履歴一覧を保持した結果オブジェクト
+     */
+    public MatchPageResultRequest findPageAll(int page, int size) {
+        Long userId = getFilterUserId();
+        long total = matchResultMapper.countHistoryRows(userId, null);
 
-		int safePage = Math.max(1, page);
-		int offset = (safePage - 1) * size;
+        int safePage = Math.max(1, page);
+        int offset = (safePage - 1) * size;
 
-		List<MatchResultRequest> rows = matchResultMapper.selectHistoryRowsPage(userId, null, offset, size);
+        List<MatchResultRequest> rows = matchResultMapper.selectHistoryRowsPage(userId, null, offset, size);
 
-		MatchPageResultRequest res = new MatchPageResultRequest();
-		res.setRows(rows);
-		res.setPage(safePage);
-		res.setSize(size);
-		res.setTotalCount(total);
-		return res;
-	}
+        MatchPageResultRequest res = new MatchPageResultRequest();
+        res.setRows(rows);
+        res.setPage(safePage);
+        res.setSize(size);
+        res.setTotalCount(total);
+        return res;
+    }
 
-	/**
-	 * 指定したゲーム種別の対戦履歴をページングして取得する。
-	 *
-	 * <p>
-	 * ゲーム種別（じゃんけん / あっちむいてほい）で履歴を絞り込み、
-	 * 指定ページ分のデータを取得する。
-	 * </p>
-	 *
-	 * @param gameType 対象とするゲーム種別
-	 * @param page 表示するページ番号（1始まり）
-	 * @param size 1ページあたりの表示件数
-	 * @return ページング情報および履歴一覧を保持した結果オブジェクト
-	 */
-	public MatchPageResultRequest findPageByGameType(GameType gameType, int page, int size) {
-		Long userId = getFilterUserId();
-		Integer gameTypeId = gameType.getId();
+    /**
+     * 指定したゲーム種別の対戦履歴をページングして取得する。
+     *
+     * <p>
+     * ゲーム種別（じゃんけん / あっちむいてほい）で履歴を絞り込み、
+     * 指定ページ分のデータを取得する。
+     * </p>
+     *
+     * @param gameType 対象とするゲーム種別
+     * @param page 表示するページ番号（1始まり）
+     * @param size 1ページあたりの表示件数
+     * @return ページング情報および履歴一覧を保持した結果オブジェクト
+     */
+    public MatchPageResultRequest findPageByGameType(GameType gameType, int page, int size) {
+        Long userId = getFilterUserId();
+        Integer gameTypeId = gameType.getId();
 
-		long total = matchResultMapper.countHistoryRows(userId, gameTypeId);
+        long total = matchResultMapper.countHistoryRows(userId, gameTypeId);
 
-		int safePage = Math.max(1, page);
-		int offset = (safePage - 1) * size;
+        int safePage = Math.max(1, page);
+        int offset = (safePage - 1) * size;
 
-		List<MatchResultRequest> rows = matchResultMapper.selectHistoryRowsPage(userId, gameTypeId, offset, size);
+        List<MatchResultRequest> rows = matchResultMapper.selectHistoryRowsPage(userId, gameTypeId, offset, size);
 
-		MatchPageResultRequest res = new MatchPageResultRequest();
-		res.setRows(rows);
-		res.setPage(safePage);
-		res.setSize(size);
-		res.setTotalCount(total);
-		return res;
-	}
+        MatchPageResultRequest res = new MatchPageResultRequest();
+        res.setRows(rows);
+        res.setPage(safePage);
+        res.setSize(size);
+        res.setTotalCount(total);
+        return res;
+    }
 }
