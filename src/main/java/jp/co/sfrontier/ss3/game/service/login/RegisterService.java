@@ -1,28 +1,48 @@
 package jp.co.sfrontier.ss3.game.service.login;
 
-import java.sql.SQLException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import jp.co.sfrontier.ss3.game.entity.UserInformationTbl;
+import jp.co.sfrontier.ss3.game.mapper.UserMapper;
 
-import jp.co.sfrontier.ss3.game.component.UserComponent;
-import jp.co.sfrontier.ss3.game.model.UserInfo;
-
-/**
- * ユーザの新規登録処理を行うサービスクラス
- */
+@Service
 public class RegisterService {
 
-	private static final Logger logger = LogManager.getLogger(RegisterService.class);
+	@Autowired
+	private UserMapper userMapper;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	public enum UserCheckResult {
+		NOT_FOUND, FOUND;
+	}
 
 	/**
-	 * 新規ユーザーを登録するメソッド
-	 * @param mailAddress
-	 * @param userName
-	 * @return userInfo
-	 * @throws SQLException データベース処理でエラーが発生した場合
+	 * ユーザIDとメールアドレスの重複チェックを行う
 	 */
-	public UserInfo registerUser(String mailAddress, String userName) throws SQLException {
-		return (new UserComponent().register(mailAddress, userName));
+	public UserCheckResult checkUserExists(String userName, String mailAddress) {
+		if (userMapper.findByUserName(userName) != null || userMapper.findByMailAddress(mailAddress) != null) {
+			return UserCheckResult.FOUND;
+		}
+		return UserCheckResult.NOT_FOUND;
+	}
+
+	/**
+	 * 新規ユーザを登録する
+	 */
+	public void register(String userName, String mailAddress, String password) {
+
+		// 平文のパスワードをハッシュ化する
+		String encodedPassword = passwordEncoder.encode(password);
+
+		UserInformationTbl user = new UserInformationTbl();
+		user.setUserName(userName);
+		user.setMailAddress(mailAddress);
+		user.setPassword(encodedPassword);
+		user.setStatus(1);
+		userMapper.addUser(user);
 	}
 }
