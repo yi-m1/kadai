@@ -19,7 +19,8 @@ import jp.co.sfrontier.ss3.game.repository.ResultHistoryDao;
  */
 public class HistoryService {
 
-    private static final Logger logger = LogManager.getLogger(HistoryService.class);
+    private static final Logger logger
+            = LogManager.getLogger(HistoryService.class);
 
     /**
      * 対戦履歴を取得する。<br>
@@ -39,7 +40,8 @@ public class HistoryService {
         Connection conn = DbUtil.getConnection();
         ResultHistoryDao resultHistoryDao = new ResultHistoryDao(conn);
         try {
-            List<ResultHistory> list = resultHistoryDao.getResultHistoryInfo(userId);
+            List<ResultHistory> list
+                    = resultHistoryDao.getResultHistoryInfo(userId);
             DbUtil.commit(conn);
 
             return list;
