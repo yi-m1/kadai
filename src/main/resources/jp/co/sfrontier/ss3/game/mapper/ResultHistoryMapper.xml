@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.sfrontier.ss3.game.mapper.ResultHistoryMapper">
+
+  <insert id="insert" parameterType="jp.co.sfrontier.ss3.game.entity.ResultHistory">
+    <selectKey keyProperty="historyId" order="AFTER" resultType="long">
+      CALL IDENTITY()
+    </selectKey>
+
+    INSERT INTO RESULT_HISTORY_TBL (
+      USER_ID, GAME_TYPE_ID, RESULT_ID, EXECUTE_DATETIME,
+      OPPONENT, USER_CHOICE, CREATE_DATETIME, UPDATE_DATETIME, VERSION
+    ) VALUES (
+      #{userId}, #{gameTypeId}, #{resultId}, #{executeDatetime},
+      #{opponent}, #{userChoice}, #{createDatetime}, #{updateDatetime}, #{version}
+    )
+  </insert>
+
+</mapper>
