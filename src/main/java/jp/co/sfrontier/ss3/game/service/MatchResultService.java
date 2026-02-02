@@ -68,7 +68,7 @@ public class MatchResultService {
 		// LookOverTherePlayService の GAME_ID=2L は、そのままだと FKで落ちる可能性大。
 		history.setGameTypeId(convertGameTypeId(gameId)); // 2 -> 1 にする
 
-		history.setResultId(resultCode.getCode()); // WIN=1, LOSE=0 を想定
+		history.setResultId(resultCode.getCode()); // WIN=1, LOSE=0
 		history.setExecuteDatetime(now);
 		history.setCreateDatetime(now);
 		history.setUpdateDatetime(now);
@@ -81,10 +81,15 @@ public class MatchResultService {
 				result.getMatchResultId(), history.getHistoryId());
 	}
 
+	/**
+	 * GAME.MATCH_RESULT.GAME_ID(2)をRESULT_HISTORY_TBL.game_type_id(1)に合わせる。
+	 * @param gameId GAME.MATCH_RESULT.GAME_ID（あっちむいてほい=2）
+	 * @return gameId RESULT_HISTORY_TBL.game_type_id(あっちむいてほい=1)
+	 */
 	private Integer convertGameTypeId(Long gameId) {
 		if (gameId == null)
 			return null;
-		// あっちむいてほい: GAME_ID=2 → game_type_id=1（DDL側）
+		// あっちむいてほい: GAME_ID=2 → game_type_id=1
 		if (gameId.longValue() == 2L)
 			return 1;
 		return gameId.intValue();
