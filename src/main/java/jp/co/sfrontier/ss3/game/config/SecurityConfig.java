@@ -37,7 +37,8 @@ public class SecurityConfig {
 	protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(authz -> authz
 				// 誰でもアクセス可能
-				.antMatchers("/login", "/register", "/changePassword").permitAll()
+				// ログイン画面、登録画面、パスワード変更画面、静的リソース
+				.antMatchers("/login", "/register", "/changePassword", "/css/**", "/js/**", "/images/**").permitAll()
 
 				// 管理ユーザのみアクセス可能(ユーザ管理画面)
 				.antMatchers("/user/**").hasRole("ADMIN")
@@ -48,21 +49,18 @@ public class SecurityConfig {
 				.antMatchers("/history").hasAnyRole("USER", "ADMIN")
 
 				// ログインしていればアクセス可能
-				.anyRequest().authenticated()
-		)
-		.formLogin(login -> login
-				.loginPage("/login")
-				.loginProcessingUrl("/login")
-				.usernameParameter("userNameOrMailAddress")
-				.passwordParameter("password")
-				.defaultSuccessUrl("/menu", true)
-				.failureUrl("/login?error")
-				.permitAll()
-		)
-		.logout(logout -> logout
-				.logoutUrl("/logout")
-				.logoutSuccessUrl("/login")
-		);
+				.anyRequest().authenticated())
+				.formLogin(login -> login
+						.loginPage("/login")
+						.loginProcessingUrl("/login")
+						.usernameParameter("userNameOrMailAddress")
+						.passwordParameter("password")
+						.defaultSuccessUrl("/menu", true)
+						.failureUrl("/login?error")
+						.permitAll())
+				.logout(logout -> logout
+						.logoutUrl("/logout")
+						.logoutSuccessUrl("/login"));
 
 		return http.build();
 	}
