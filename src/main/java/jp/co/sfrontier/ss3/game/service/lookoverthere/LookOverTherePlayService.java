@@ -41,7 +41,7 @@ public class LookOverTherePlayService {
 	public static final Long GAME_ID = Long.valueOf(2L);
 
 	/** CPU のプレイヤーID */
-	private static final Long CPU_ID = Long.valueOf(9L);
+	private static final Long CPU_ID = Long.valueOf(0L);
 
 	private final MatchResultService matchResultService;
 
