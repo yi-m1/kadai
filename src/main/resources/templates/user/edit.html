@@ -6,9 +6,13 @@
 		scripts = ~{::script},
 		links = ~{::link}
 		)">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+
 </head>
 
 <body>
+	<div th:replace="fragments/sidebar :: sidebar"></div>
+
 	<div class="container">
 
 		<div th:if="${validationError}">

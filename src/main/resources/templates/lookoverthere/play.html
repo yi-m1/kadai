@@ -4,16 +4,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>あっちむいてほい</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
+	<div th:replace="fragments/sidebar :: sidebar"></div>
 
 	<h1>あっちむいてほい</h1>
 
-	<!--
-  向きを選択して勝負するフォーム
-  POST /look-over-there/play に送信される
--->
 	<form th:action="@{/look-over-there/play}" method="post">
 
 		<p>向きを選んでください</p>

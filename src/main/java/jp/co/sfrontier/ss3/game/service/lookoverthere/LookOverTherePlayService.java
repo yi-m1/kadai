@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
  * </ul>
  * <br>
  * ※現在は CPU 対戦のみだが、Defender の方向決定ロジックを切り出しているため、
- * 将来的に対人戦へ拡張可能
+ * 将来的に対人戦へ拡張可能である
  */
 @Slf4j
 @Service
