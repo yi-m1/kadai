@@ -1,5 +1,5 @@
 // 方向をキーボードの矢印キーで入力し、エンターキーで送信する
-document, addEventListener("keydown", function(e) {
+document.addEventListener("keydown", function(e) {
 
 	// 繰り返し同じボタンが押されたときに値を返さないようにする
 	if (e.repeat) return;
@@ -53,10 +53,4 @@ function submitIfSelected() {
 		selected.closest("form").submit();
 	}
 
-}
-
-// サイドメニュー表示をトグルで切り替えられるようにする
-function toggleSidebar() {
-	const sidebar = document.getElementById('sidebar');
-	sidebar.classList.toggle('open');
 }

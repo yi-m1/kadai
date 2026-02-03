@@ -5,7 +5,7 @@
 
 	<div th:fragment="sidebar">
 
-		<button id="hamburger-btn" class="hamburger-btn" onclick="toggleSidebar()">
+		<button id="hamburgerBtn" class="hamburger-btn">
 			☰
 		</button>
 
@@ -26,7 +26,7 @@
 
 			<ul class="sidebar-menu">
 
-				<li th:classappend="${activeMenu == 'home'} ? 'active'">
+				<li th:classappend="${activeMenu == 'home'} ? 'active'" th:if="${loginUser != null}">
 					<a th:href="@{/}">ホーム</a>
 				</li>
 
