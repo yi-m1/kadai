@@ -128,7 +128,9 @@
 			</tbody>
 		</table>
 
+		<!-- 全ページ数が1より小さい場合はページ数を表示しない -->
 		<div th:if="${totalPages > 1}">
+			
 		    <a th:if="${page > 1}"
 		       th:href="@{/history(tab=${tab}, page=${page - 1})}">
 		        前へ
@@ -140,6 +142,7 @@
 		       th:href="@{/history(tab=${tab}, page=${page + 1})}">
 		        次へ
 		    </a>
+			
 		</div>
 	</main>
 </body>
