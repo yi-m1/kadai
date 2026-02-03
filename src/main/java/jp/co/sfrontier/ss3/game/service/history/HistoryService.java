@@ -72,14 +72,20 @@ public class HistoryService {
 	 * @return ページング情報および履歴一覧を保持した結果オブジェクト
 	 */
 	public MatchPageResultRequest findPageAll(int page, int size) {
+		//セッションの取得
 		Long userId = getFilterUserId();
+		//ログインユーザの履歴の総件数を取得
 		long total = matchResultMapper.countHistoryRows(userId, null);
 
+		//page が 1 未満にならないようにする
 		int safePage = Math.max(1, page);
+		//「何件目から取得するか」を計算する
 		int offset = (safePage - 1) * size;
 
+		//条件に合致する 全履歴を取得し、MatchResultRequest型のリストに格納する
 		List<MatchResultRequest> rows = matchResultMapper.selectHistoryRowsPage(userId, null, offset, size);
 
+		//ページング用のDtoに詰める
 		MatchPageResultRequest res = new MatchPageResultRequest();
 		res.setRows(rows);
 		res.setPage(safePage);
@@ -102,16 +108,21 @@ public class HistoryService {
 	 * @return ページング情報および履歴一覧を保持した結果オブジェクト
 	 */
 	public MatchPageResultRequest findPageByGameType(GameType gameType, int page, int size) {
+		//セッションの取得
 		Long userId = getFilterUserId();
+		//ゲーム種別をDB用の数字に変換
 		Integer gameTypeId = gameType.getId();
-
+		//ログインユーザの履歴の総件数を取得
 		long total = matchResultMapper.countHistoryRows(userId, gameTypeId);
-
+		//page が 1 未満にならないようにする
 		int safePage = Math.max(1, page);
+		//「何件目から取得するか」を計算する
 		int offset = (safePage - 1) * size;
 
+		//条件に合致する 全履歴を取得し、MatchResultRequest型のリストに格納する
 		List<MatchResultRequest> rows = matchResultMapper.selectHistoryRowsPage(userId, gameTypeId, offset, size);
 
+		//ページング用のDtoに詰める
 		MatchPageResultRequest res = new MatchPageResultRequest();
 		res.setRows(rows);
 		res.setPage(safePage);
