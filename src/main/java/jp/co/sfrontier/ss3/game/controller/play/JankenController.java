@@ -3,7 +3,7 @@ package jp.co.sfrontier.ss3.game.controller.play;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,15 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jp.co.sfrontier.ss3.game.common.Hand;
-import jp.co.sfrontier.ss3.game.controller.util.ServletUtils;
-import jp.co.sfrontier.ss3.game.model.UserInfo;
-import jp.co.sfrontier.ss3.game.service.janken.JankenServiceTomari;
+import jp.co.sfrontier.ss3.game.model.UserInfoModel;
+import jp.co.sfrontier.ss3.game.service.janken.JankenService;
 import jp.co.sfrontier.ss3.game.value.Player;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * じゃんけんゲームをSpring MVC化したコントローラー
+ * じゃんけんゲームコントローラー（最終版）
  */
 @Slf4j
 @Controller
@@ -30,7 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JankenController {
 
-    private final JankenServiceTomari jankenService;
+    private static final String SESSION_LOGIN_USER = "loginUser";
+
+    private final JankenService jankenService;
 
     /**
      * 対戦画面を表示
@@ -38,7 +39,7 @@ public class JankenController {
     @GetMapping("/play")
     public String show() {
         log.debug("Game Start");
-        return "game/play"; // /WEB-INF/jsp/game/play.jsp に相当
+        return "game/play";
     }
 
     /**
@@ -48,57 +49,45 @@ public class JankenController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> play(
             @RequestParam("hand") String handParam,
-            HttpServletRequest request) {
+            HttpSession session) {
 
         Map<String, Object> response = new HashMap<>();
 
+        // ログインユーザー取得
+        UserInfoModel loginUser =
+                (UserInfoModel) session.getAttribute(SESSION_LOGIN_USER);
+
+        if (loginUser == null) {
+            log.warn("未ログイン状態でのアクセス");
+            response.put("status", "UNAUTHORIZED");
+            return ResponseEntity.status(401).body(response);
+        }
+
+        // 手のバリデーション
+        Hand hand = Hand.get(handParam);
+        if (hand == null) {
+            log.warn("不正な手の入力: {}", handParam);
+            response.put("status", "ERROR");
+            return ResponseEntity.badRequest().body(response);
+        }
+
         try {
-            UserInfo userInfo = ServletUtils.getUserInfo(request);
-            Hand hand = Hand.get(handParam);
+            Player player = new Player(
+                    loginUser.getUserId().intValue(),
+                    hand
+            );
 
-            if (hand == null) {
-                log.debug("input error{hand={}}", handParam);
-                response.put("status", "ERROR");
-                return ResponseEntity.badRequest().body(response);
-            }
-
-            Player player = new Player(userInfo.getUserId(), hand);
-
-            log.debug("call jankenService");
             int result = jankenService.fight(player);
-            log.debug("jankenResult{result={}}", result);
 
             response.put("status", "OK");
-            response.put("cpuHand", getCpuHand(hand, result));
             response.put("result", result);
 
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {
-            log.error("じゃんけんの処理中にエラーが発生しました", e);
+            log.error("じゃんけん処理中にエラー", e);
             response.put("status", "ERROR");
             return ResponseEntity.internalServerError().body(response);
         }
-    }
-
-    /**
-     * CPUの手を計算
-     */
-    private String getCpuHand(Hand hand, int result) {
-        Hand cpuHand = hand;
-        if (result > 0) {
-            switch (hand) {
-                case ROCK -> cpuHand = Hand.SCISSORS;
-                case SCISSORS -> cpuHand = Hand.PAPER;
-                case PAPER -> cpuHand = Hand.ROCK;
-            }
-        } else if (result < 0) {
-            switch (hand) {
-                case ROCK -> cpuHand = Hand.PAPER;
-                case SCISSORS -> cpuHand = Hand.ROCK;
-                case PAPER -> cpuHand = Hand.SCISSORS;
-            }
-        }
-        return cpuHand.name();
     }
 }
