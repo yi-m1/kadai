@@ -6,7 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>メニュー</title>
 	<link rel="icon" th:href="@{/logo.png}" type="image/png">
-	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/menu.css}">
 </head>
 
 
@@ -15,12 +16,12 @@
 	<div class="menu-container">
 		<h1>メニュー</h1>
 		<div class="button-container">
-			<button th:onclick="|location.href='@{/game/play}'|">じゃんけん</button>
-			<button th:onclick="|location.href='@{/look-over-there}'|">あっち向いてほい</button>
-			<button th:onclick="|location.href='@{/history}'|">対戦履歴画面</button>
+			<button class="btn-game" th:onclick="|location.href='@{/game/play}'|">じゃんけん</button>
+			<button class="btn-game" th:onclick="|location.href='@{/look-over-there}'|">あっちむいてほい</button>
+			<button class="btn-option" th:onclick="|location.href='@{/history}'|">対戦履歴画面</button>
 
 			<form th:action="@{/logout}" method="post">
-				<button type="submit">ログアウト</button>
+				<button class="btn-logout" type="submit">ログアウト</button>
 			</form>
 		</div>
 	</div>

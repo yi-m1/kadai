@@ -44,13 +44,16 @@ function selectDirection(id) {
 	}
 }
 
-// 方向が入力されている場合のみ、エンターキーで送信できるようにする
+// 方向が入力されている場合のみ、エンターキーで送信
 function submitIfSelected() {
-	const selected = querySelector("input[name='direction']:check");
+	const selected = document.querySelector(
+		"input[name='direction']:checked"
+	);
 
-	// 方向が選択されているかチェックする
+	// 方向が選択されているかチェック
 	if (selected) {
-		selected.closest("form").submit();
+		const form = selected.closest("form");
+		form.requestSubmit();
 	}
-
 }
+

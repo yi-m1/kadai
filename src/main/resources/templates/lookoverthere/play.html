@@ -4,7 +4,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>あっちむいてほい</title>
-	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+	<link rel="stylesheet" th:href="@{/css/lookoverthere.css}">
 </head>
 
 <body>
@@ -12,7 +14,7 @@
 		<div id="overlay" class="overlay"></div>
 		<div th:replace="fragments/sidebar :: sidebar"></div>
 
-		<main class="lookoverethere-container">
+		<main class="lookoverthere-container">
 			<h1>あっちむいてほい</h1>
 
 			<div class="opponent">
@@ -55,11 +57,6 @@
 				<button type="submit" class="battle-button">勝負！</button>
 			</form>
 
-			<hr>
-
-			<form th:action="@{/menu}" method="get">
-				<button>トップへ戻る</button>
-			</form>
 		</main>
 	</div>
 

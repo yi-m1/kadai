@@ -2,11 +2,47 @@
    エラー画面
 ================================================= */
 .error-container {
+	max-width: 480px;
+	margin: 80px auto;
+	padding: 40px 32px;
 	text-align: center;
-	padding: 40px;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.error-container h1 {
+	font-size: 22px;
+	margin-bottom: 16px;
+	color: #c62828;
+}
+
+.error-container p {
+	font-size: 15px;
+	line-height: 1.6;
+	color: #444;
 }
 
 .error-image {
-	width: 200px;
-	margin-bottom: 20px;
+	max-width: 400px;
+	width: 100%;
+	height: auto;
+	display: block;
+	margin: 24px auto;
+}
+
+
+.error-container button {
+	margin-top: 24px;
+	padding: 10px 24px;
+	font-size: 24px;
+	background: #1976d2;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.error-container button:hover {
+	background: #1565c0;
 }

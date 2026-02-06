@@ -6,25 +6,24 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>管理者用メニュー画面</title>
 	<link rel="icon" th:href="@{/logo.png}" type="image/png">
-	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/menu.css}">
 </head>
 
 
 <body>
-	<div th:replace="fragments/sidebar :: sidebar"></div>
-
-	<div class="container">
-		<h1>管理者用メニュー画面</h1>
+	<div class="menu-container">
+		<h1>管理者用メニュー</h1>
 		<div class="button-container">
 			<!-- 管理者用履歴画面 -->
-			<button th:onclick="|location.href='@{/history}'|">管理者用履歴画面</button>
+			<button class="btn-option" th:onclick="|location.href='@{/history}'|">管理者用履歴画面</button>
 
 			<!-- 管理画面 -->
-			<button th:onclick="|location.href='@{/user/list}'|">管理画面</button>
+			<button class="btn-option" th:onclick="|location.href='@{/user/list}'|">管理画面</button>
 
 			<!-- ログアウト -->
 			<form th:action="@{/logout}" method="post">
-				<button type="submit">ログアウト</button>
+				<button class="btn-logout" type="submit">ログアウト</button>
 			</form>
 		</div>
 	</div>

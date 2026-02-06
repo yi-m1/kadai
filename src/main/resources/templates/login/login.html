@@ -4,7 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ログイン</title>
-	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 
 <body>
@@ -15,11 +16,16 @@
 
 			<h1>ゲームアプリ ログイン</h1>
 
+
 			<form th:action="@{/login}" method="post">
 
-				<input type="text" name="userNameOrMailAddress" placeholder="ユーザ名 or メールアドレス">
+				<div class="form-group">
+					<input type="text" name="userNameOrMailAddress" placeholder="ユーザ名 or メールアドレス">
+				</div>
 
-				<input type="password" name="password" placeholder="パスワード">
+				<div class="form-group">
+					<input type="password" name="password" placeholder="パスワード">
+				</div>
 
 				<button type="submit" class="btn">ログイン</button>
 
@@ -34,6 +40,5 @@
 	</div>
 
 </body>
-
 
 </html>

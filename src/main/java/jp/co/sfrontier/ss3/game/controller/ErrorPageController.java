@@ -11,7 +11,7 @@ public class ErrorPageController {
 	public String error(Model model) {
 
 		if (!model.containsAttribute("errorMessage")) {
-			model.addAttribute("errorMessage", "不明なエラーが発生しました");
+			model.addAttribute("message", "不明なエラーが発生しました");
 		}
 
 		return "error/error";

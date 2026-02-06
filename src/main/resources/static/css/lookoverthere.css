@@ -5,12 +5,15 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: flex-start;
-
-	max-width: 480px;
+	justify-content: center;
+	max-width: 720px;
+	width: 100%;
 	margin: 0 auto;
 	padding: 24px 16px 40px;
 	text-align: center;
+	background: #ffffff;
+	border-radius: 16px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .direction-grid {
@@ -55,25 +58,28 @@
 }
 
 .opponent-img {
-	width: 160px;
-	height: auto;
+	width: 400px;
+	margin: 8px auto 4px;
+	display: block;
+	max-width: 90%;
 }
 
 .direction-message {
-	margin: 16px 0 12px;
-	padding: 8px 0;
+	margin: 12px 0 8px;
+	padding: 10px;
+	font-size: 22px;
+	color: #3730a3;
 	background-color: #eef2ff;
-	border-radius: 6px;
-	font-weight: bold;
 }
+
 
 .direction-cross {
 	display: grid;
-	grid-template-columns: 80px 80px 80px;
-	grid-template-rows: 80px 80px 80px;
+	grid-template-columns: 64px 64px 64px;
+	grid-template-rows: 64px 64px 64px;
 	justify-content: center;
 	align-items: center;
-	margin: 20px auto;
+	margin: 24px auto 12px;
 	gap: 6px;
 }
 
@@ -97,9 +103,7 @@
 	grid-row: 3;
 }
 
-/* =========================
-   方向ボタン見た目
-========================= */
+/* 方向ボタン見た目 */
 .direction-button {
 	cursor: pointer;
 }
@@ -113,10 +117,10 @@
 	justify-content: center;
 	align-items: center;
 
-	width: 80px;
-	height: 80px;
+	width: 64px;
+	height: 64px;
 
-	font-size: 28px;
+	font-size: 22px;
 	font-weight: bold;
 
 	background-color: #ffffff;
@@ -124,37 +128,36 @@
 	border-radius: 12px;
 
 	transition: all 0.2s ease;
+	cursor: pointer;
 }
 
 .direction-button span:hover {
-	background-color: #f0f4ff;
+	background-color: #eef2ff;
 }
 
 .direction-button input[type="radio"]:checked+span {
 	background-color: #4f46e5;
 	color: #ffffff;
 	border-color: #4f46e5;
-	transform: scale(1.05);
+	transform: scale(1.08);
+	box-shadow: 0 10px 25px rgba(79, 70, 229, 0.35);
 }
 
-/* =========================
-   勝負ボタン
-========================= */
 
+/* 勝負ボタン */
 .battle-button {
-	margin-top: 20px;
-	padding: 12px 32px;
+	margin-top: 28px;
+	padding: 18px 48px;
 
-	font-size: 18px;
-	font-weight: bold;
+	font-size: 22px;
+	font-weight: 800;
 
 	background-color: #ef4444;
 	color: #ffffff;
 
 	border: none;
-	border-radius: 999px;
 	cursor: pointer;
-
+	transform: scale(0.96);
 	transition: background-color 0.2s ease;
 }
 
