@@ -59,7 +59,9 @@ public class HistoryController {
 			@RequestParam(name = "page", defaultValue = "1") int page,
 			Model model) {
 
+		//1ページあたりの表示件数
 		int size = 20;
+		//対戦履歴をページングして取得する（全ゲーム種別)
 		MatchPageResultRequest result = historyService.findPageAll(page, size);
 
 		switch (tab) {
@@ -74,7 +76,7 @@ public class HistoryController {
 		}
 
 		model.addAttribute("rows", result.getRows());
-		model.addAttribute("tab", tab);
+		model.addAttribute("tab", tab);	
 
 		// ページング用
 		model.addAttribute("page", result.getPage());
