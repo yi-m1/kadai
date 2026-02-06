@@ -34,7 +34,7 @@ public class LookOverThereController {
 	@GetMapping
 	public String show() {
 		log.info("あっちむいてほい対戦画面を表示");
-		return "lookoverthere/play";
+		return "look-over-there/play";
 	}
 
 	/**

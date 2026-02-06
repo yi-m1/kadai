@@ -26,15 +26,15 @@
 			<ul class="sidebar-menu">
 
 				<li th:classappend="${activeMenu == 'home'} ? 'active'" th:if="${loginUser != null}">
-					<a th:href="@{/}">トップ</a>
+					<a th:href="@{/menu}">トップ</a>
 				</li>
 
 				<li th:if="${loginUser != null}" th:classappend="${activeMenu == 'janken'} ? 'active'">
-					<a th:href="@{/janken}">じゃんけん</a>
+					<a th:href="@{/play}">じゃんけん</a>
 				</li>
 
 				<li th:if="${loginUser != null}" th:classappend="${activeMenu == 'lookoverthere'} ? 'active'">
-					<a th:href="@{/lookoverthere/play}">あっちむいてほい</a>
+					<a th:href="@{/look-over-there}">あっちむいてほい</a>
 				</li>
 
 				<li th:if="${loginUser != null}" th:classappend="${activeMenu == 'history'} ? 'active'">
