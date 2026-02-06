@@ -8,13 +8,20 @@
 </head>
 
 <body>
-	<div th:replace="fragments/sidebar :: sidebar"></div>
-	<h1>エラーページ</h1>
+	<div class="error-container">
+		<div id="overlay" class="overlay"></div>
+		<div th:replace="fragments/sidebar :: sidebar"></div>
+		<h1>エラーページ</h1>
 
-	<p th:text="${message}">エラーメッセージ</p>
+		<p th:text="${message}">エラーメッセージ</p>
 
-	<a th:href="@{/}">トップへ戻る</a>
+		<img th:src="@{/images/error.png}" alt="エラー" class="error-image">
 
+		<form th:action="@{/}" method="get">
+			<button>トップへ戻る</button>
+		</form>
+	</div>
+	<script th:src="@{/js/sidebar.js}"></script>
 </body>
 
 </html>

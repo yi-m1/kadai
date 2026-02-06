@@ -1,0 +1,12 @@
+/* =================================================
+   エラー画面
+================================================= */
+.error-container {
+	text-align: center;
+	padding: 40px;
+}
+
+.error-image {
+	width: 200px;
+	margin-bottom: 20px;
+}

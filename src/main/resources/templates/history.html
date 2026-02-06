@@ -11,8 +11,6 @@
 <body>
 
 	<div th:replace="fragments/sidebar :: sidebar"></div>
-
-
 	<!-- タブ -->
 	<header class="tabs">
 		<a class="tab" th:href="@{/history(tab='all')}" th:classappend="${tab == 'all'} ? 'active' : ''">すべての履歴</a>

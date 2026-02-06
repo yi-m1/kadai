@@ -1,0 +1,179 @@
+/* =========================
+   メニュー画面
+========================= */
+.menu-container {
+	background: #ffffff;
+	width: 520px;
+	padding: 48px 40px;
+	border-radius: 18px;
+	box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+	text-align: center;
+}
+
+.menu-container h1 {
+	margin-bottom: 24px;
+	font-size: 22px;
+	color: #333;
+}
+
+.button-container {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.button-container button {
+	width: 100%;
+	padding: 12px;
+	font-size: 15px;
+	border-radius: 8px;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.2s, transform 0.1s;
+}
+
+.button-container button:not([type="submit"]) {
+	background-color: #4a90e2;
+	color: #fff;
+}
+
+.button-container button:not([type="submit"]):hover {
+	background-color: #3b7bc9;
+	transform: translateY(-1px);
+}
+
+.button-container form button {
+	background-color: #e0e0e0;
+	color: #333;
+	margin-top: 8px;
+}
+
+.button-container form button:hover {
+	background-color: #d5d5d5;
+}
+
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.menu-container {
+	background: #ffffff;
+	width: 420px;
+	padding: 40px 32px;
+	border-radius: 16px;
+	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+	text-align: center;
+}
+
+.menu-container h1 {
+	margin-bottom: 28px;
+	font-size: 26px;
+	font-weight: bold;
+	color: #333;
+}
+
+/* =================================================
+   ログイン画面
+================================================= */
+.login-container {
+	max-width: 420px;
+	margin: 80px auto;
+}
+
+.login-actions {
+	margin-top: 16px;
+	text-align: center;
+}
+
+.login-actions a {
+	display: block;
+	margin-top: 8px;
+	font-size: 14px;
+}
+
+.login-page {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #f5f7fa;
+}
+
+.login-box {
+	width: 420px;
+	padding: 32px 28px;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	text-align: center;
+}
+
+.login-box h1 {
+	margin-bottom: 24px;
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"] {
+	width: 100%;
+	padding: 10px 12px;
+	margin-bottom: 14px;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+}
+
+.login-box button {
+	width: 100%;
+}
+
+.login-links {
+	margin-top: 16px;
+}
+
+.login-links a {
+	display: block;
+	margin-top: 6px;
+	font-size: 13px;
+}
+
+
+
+
+
+
+
+/* =================================================
+   新規登録画面
+================================================= */
+.register-container {
+	max-width: 420px;
+	margin: 40px auto;
+	width: 100%
+}
+
+.register-container form {
+	display: flex;
+	flex-direction: column;
+}
+
+.register-container input {
+	width: 100%;
+	padding: 10px 12px;
+	margin-bottom: 12px;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+}
+
+.register-container .error {
+	margin-bottom: 10px;
+	font-size: 12px;
+	color: #d9534f;
+}
+
+.register-container button {
+	margin-top: 8px;
+}

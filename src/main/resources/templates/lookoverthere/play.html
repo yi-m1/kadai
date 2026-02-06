@@ -8,43 +8,63 @@
 </head>
 
 <body>
-	<div th:replace="fragments/sidebar :: sidebar"></div>
+	<div class="layout">
+		<div id="overlay" class="overlay"></div>
+		<div th:replace="fragments/sidebar :: sidebar"></div>
 
-	<h1>あっちむいてほい</h1>
+		<main class="lookoverethere-container">
+			<h1>あっちむいてほい</h1>
 
-	<form th:action="@{/look-over-there/play}" method="post">
+			<div class="opponent">
+				<img th:src="@{/images/face_ready.png}" alt="対戦相手" class="opponent-img">
+			</div>
 
-		<p>向きを選んでください</p>
+			<p class="direction-message">
+				方向を選んでください
+			</p>
 
-		<label>
-			<input type="radio" name="direction" value="1" required>
-			上
-		</label><br>
+			<form th:action="@{/look-over-there/play}" method="post">
 
-		<label>
-			<input type="radio" name="direction" value="2">
-			下
-		</label><br>
 
-		<label>
-			<input type="radio" name="direction" value="3">
-			左
-		</label><br>
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
-		<label>
-			<input type="radio" name="direction" value="4">
-			右
-		</label><br><br>
+				<div class="direction-cross">
 
-		<button type="submit">勝負！</button>
-	</form>
+					<label class="direction-button up">
+						<input type="radio" id="dir-up" name="direction" value="1" required>
+						<span>↑</span>
+					</label>
 
-	<hr>
+					<label class="direction-button left">
+						<input type="radio" id="dir-left" name="direction" value="3">
+						<span>←</span>
+					</label>
 
-	<form th:action="@{/menu}" method="get">
-		<button>トップへ戻る</button>
-	</form>
+					<label class="direction-button right">
+						<input type="radio" id="dir-right" name="direction" value="4">
+						<span>→</span>
+					</label>
 
+					<label class="direction-button down">
+						<input type="radio" id="dir-down" name="direction" value="2">
+						<span>↓</span>
+					</label>
+
+				</div>
+
+				<button type="submit" class="battle-button">勝負！</button>
+			</form>
+
+			<hr>
+
+			<form th:action="@{/menu}" method="get">
+				<button>トップへ戻る</button>
+			</form>
+		</main>
+	</div>
+
+	<script th:src="@{/js/look-over-there.js}"></script>
+	<script th:src="@{/js/sidebar.js}"></script>
 </body>
 
 </html>

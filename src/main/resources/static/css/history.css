@@ -1,0 +1,19 @@
+/* =================================================
+   履歴画面
+================================================= */
+.history-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 14px;
+}
+
+.history-table th,
+.history-table td {
+	padding: 12px 8px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+}
+
+.history-table tr:nth-child(even) {
+	background-color: #f3f3f3;
+}
