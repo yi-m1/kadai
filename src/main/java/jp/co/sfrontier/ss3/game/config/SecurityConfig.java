@@ -42,8 +42,10 @@ public class SecurityConfig {
 
 				// 管理ユーザのみアクセス可能(ユーザ管理画面)
 				.antMatchers("/user/**").hasRole("ADMIN")
-				// 一般ユーザのみアクセス可能(あっちむいてほい画面、じゃんけん画面)
-				.antMatchers("/look-over-there", "/game/**").hasRole("USER")
+				// 一般ユーザのみアクセス可能(じゃんけん画面)
+				.antMatchers("/game/**").hasRole("USER")
+				
+				.antMatchers("/lookoverthere/**").hasRole("USER")
 
 				// 管理ユーザも一般ユーザもアクセス可能(履歴画面)
 				.antMatchers("/history").hasAnyRole("USER", "ADMIN")
