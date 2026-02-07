@@ -22,17 +22,17 @@ public class CommonViewAdvice {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		System.out.println("auth = " + auth);
-		System.out.println("principal = " + auth.getPrincipal());
-
-		if (auth == null
-				|| !auth.isAuthenticated()
-				|| "anonymousUser".equals(auth.getPrincipal())) {
+		if (auth == null || !auth.isAuthenticated()) {
 			return null;
 		}
 
-		LoginUserDetails userDetails = (LoginUserDetails) auth.getPrincipal();
+		Object principal = auth.getPrincipal();
 
+		if (!(principal instanceof LoginUserDetails)) {
+			return null;
+		}
+
+		LoginUserDetails userDetails = (LoginUserDetails) principal;
 		return userDetails.getUser();
 	}
 }

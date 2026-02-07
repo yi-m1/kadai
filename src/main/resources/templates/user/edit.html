@@ -12,7 +12,6 @@
 
 <body>
 	<div th:replace="fragments/sidebar :: sidebar"></div>
-
 	<div class="container">
 
 		<div th:if="${validationError}">
@@ -45,6 +44,7 @@
 			</div>
 		</form>
 	</div>
+	<script th:src="@{/js/sidebar.js}"></script>
 </body>
 
 </html>

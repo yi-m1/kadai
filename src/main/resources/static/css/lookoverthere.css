@@ -8,7 +8,7 @@
 	justify-content: center;
 	max-width: 720px;
 	width: 100%;
-	margin: 0 auto;
+	margin: 16px auto;
 	padding: 24px 16px 40px;
 	text-align: center;
 	background: #ffffff;
@@ -163,4 +163,131 @@
 
 .battle-button:hover {
 	background-color: #dc2626;
+}
+
+
+/* =========================
+   あっちむいてほい 結果画面
+========================= */
+.result-container {
+	width: 720px;
+}
+
+.result-actions {
+	display: flex;
+	justify-content: center;
+	gap: 16px;
+	margin-top: 24px;
+}
+
+.result-actions button {
+	min-width: 140px;
+	height: 48px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 16px;
+	font-weight: 700;
+
+	padding: 0;
+	line-height: 1;
+
+	border-radius: 12px;
+	border: none;
+	cursor: pointer;
+
+	white-space: nowrap;
+}
+
+
+
+.result-actions form:first-child button {
+	background-color: #4f46e5;
+	color: #ffffff;
+}
+
+.result-actions form:not(:first-child) button {
+	background-color: #e5e7eb;
+	color: #111827;
+}
+
+.opponent-wrapper {
+	position: relative;
+	display: inline-block;
+	margin: 16px 0 8px;
+}
+
+/* 矢印 */
+.opponent-arrow {
+	position: absolute;
+	font-size: 48px;
+	font-weight: 900;
+	color: #ef4444;
+	text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 向きごとの配置 */
+.opponent-arrow.up {
+	top: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.opponent-arrow.down {
+	bottom: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.opponent-arrow.left {
+	left: -20px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.opponent-arrow.right {
+	right: -20px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.result-main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+.result-text {
+	margin: 20px 0 28px;
+	font-size: 54px;
+	font-weight: 800;
+}
+
+.result-text.win {
+	color: #22c55e;
+}
+
+.result-text.lose {
+	color: #ef4444;
+}
+
+.result-text.draw {
+	color: #64748b;
+}
+
+.result-info {
+	margin-top: 8px;
+	font-size: 32px;
+	color: #64748b;
+}
+
+.opponent-direction {
+	margin: 0 0 16px 0;
+}
+
+.container form:last-of-type button {
+	margin-top: 0
 }

@@ -62,3 +62,28 @@
 	color: #d9534f;
 	text-align: left;
 }
+
+
+.back-link {
+	display: block;
+	width: 100%;
+	height: 48px;
+
+	line-height: 48px;
+	text-align: center;
+	margin-top: 40px;
+	border-radius: 12px;
+	font-size: 16px;
+	font-weight: 700;
+
+	text-decoration: none;
+	cursor: pointer;
+
+	background-color: #e5e7eb;
+	color: #111827;
+}
+
+
+.back-link:hover {
+	text-decoration: underline;
+}

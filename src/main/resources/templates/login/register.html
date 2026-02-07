@@ -12,7 +12,6 @@
 <body>
 	<div class="layout">
 		<div id="overlay" class="overlay"></div>
-		<div th:replace="fragments/sidebar :: sidebar"></div>
 
 		<main class="login-page">
 			<div class="login-box">
@@ -40,10 +39,14 @@
 
 					<button type="submit" class="btn">登録してログイン</button>
 				</form>
+
+				<div class="auth-button">
+					<a th:href="@{/login}" class="back-link">ログイン画面に戻る</a>
+				</div>
+
 			</div>
 		</main>
 	</div>
-	<script th:src="@{/js/sidebar.js}"></script>
 </body>
 
 </html>

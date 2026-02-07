@@ -3,46 +3,54 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>結果</title>
+	<title>対戦結果</title>
 	<link rel="stylesheet" th:href="@{/css/base.css}">
 	<link rel="stylesheet" th:href="@{/css/layout.css}">
+	<link rel="stylesheet" th:href="@{/css/lookoverthere.css}">
 </head>
 
 <body>
-	<div th:replace="fragments/sidebar :: sidebar"></div>
+	<div class="layout">
+				<div th:replace="fragments/sidebar :: sidebar"></div>
 
+		<main class="container">
+			<div class="lookoverthere-container result-container">
 
-	<h1>対戦結果</h1>
+				<h1>対戦結果</h1>
 
-	<p>
-		結果：
-		<span th:text="${result.resultCode.label}">勝ち！</span>
-	</p>
+				<div class="result-main">
+					<div class="opponent-wrapper">
 
-	<p>
-		あなたの向き：
-		<span th:text="${result.attackerDirection.label}">上</span>
-	</p>
+						<img th:src="@{/images/{img}(img=${faceImage})}" alt="対戦相手" class="opponent-img">
 
-	<p>
-		CPUの向き：
-		<span th:text="${result.defenderDirection.label}">上</span>
-	</p>
+					</div>
+				</div>
 
-	<hr>
+				<div class="result-info">
+					<p class=opponent-direction>相手の向き：<span th:text="${result.defenderDirection.label}">上</span></p>
+					<p class=your-direction>あなたの向き：<span th:text="${result.attackerDirection.label}">上</span></p>
+				</div>
 
-	<form th:action="@{/look-over-there}" method="get">
-		<button>続ける</button>
-	</form>
+				<div class="result-text" th:classappend="
+					        ${result.resultCode.name() == 'WIN'}  ? ' win' :
+					        (${result.resultCode.name() == 'LOSE'} ? ' lose' : ' draw')">
+					あなたの
+					<span th:text="${result.resultCode.label}">勝ち！</span>
+				</div>
 
-	<form th:action="@{/menu}" method="get">
-		<button>やめる</button>
-	</form>
+				<div class="result-actions">
+					<form th:action="@{/look-over-there}" method="get">
+						<button>続ける</button>
+					</form>
 
-	<form th:action="@{/history}" method="get">
-		<button>対戦履歴</button>
-	</form>
+					<form th:action="@{/menu}" method="get">
+						<button>やめる</button>
+					</form>
+				</div>
 
+			</div>
+		</main>
+	</div>
 </body>
 
 </html>

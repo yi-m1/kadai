@@ -26,14 +26,15 @@ main {
    ハンバーガーボタン
 ================================================= */
 .hamburger-btn {
-	position: absolute;
 	left: 32px;
 	background: none;
 	border: none;
 	font-size: 24px;
 	cursor: pointer;
 	color: rgb(0, 0, 0);
-	top: 32px
+	top: 32px;
+	position: fixed;
+	z-index: 1000;
 }
 
 /* =================================================
@@ -49,6 +50,8 @@ main {
 	position: fixed;
 	top: 0;
 	left: 0;
+	position: fixed;
+	z-index: 1000;
 }
 
 .sidebar-user {
@@ -98,6 +101,7 @@ body.sidebar-open .sidebar {
 	opacity: 0;
 	pointer-events: none;
 	transition: opacity 0.3s ease;
+	z-index: 900;
 }
 
 body.sidebar-open .overlay {
@@ -105,4 +109,23 @@ body.sidebar-open .overlay {
 	pointer-events: auto;
 }
 
+.logout-item {
+	margin-top: 16px;
+}
 
+.logout-button {
+	width: 100%;
+	padding: 8px 12px;
+	border: none;
+	border-radius: 6px;
+	background-color: #f8d7da;
+	color: #842029;
+	font-size: 14px;
+	text-align: left;
+	cursor: pointer;
+}
+
+.logout-button:hover {
+	background-color: #dc3545;
+	color: #fff;
+}

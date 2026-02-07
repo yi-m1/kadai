@@ -41,10 +41,10 @@
 					<a th:href="@{/history}">対戦履歴</a>
 				</li>
 
-				<li th:if="${loginUser != null}">
+				<li class="logout-item" th:if="${loginUser != null}">
 					<form th:action="@{/logout}" method="post" style="display:inline;">
 						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-						<button type="submit" onclick="return confirm('ログアウトしますか？')">
+						<button class="logout-button" type="submit" onclick="return confirm('ログアウトしますか？')">
 							ログアウト
 						</button>
 					</form>
