@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jp.co.sfrontier.ss3.game.common.Hand;
 import jp.co.sfrontier.ss3.game.model.UserInfoModel;
+import jp.co.sfrontier.ss3.game.service.janken.JankenResult;
 import jp.co.sfrontier.ss3.game.service.janken.JankenService;
 import jp.co.sfrontier.ss3.game.value.Player;
 import lombok.RequiredArgsConstructor;
@@ -54,8 +55,7 @@ public class JankenController {
         Map<String, Object> response = new HashMap<>();
 
         // ログインユーザー取得
-        UserInfoModel loginUser =
-                (UserInfoModel) session.getAttribute(SESSION_LOGIN_USER);
+        UserInfoModel loginUser = (UserInfoModel) session.getAttribute(SESSION_LOGIN_USER);
 
         if (loginUser == null) {
             log.warn("未ログイン状態でのアクセス");
@@ -74,13 +74,14 @@ public class JankenController {
         try {
             Player player = new Player(
                     loginUser.getUserId().intValue(),
-                    hand
-            );
+                    hand);
 
-            int result = jankenService.fight(player);
+            // 修正ポイント：JankenResult を取得
+            JankenResult jankenResult = jankenService.fight(player);
 
             response.put("status", "OK");
-            response.put("result", result);
+            response.put("result", jankenResult.getResult()); // 勝敗結果
+            response.put("cpuHand", jankenResult.getCpuHand().name()); // CPUの手
 
             return ResponseEntity.ok(response);
 

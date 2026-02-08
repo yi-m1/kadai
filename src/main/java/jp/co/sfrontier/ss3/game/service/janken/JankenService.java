@@ -31,9 +31,13 @@ public class JankenService {
     /**
      * プレイヤー vs CPU のじゃんけん対戦
      */
-    public int fight(Player player) throws SQLException {
+    public JankenResult fight(Player player) throws SQLException {
+        // CPUの手を作成
         Player cpu = new Player(CPU_ID, createHand());
-        return fight(player, cpu);
+        // 勝敗判定＆DB保存
+        int result = fight(player, cpu);
+        // 結果とCPUの手を返す
+        return new JankenResult(result, cpu.getHand());
     }
 
     /**
