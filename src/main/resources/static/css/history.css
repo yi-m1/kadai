@@ -1,0 +1,124 @@
+/* =================================================
+   履歴画面
+================================================= */
+.history-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 14px;
+	background-color: #fff;
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	margin-top: 24px;
+	max-width: none;
+}
+
+
+.history-table th {
+	background-color: #f0f4f8;
+	font-weight: bold;
+}
+
+.history-table th,
+.history-table td {
+	padding: 12px 8px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+}
+
+.history-table tr:nth-child(even) {
+	background-color: #f3f3f3;
+}
+
+.history-table td:first-child {
+	text-align: left;
+}
+
+.history-table td:last-child {
+	font-weight: bold;
+}
+
+
+.history-table td[colspan] {
+	padding: 24px;
+	color: #888;
+	font-style: italic;
+}
+
+
+.tabs {
+	background: #fff;
+	display: inline-flex;
+	justify-content: flex-start;
+	gap: 24px;
+	border-bottom: 1px solid #ddd;
+	background: transparent;
+	margin: 0 auto;
+}
+
+.tab {
+	padding: 12px 0;
+	color: rgb(0, 0, 0);
+	text-decoration: none;
+	font-weight: 500;
+}
+
+
+.tab.active {
+	color: #4a90e2;
+	border-bottom: 3px solid #4a90e2;
+}
+
+.history-layout {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	align-items: stretch;
+}
+
+.title-box {
+	margin-top: 0;
+	padding-top: 16px;
+	margin-bottom: 24px;
+}
+
+.title-box h1 {
+	text-align: center;
+	margin-top: 0;
+}
+
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 16px;
+	margin-top: 8px;
+}
+
+.history-page {
+	max-width: none;
+	width: 100%;
+	margin: 0;
+	padding: 32px 48px;
+	display: block;
+}
+
+.tabs,
+.history-table,
+.pagination {
+	width: 100%;
+}
+
+.history-page {
+	width: 100%;
+	max-width: none;
+	margin: 0;
+	padding: 32px 48px;
+}
+
+.layout {
+	display: flex;
+	width: 100%;
+	align-items: flex-start;
+}

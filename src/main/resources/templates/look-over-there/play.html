@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>あっちむいてほい</title>
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+	<link rel="stylesheet" th:href="@{/css/lookoverthere.css}">
+</head>
+
+<body>
+	<div class="layout">
+		<div id="overlay" class="overlay"></div>
+		<div th:replace="fragments/sidebar :: sidebar"></div>
+
+		<main class="lookoverthere-container">
+			<h1>あっちむいてほい</h1>
+
+			<div class="opponent">
+				<img th:src="@{/images/face_ready.png}" alt="対戦相手" class="opponent-img">
+			</div>
+
+			<p class="direction-message">
+				方向を選んでください
+			</p>
+
+			<form th:action="@{/look-over-there/play}" method="post">
+
+
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+				<div class="direction-cross">
+
+					<label class="direction-button up">
+						<input type="radio" id="dir-up" name="direction" value="1" required>
+						<span>↑</span>
+					</label>
+
+					<label class="direction-button left">
+						<input type="radio" id="dir-left" name="direction" value="3">
+						<span>←</span>
+					</label>
+
+					<label class="direction-button right">
+						<input type="radio" id="dir-right" name="direction" value="4">
+						<span>→</span>
+					</label>
+
+					<label class="direction-button down">
+						<input type="radio" id="dir-down" name="direction" value="2">
+						<span>↓</span>
+					</label>
+
+				</div>
+
+				<button type="submit" class="battle-button">勝負！</button>
+			</form>
+
+		</main>
+	</div>
+
+	<script th:src="@{/js/look-over-there.js}"></script>
+	<script th:src="@{/js/sidebar.js}"></script>
+</body>
+
+</html>

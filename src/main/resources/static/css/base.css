@@ -1,0 +1,111 @@
+/* =================================================
+   全画面共通
+================================================= */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+}
+
+body {
+	font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+	background-color: #f5f7fa;
+	color: #333;
+}
+
+h1,
+h2,
+h3 {
+	margin: 0 0 16px;
+	font-weight: 700;
+	text-align: center;
+}
+
+html,
+body {
+	overflow-x: hidden;
+}
+
+h1 {
+	font-size: 30px;
+}
+
+
+/* =================================================
+   カード
+================================================= */
+.card {
+	background: #fff;
+	border-radius: 12px;
+	padding: 24px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* =================================================
+   ボタン
+================================================= */
+.btn {
+	display: inline-block;
+	min-width: 200px;
+	padding: 12px 16px;
+	font-size: 16px;
+	font-weight: 600;
+	border-radius: 8px;
+	border: none;
+	cursor: pointer;
+	background-color: #4a90e2;
+	color: #fff;
+	text-align: center;
+	transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+	background-color: #357abd;
+	transform: translateY(-1px);
+}
+
+.btn-secondary {
+	background-color: #ccc;
+	color: #333;
+}
+
+/* sidebar がある前提で main を中央寄せ */
+.container {
+	flex: 1;
+	max-width: 480px;
+	margin: 0 auto;
+	padding: 24px 16px 40px;
+	text-align: center;
+}
+
+
+/* =========================
+   下部ボタン
+========================= */
+.container form:last-of-type button {
+	margin-top: 12px;
+	padding: 8px 20px;
+
+	font-size: 14px;
+
+	background-color: #e5e7eb;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.container form:last-of-type button:hover {
+	background-color: #d1d5db;
+}
+
+
+
+.container h1 {
+	margin-bottom: 16px;
+	font-size: 26px;
+	line-height: 1.4;
+}

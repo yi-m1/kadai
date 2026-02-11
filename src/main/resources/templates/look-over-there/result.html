@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>対戦結果</title>
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+	<link rel="stylesheet" th:href="@{/css/lookoverthere.css}">
+</head>
+
+<body>
+	<div class="layout">
+		<div id="overlay" class="overlay"></div>
+		<div th:replace="fragments/sidebar :: sidebar"></div>
+
+		<main class="container">
+			<div class="lookoverthere-container result-container">
+
+				<h1>対戦結果</h1>
+
+				<div class="result-main">
+					<div class="opponent-wrapper">
+
+						<img th:src="@{/images/{img}(img=${result.faceImage})}" alt="対戦相手" class="opponent-img">
+
+					</div>
+				</div>
+
+				<div class="result-info">
+					<p class=opponent-direction>相手の向き：<span th:text="${result.defenderDirection.label}">上</span></p>
+					<p class=your-direction>あなたの向き：<span th:text="${result.attackerDirection.label}">上</span></p>
+				</div>
+
+				<div class="result-text" th:classappend="
+					        ${result.resultCode.name() == 'WIN'}  ? ' win' :
+					        (${result.resultCode.name() == 'LOSE'} ? ' lose' : ' draw')">
+					あなたの
+					<span th:text="${result.resultCode.label}">勝ち！</span>
+				</div>
+
+				<div class="result-actions">
+					<form th:action="@{/look-over-there}" method="get">
+						<button>続ける</button>
+					</form>
+
+					<form th:action="@{/menu}" method="get">
+						<button>やめる</button>
+					</form>
+				</div>
+
+			</div>
+		</main>
+	</div>
+	<script th:src="@{/js/sidebar.js}"></script>
+</body>
+
+</html>

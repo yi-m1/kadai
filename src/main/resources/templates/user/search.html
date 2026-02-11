@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common/head :: head_fragment(title = 'ユーザー情報一覧', scripts = ~{::script}, links = ~{::link})"></head>
+
+<head th:replace="common/head :: head_fragment(title = 'ユーザー情報一覧', scripts = ~{::script}, links = ~{::link})">
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+
 <body>
+	<div th:replace="fragments/sidebar :: sidebar"></div>
+
 	<div class="container">
 		<h1>ユーザー情報管理画面</h1>
 		<form th:action="@{/user/search}" th:object="${userSearchRequest}" th:method="post">
@@ -31,8 +38,12 @@
 						<td th:text="*{userName}"></td>
 						<td th:text="*{mailAddress}"></td>
 						<td th:text="*{status}"></td>
-						<td th:text="${user.updateDatetime != null} ? ${#temporals.format(user.updateDatetime, 'yyyy/MM/dd')} : ''"></td>
-						<td th:text="${user.createDatetime != null} ? ${#temporals.format(user.createDatetime, 'yyyy/MM/dd')} : ''"></td>
+						<td
+							th:text="${user.updateDatetime != null} ? ${#temporals.format(user.updateDatetime, 'yyyy/MM/dd')} : ''">
+						</td>
+						<td
+							th:text="${user.createDatetime != null} ? ${#temporals.format(user.createDatetime, 'yyyy/MM/dd')} : ''">
+						</td>
 						<td></td>
 						<td>
 							<a th:href="@{/user/{id}/edit(id=*{userId})}" class="btn btn-primary">編集</a>
@@ -42,5 +53,7 @@
 			</table>
 		</div>
 	</div>
+	<script th:src="@{/js/sidebar.js}"></script>
 </body>
+
 </html>

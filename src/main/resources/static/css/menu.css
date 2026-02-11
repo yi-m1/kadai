@@ -1,0 +1,93 @@
+/* =========================
+   メニュー画面
+========================= */
+.menu-container {
+	background: #ffffff;
+	width: 520px;
+	padding: 48px 40px;
+	border-radius: 18px;
+	box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+	text-align: center;
+}
+
+.menu-container h1 {
+	margin-bottom: 32px;
+	font-size: 30px;
+	font-weight: 700;
+}
+
+.button-container {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.button-container button {
+	width: 100%;
+	padding: 16px;
+	font-size: 18px;
+	font-weight: bold;
+	border-radius: 10px;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* メインボタン */
+.btn-game {
+	background-color: #4a90e2;
+	color: #fff;
+}
+
+.btn-game:hover {
+	background-color: #357abd;
+	transform: translateY(-2px);
+}
+
+/* ログアウトボタン */
+.btn-logout {
+	background-color: #e5e7eb;
+	color: #333;
+	margin-top: 12px;
+}
+
+.btn-logout:hover {
+	background-color: #d1d5db;
+}
+
+
+/* その他ボタン */
+.btn-option {
+	background-color: #22c55e;
+	color: #fff;
+}
+
+.btn-option:hover {
+	background-color: #16a34a;
+	transform: translateY(-2px);
+}
+
+.menu-container {
+	background: #ffffff;
+	width: 420px;
+	padding: 40px 32px;
+	border-radius: 16px;
+	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+	text-align: center;
+}
+
+.menu-container h1 {
+	margin-bottom: 28px;
+	font-size: 26px;
+	font-weight: bold;
+	color: #333;
+}
+
+/* メニュー画面全体を中央寄せ */
+body {
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #f5f7fa;
+}

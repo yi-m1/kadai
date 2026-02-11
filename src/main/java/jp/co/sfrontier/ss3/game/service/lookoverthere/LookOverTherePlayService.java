@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
  * </ul>
  * <br>
  * ※現在は CPU 対戦のみだが、Defender の方向決定ロジックを切り出しているため、
- * 将来的に対人戦へ拡張可能
+ * 将来的に対人戦へ拡張可能である
  */
 @Slf4j
 @Service
@@ -65,7 +65,7 @@ public class LookOverTherePlayService {
 		// ログインユーザの userId を返す
 		return user.getUser().getUserId();
 	}
-	
+
 	/** 
 	 * 「あっちむいてほい」を1回実行し、結果を保存した上で Controller 用の結果を返す<br>
 	 * <br>
@@ -88,8 +88,26 @@ public class LookOverTherePlayService {
 
 		saveMatchResult(attackerDirection, defenderDirection, resultCode);
 
+		LookOverThereResult result = new LookOverThereResult(resultCode, attackerDirection, defenderDirection, null);
+
+		// ★ defenderDirection に応じて画像設定
+		switch (defenderDirection) {
+		case UP:
+			result.setFaceImage("face_up.png");
+			break;
+		case DOWN:
+			result.setFaceImage("face_down.png");
+			break;
+		case LEFT:
+			result.setFaceImage("face_left.png");
+			break;
+		case RIGHT:
+			result.setFaceImage("face_right.png");
+			break;
+		}
+
 		// Controller 用の結果を返す
-		return new LookOverThereResult(resultCode, attackerDirection, defenderDirection);
+		return result;
 	}
 
 	/**

@@ -34,7 +34,7 @@ public class LookOverThereController {
 	@GetMapping
 	public String show() {
 		log.info("あっちむいてほい対戦画面を表示");
-		return "lookoverthere/play";
+		return "look-over-there/play";
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class LookOverThereController {
 			throw new IllegalStateException("不正な操作が行われました");
 		}
 
-		return "lookoverthere/result";
+		return "look-over-there/result";
 	}
 
 }

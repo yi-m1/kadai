@@ -6,9 +6,12 @@
 		scripts = ~{::script},
 		links = ~{::link}
 		)">
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
 </head>
 
 <body>
+	<div th:replace="fragments/sidebar :: sidebar"></div>
 	<div class="container">
 
 		<div th:if="${validationError}">
@@ -41,6 +44,7 @@
 			</div>
 		</form>
 	</div>
+	<script th:src="@{/js/sidebar.js}"></script>
 </body>
 
 </html>

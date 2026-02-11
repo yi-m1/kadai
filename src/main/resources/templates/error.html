@@ -12,11 +12,10 @@
 <body>
 	<div class="error-container">
 		<div id="overlay" class="overlay"></div>
-		<h1>システムエラー</h1>
+		<h1>エラーが発生しました</h1>
+		<p>操作をやり直してください</p>
 
-		<p th:text="${message}">
-			システムエラーが発生しました。
-		</p>
+		<p th:text="${message}">エラーメッセージ</p>
 
 		<img th:src="@{/images/error.png}" alt="エラー" class="error-image">
 
