@@ -11,7 +11,7 @@
 
 <body>
 	<div class="layout">
-				<div th:replace="fragments/sidebar :: sidebar"></div>
+		<div th:replace="fragments/sidebar :: sidebar"></div>
 
 		<main class="container">
 			<div class="lookoverthere-container result-container">
@@ -21,7 +21,7 @@
 				<div class="result-main">
 					<div class="opponent-wrapper">
 
-						<img th:src="@{/images/{img}(img=${faceImage})}" alt="対戦相手" class="opponent-img">
+						<img th:src="@{/images/{img}(img=${result.faceImage})}" alt="対戦相手" class="opponent-img">
 
 					</div>
 				</div>
