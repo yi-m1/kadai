@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jp.co.sfrontier.ss3.game.common.Hand;
-import jp.co.sfrontier.ss3.game.model.UserInfoModel;
 import jp.co.sfrontier.ss3.game.service.janken.JankenResult;
 import jp.co.sfrontier.ss3.game.service.janken.JankenService;
+import jp.co.sfrontier.ss3.game.service.login.LoginUserDetails;
 import jp.co.sfrontier.ss3.game.value.Player;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +57,9 @@ public class JankenController {
         Map<String, Object> response = new HashMap<>();
 
         // ログインユーザー取得
-        UserInfoModel loginUser = (UserInfoModel) session.getAttribute(SESSION_LOGIN_USER);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        LoginUserDetails user = (LoginUserDetails) auth.getPrincipal();
+        Long loginUser = user.getUser().getUserId();
 
         if (loginUser == null) {
             log.warn("未ログイン状態でのアクセス");
@@ -73,7 +77,7 @@ public class JankenController {
 
         try {
             Player player = new Player(
-                    loginUser.getUserId().intValue(),
+                    loginUser.intValue(),
                     hand);
 
             // 修正ポイント：JankenResult を取得
