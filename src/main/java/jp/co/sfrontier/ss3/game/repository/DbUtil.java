@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
  * データベース接続を管理するユーティリティクラス
  */
 public class DbUtil {
-
+	
 	/**
 	 * コネクションのオートコミットモードを表すenum
 	 */
@@ -47,6 +47,7 @@ public class DbUtil {
 
 	/**
 	 * 指定されたオートコミットモードでコネクションを取り出す
+	 * 
 	 * @param autoCommitMode
 	 * @return コネクション
 	 * @throws SQLException コネクションの取得に失敗した場合
@@ -66,6 +67,7 @@ public class DbUtil {
 
 	/**
 	 * トランザクションをコミットする
+	 * 
 	 * @param connection
 	 * @throws SQLException コミット処理に失敗した場合
 	 */
@@ -77,6 +79,7 @@ public class DbUtil {
 
 	/**
 	 * トランザクションをロールバックする
+	 * 
 	 * @param connection
 	 * @throws SQLException ロールバック処理に失敗した場合
 	 */
@@ -87,7 +90,8 @@ public class DbUtil {
 	}
 
 	/**
-	 * データベース接続をクローズする。
+	 * データベース接続をクローズする
+	 * 
 	 * @param connection
 	 */
 	public static void close(Connection connection) {
@@ -102,11 +106,11 @@ public class DbUtil {
 
 	/**
 	 * プロパティファイルから設定を読み込み、JDBCドライバをロードする
+	 * 
 	 * @param filename
 	 * @throws SQLException 設定ファイルの読み込みまたはJDBCドライバのロードに失敗した場合
 	 */
 	protected static void init(String filename) throws SQLException {
-		//		try (InputStream in = new FileInputStream(new File(filename))) {
 		try (InputStream in = DbUtil.class.getClassLoader().getResourceAsStream(filename)) {
 			properties.load(in);
 		} catch (IOException e) {
@@ -117,11 +121,17 @@ public class DbUtil {
 		URL = properties.getProperty("spring.datasource.url");
 		USERNAME = properties.getProperty("spring.datasource.username");
 		PASSWORD = properties.getProperty("spring.datasource.password");
+		
+		System.out.println("URL=" + URL);
+		System.out.println("USER=" + USERNAME);
+		System.out.println("PASS=" + PASSWORD);
+		
 		isInit = true;
 	}
 
 	/**
 	 * JDBCドライバを手動でロードする
+	 * 
 	 * @throws SQLException ドライバのロードに失敗した場合
 	 */
 	private static void loadDriver() throws SQLException {

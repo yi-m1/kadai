@@ -86,4 +86,10 @@ CREATE TABLE result_history_tbl (
 ALTER TABLE result_history_tbl ADD FOREIGN KEY (user_id) REFERENCES user_information_tbl(user_id);
 ALTER TABLE result_history_tbl ADD FOREIGN KEY (opponent) REFERENCES user_information_tbl(user_id);
 
+INSERT INTO user_information_tbl
+(user_id, user_name, mail_address, password, status,
+ create_datetime, update_datetime, version)
+VALUES
+(0, 'CPU', 'cpu@game.local', 'dummy', 1,
+ CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1);
 
