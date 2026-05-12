@@ -3,133 +3,138 @@ package jp.co.sfrontier.ss3.game.service.janken;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.Random;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sfrontier.ss3.game.common.Hand;
+import jp.co.sfrontier.ss3.game.common.ResultCode;
 import jp.co.sfrontier.ss3.game.entity.ResultHistoryTbl;
+import jp.co.sfrontier.ss3.game.model.GameType;
 import jp.co.sfrontier.ss3.game.repository.DbUtil;
 import jp.co.sfrontier.ss3.game.repository.ResultHistoryTblDao;
+import jp.co.sfrontier.ss3.game.service.core.GameRule;
+import jp.co.sfrontier.ss3.game.service.core.GameService;
+import jp.co.sfrontier.ss3.game.service.core.OpponentActionStrategy;
 import jp.co.sfrontier.ss3.game.value.Player;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * じゃんけんゲームを提供するサービスクラス（Spring化）
+ * じゃんけんゲームを提供するサービスクラス
  */
 @Slf4j
 @Service
-public class JankenService {
+public class JankenService extends GameService<Hand> {
 
-    /** CPUのユーザID */
-    public static final int CPU_ID = 0;
+	public static final int CPU_ID = 0;
 
-    /** game_type_mst：0 = じゃんけん */
-    private static final int GAME_TYPE_JANKEN = 0;
+	private static final int GAME_TYPE_JANKEN = GameType.JANKEN.getId();
 
-    /**
-     * プレイヤー vs CPU のじゃんけん対戦
-     */
-    public JankenResult fight(Player player) throws SQLException {
-        // CPUの手を作成
-        Player cpu = new Player(CPU_ID, createHand());
-        // 勝敗判定＆DB保存
-        int result = fight(player, cpu);
-        // 結果とCPUの手を返す
-        return new JankenResult(result, cpu.getHand());
-    }
+	public JankenService(OpponentActionStrategy<Hand> opponentActionStrategy, GameRule<Hand> gameRule) {
 
-    /**
-     * プレイヤー同士のじゃんけん対戦を行い、結果をDBに保存
-     */
-    @Transactional
-    public int fight(Player player1, Player player2) throws SQLException {
+		super(opponentActionStrategy, gameRule);
 
-        // 勝敗判定
-        int result = player1.getHand().compair(player2.getHand());
+	}
 
-        Date now = new Date();
-        Connection connection = DbUtil.getConnection();
-        log.debug("connection get");
+	/**
+	 * プレイヤー vs CPU でじゃんけん対戦する
+	 */
+	public JankenResult fight(Player player) throws SQLException {
 
-        ResultHistoryTblDao dao = new ResultHistoryTblDao(connection);
-        log.debug("tblDao new");
+		// CPUの手を作成
+		Player cpu = new Player(CPU_ID, getOpponentAction());
 
-        try {
-            // player1 視点の結果
-            dao.insert(createRecord(player1, player2.getUserId(), result, now));
+		// 勝敗判定
+		ResultCode resultCode = fight(player, cpu);
 
-            // player2 視点の結果（勝敗反転）
-            dao.insert(createRecord(player2, player1.getUserId(), result * -1, now));
+		// 結果とCPUの手を返す
+		return new JankenResult(resultCode, cpu.getHand());
+	}
 
-            DbUtil.commit(connection);
-            log.debug("connection commit");
+	/**
+	 * プレイヤー同士でじゃんけん対戦する
+	 */
+	@Transactional
+	public ResultCode fight(Player player1, Player player2) throws SQLException {
 
-        } catch (SQLException e) {
-            log.error("DB保存中にエラー", e);
-            DbUtil.rollback(connection);
-            throw e;
-        } finally {
-            DbUtil.close(connection);
-            log.debug("connection close");
-        }
+		// 勝敗判定
+		ResultCode resultCode = judge(player1.getHand(), player2.getHand());
 
-        return result;
-    }
+		saveHistory(player1, player2, resultCode);
 
-    /**
-     * 対戦履歴レコードを作成（DDL完全準拠）
-     */
-    private ResultHistoryTbl createRecord(
-            Player player,
-            int opponentId,
-            int result,
-            Date targetDate) {
+		return resultCode;
+	}
 
-        ResultHistoryTbl entity = new ResultHistoryTbl();
+	/**
+	 * 対戦履歴を保存する
+	 */
+	public void saveHistory(Player player1, Player player2, ResultCode resultCode) throws SQLException {
+		Date now = new Date();
+		Connection connection = DbUtil.getConnection();
+		log.debug("connection get");
 
-        entity.setUserId(player.getUserId());
-        entity.setOpponent(opponentId);
-        entity.setGameTypeId(GAME_TYPE_JANKEN); // じゃんけん
-        entity.setResultId(convertResultId(result)); // 勝敗ID
-        entity.setExecuteDatetime(targetDate);
-        entity.setCreateDatetime(targetDate);
-        entity.setUpdateDatetime(targetDate);
-        entity.setUserChoice(player.getHand().name());
-        entity.setVersion(1);
+		ResultHistoryTblDao dao = new ResultHistoryTblDao(connection);
+		log.debug("tblDao new");
 
-        return entity;
-    }
+		try {
+			// player1 視点の結果
+			dao.insert(createRecord(player1, player2.getUserId(), resultCode, now));
 
-    /**
-     * CPUの手をランダム生成
-     */
-    private Hand createHand() {
-        int randomNumber = new Random().nextInt(3);
-        return switch (randomNumber) {
-        case 0 -> Hand.ROCK;
-        case 1 -> Hand.SCISSORS;
-        case 2 -> Hand.PAPER;
-        default -> throw new IllegalStateException("Unexpected value: " + randomNumber);
-        };
-    }
+			// player2 視点の結果（勝敗反転）
+			dao.insert(createRecord(player2, player1.getUserId(), reverse(resultCode), now));
 
-    /**
-     * 勝敗結果を result_id に変換
-     *
-     * result_mst:
-     * 0 = 勝ち
-     * 1 = 負け
-     * 2 = あいこ
-     */
-    private int convertResultId(int result) {
-        if (result > 0) {
-            return 0; // 勝ち
-        } else if (result == 0) {
-            return 2; // あいこ
-        } else {
-            return 1; // 負け
-        }
-    }
+			DbUtil.commit(connection);
+			log.debug("connection commit");
+
+		} catch (SQLException e) {
+			log.error("DB保存中にエラー", e);
+			DbUtil.rollback(connection);
+			throw e;
+		} finally {
+			DbUtil.close(connection);
+			log.debug("connection close");
+		}
+	}
+
+	/**
+	 * 対戦履歴レコードを作成（DDL完全準拠）
+	 */
+	private ResultHistoryTbl createRecord(
+			Player player,
+			int opponentId,
+			ResultCode resultCode,
+			Date targetDate) {
+
+		ResultHistoryTbl entity = new ResultHistoryTbl();
+
+		entity.setUserId(player.getUserId());
+		entity.setOpponent(opponentId);
+		entity.setGameTypeId(GAME_TYPE_JANKEN); // じゃんけん
+		entity.setResultId(resultCode.getCode()); // 勝敗ID
+		entity.setExecuteDatetime(targetDate);
+		entity.setCreateDatetime(targetDate);
+		entity.setUpdateDatetime(targetDate);
+		entity.setUserChoice(player.getHand().name());
+		entity.setVersion(1);
+
+		return entity;
+	}
+
+	/**
+	 * 勝敗を反転する
+	 */
+	private ResultCode reverse(ResultCode resultCode) {
+
+		return switch (resultCode) {
+
+		case WIN -> ResultCode.LOSE;
+
+		case LOSE -> ResultCode.WIN;
+
+		case DRAW -> ResultCode.DRAW;
+
+		default -> resultCode;
+		};
+	}
+
 }

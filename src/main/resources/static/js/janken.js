@@ -48,13 +48,13 @@ function playGame() {
 			cpuHandImg.src = "/images/" + data.cpuHand + ".png";
 			cpuHandContainer.style.display = "block";
 
-			if (data.result > 0) {
+			if (data.result == "WIN") {
 				resultText.innerText = "あなたの勝ちです";
 				winStreak++;
-			} else if (data.result < 0) {
+			} else if (data.result == "LOSE") {
 				resultText.innerText = "あなたの負けです";
 				winStreak = 0;
-			} else {
+			} else if(data.result == "DRAW"){
 				resultText.innerText = "引き分けです";
 				winStreak = 0;
 			}

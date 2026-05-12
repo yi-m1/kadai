@@ -4,7 +4,7 @@ package jp.co.sfrontier.ss3.game.model;
  * ゲームの種別を表す列挙型。
  */
 public enum GameType {
-	JANKEN(0, "じゃんけん"), ACCHI(1, "あっちむいてほい");
+	JANKEN(0, "じゃんけん"), LOOKOVERTHERE(1, "あっちむいてほい");
 
 	/** DBに入る値 */
 	private final int id;
@@ -24,5 +24,14 @@ public enum GameType {
 	public String getLabel() {
 		return label;
 	}
+	
+    public static GameType fromId(int id) {
+        for (GameType type : values()) {
+            if (type.id == id) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Unknown GameType id: " + id);
+    }
 }
 

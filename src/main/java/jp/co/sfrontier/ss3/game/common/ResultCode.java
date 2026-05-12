@@ -1,10 +1,12 @@
 package jp.co.sfrontier.ss3.game.common;
 
 public enum ResultCode {
+	
+	LOSE(0, "負け"),
 
 	WIN(1, "勝ち"),
-
-	LOSE(0, "負け"),
+	
+	DRAW(2,"引き分け"),
 
 	INIT(10, "初期化失敗"),
 	;
@@ -28,9 +30,9 @@ public enum ResultCode {
 	/**
      * DB の数値から ResultCode を取得する <br>
 	 * <br>
-	 * @param code DB から受け取った数値
-	 * @return ResultCode
-	 */
+	 * @param code 
+	 * @return ResultCode  DB から受け取った数値
+	 */ 
 	public static ResultCode fromCode(Integer code) {
 		if (code == null) {
 			return null;
