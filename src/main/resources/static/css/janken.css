@@ -1,0 +1,270 @@
+/* =========================
+   じゃんけん対戦画面
+========================= */
+.janken-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	max-width: 720px;
+	width: 100%;
+	margin: 16px auto;
+	padding: 24px 16px 40px;
+	text-align: center;
+	background: #ffffff;
+	border-radius: 16px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.direction-grid {
+	display: flex;
+	justify-content: center;
+	gap: 14px;
+	flex-wrap: wrap;
+	margin: 12px 0 18px;
+}
+
+.direction-card {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 96px;
+	padding: 10px 8px;
+	border: 2px solid #ddd;
+	border-radius: 12px;
+	background: #fff;
+	cursor: pointer;
+	transition: transform 0.1s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.direction-card:hover {
+	transform: translateY(-2px);
+	border-color: #4a90e2;
+	box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.direction-card input {
+	display: none;
+}
+
+.direction-card:has(input:checked) {
+	border-color: #4a90e2;
+	box-shadow: 0 6px 14px rgba(74, 144, 226, 0.18);
+}
+
+.opponent {
+	margin: 12px 0;
+}
+
+.opponent-img {
+	width: 400px;
+	margin: 8px auto 4px;
+	display: block;
+	max-width: 90%;
+}
+
+.direction-message {
+	margin: 12px 0 8px;
+	padding: 10px;
+	font-size: 22px;
+	color: #3730a3;
+	background-color: #eef2ff;
+}
+
+
+.direction-cross {
+	display: grid;
+	grid-template-columns: 64px 64px 64px;
+	grid-template-rows: 64px 64px 64px;
+	justify-content: center;
+	align-items: center;
+	margin: 24px auto 12px;
+	gap: 6px;
+}
+
+.direction-button.up {
+	grid-column: 2;
+	grid-row: 1;
+}
+
+.direction-button.left {
+	grid-column: 1;
+	grid-row: 2;
+}
+
+.direction-button.right {
+	grid-column: 3;
+	grid-row: 2;
+}
+
+.direction-button.down {
+	grid-column: 2;
+	grid-row: 3;
+}
+
+/* 方向ボタン見た目 */
+.direction-button {
+	cursor: pointer;
+}
+
+.direction-button input[type="radio"] {
+	display: none;
+}
+
+.direction-button span {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	width: 64px;
+	height: 64px;
+
+	font-size: 22px;
+	font-weight: bold;
+
+	background-color: #ffffff;
+	border: 2px solid #aaa;
+	border-radius: 12px;
+
+	transition: all 0.2s ease;
+	cursor: pointer;
+}
+
+.direction-button span:hover {
+	background-color: #eef2ff;
+}
+
+.direction-button input[type="radio"]:checked+span {
+	background-color: #4f46e5;
+	color: #ffffff;
+	border-color: #4f46e5;
+	transform: scale(1.08);
+	box-shadow: 0 10px 25px rgba(79, 70, 229, 0.35);
+}
+
+
+/* 勝負ボタン */
+.battle-button {
+	margin-top: 28px;
+	padding: 18px 48px;
+
+	font-size: 22px;
+	font-weight: 800;
+
+	background-color: #ef4444;
+	color: #ffffff;
+
+	border: none;
+	cursor: pointer;
+	transform: scale(0.96);
+	transition: background-color 0.2s ease;
+}
+
+.battle-button:hover {
+	background-color: #dc2626;
+}
+
+
+/* =========================
+   結果画面
+========================= */
+.result-container {
+	width: 720px;
+}
+
+.result-actions {
+	display: flex;
+	justify-content: center;
+	gap: 16px;
+	margin-top: 24px;
+}
+
+.result-actions button {
+	min-width: 140px;
+	height: 48px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 16px;
+	font-weight: 700;
+
+	padding: 0;
+	line-height: 1;
+
+	border-radius: 12px;
+	border: none;
+	cursor: pointer;
+
+	white-space: nowrap;
+}
+
+.result-actions form:first-child button {
+	background-color: #4f46e5;
+	color: #ffffff;
+}
+
+.result-actions form:not(:first-child) button {
+	background-color: #e5e7eb;
+	color: #111827;
+}
+
+.opponent-wrapper {
+	position: relative;
+	display: inline-block;
+	margin: 16px 0 8px;
+}
+
+.result-main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.result-text {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.result-text.win {
+	color: #22c55e;
+}
+
+.result-text.lose {
+	color: #ef4444;
+}
+
+.result-text.draw {
+	color: #64748b;
+}
+
+.result-info {
+	margin-top: 8px;
+	font-size: 32px;
+	color: #64748b;
+}
+
+.opponent-direction {
+	margin: 0 0 16px 0;
+}
+
+.container form:last-of-type button {
+	margin-top: 0
+}
+
+.result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.result-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+}

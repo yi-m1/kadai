@@ -2,157 +2,78 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>じゃんけんゲーム</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>じゃんけんゲーム</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Bootstrap -->
+	<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">-->
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+	<link rel="stylesheet" th:href="@{/css/janken.css}">
 
-    <!-- CSRF トークンをメタタグで埋め込む -->
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
-
-    <script>
-        let winStreak = 0;
-
-        function handleSelection(hand) {
-            const buttons = document.querySelectorAll('input[name="hand"]');
-            buttons.forEach(button => button.classList.remove('selected'));
-            document.getElementById(hand).classList.add('selected');
-        }
-
-        function playGame() {
-            const selectedHand = document.querySelector('input[name="hand"]:checked');
-            if (!selectedHand) {
-                alert('手を選択してください');
-                return;
-            }
-
-            const hand = selectedHand.value;
-            const submitButton = document.getElementById('submit-button');
-            submitButton.disabled = true;
-
-            // CSRF トークン取得
-            const csrfToken = document.querySelector('meta[name="_csrf"]').content;
-            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
-
-            fetch("[[@{/game/play}]]", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    [csrfHeader]: csrfToken  // ← CSRF ヘッダを追加
-                },
-                body: "hand=" + hand
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status !== "OK") {
-                        alert("エラーが発生しました");
-                        submitButton.disabled = false;
-                        return;
-                    }
-
-                    const resultText = document.getElementById('result');
-                    const winStreakText = document.getElementById('win-streak');
-                    const cpuHandImg = document.getElementById('cpu-hand-img');
-                    const cpuHandContainer = document.getElementById('cpu-hand');
-
-                    // CPUの手画像を表示
-                    cpuHandImg.src = "/images/" + data.cpuHand + ".png";
-                    cpuHandContainer.style.display = "block";
-
-                    if (data.result > 0) {
-                        resultText.innerText = "あなたの勝ちです";
-                        winStreak++;
-                    } else if (data.result < 0) {
-                        resultText.innerText = "あなたの負けです";
-                        winStreak = 0;
-                    } else {
-                        resultText.innerText = "引き分けです";
-                        winStreak = 0;
-                    }
-
-                    winStreakText.innerText = winStreak > 0 ? winStreak + "連勝中！" : "";
-
-                    document.getElementById('retry-button').style.display = 'inline-block';
-                })
-                .catch(error => {
-                    console.error(error);
-                    alert("通信エラー");
-                    submitButton.disabled = false;
-                });
-        }
-
-        function retryGame() {
-            document.getElementById('submit-button').disabled = false;
-            document.getElementById('result').innerText = '';
-            document.getElementById('win-streak').innerText = '';
-            document.getElementById('retry-button').style.display = 'none';
-            document.getElementById('cpu-hand').style.display = 'none';
-
-            const buttons = document.querySelectorAll('input[name="hand"]');
-            buttons.forEach(button => button.checked = false);
-        }
-    </script>
-
-    <style>
-        body {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .button-container {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        #cpu-hand img {
-            width: 150px;
-            margin-top: 20px;
-        }
-    </style>
+	<!-- CSRF トークンをメタタグで埋め込む -->
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 
 <body>
-    <div class="game-container">
-        <h1>じゃんけんゲーム</h1>
+	<div class="layout">
+		<div id="overlay" class="overlay"></div>
+		<div th:replace="fragments/sidebar :: sidebar"></div>
 
-        <div class="button-container">
-            <label>
-                <input type="radio" name="hand" value="ROCK" id="ROCK" onclick="handleSelection('ROCK')"> グー
-            </label>
-            <label>
-                <input type="radio" name="hand" value="SCISSORS" id="SCISSORS" onclick="handleSelection('SCISSORS')">
-                チョキ
-            </label>
-            <label>
-                <input type="radio" name="hand" value="PAPER" id="PAPER" onclick="handleSelection('PAPER')"> パー
-            </label>
-        </div>
+		<main class="janken-container">
+			<h1>じゃんけんゲーム</h1>
 
-        <div class="button-container">
-            <button id="submit-button" onclick="playGame()">決定</button>
-        </div>
+			
 
-        <div id="result"></div>
-        <div id="win-streak"></div>
+				<div class="result-actions">
+					<div class="result-text" id="result"></div>
+					<div class="result-info" id="win-streak"></div>
+				</div>
+				
+				<!-- CPUの手表示 -->
+				<div class="opponent" id="cpu-hand" style="display:none;">
+					<img class="opponent-img" id="cpu-hand-img" src="" alt="CPUの手">
+				</div>
 
-        <!-- CPUの手表示 -->
-        <div id="cpu-hand" style="display:none;">
-            <img id="cpu-hand-img" src="" alt="CPUの手">
-        </div>
+				<div class="direction-grid">
+				<label class="direction-card">
+					<input type="radio" name="hand" value="ROCK" id="ROCK" onclick="handleSelection('ROCK')">
+					<span>✊</span>
+					<small>グー</small>
+				</label>
 
-        <div class="button-container">
-            <button id="retry-button" style="display:none" onclick="retryGame()">もう一回</button>
-        </div>
-    </div>
+				<label class="direction-card">
+					<input type="radio" name="hand" value="SCISSORS" id="SCISSORS"
+						onclick="handleSelection('SCISSORS')">
+					<span>✌️</span>
+					<small>チョキ</small>
+				</label>
+
+				<label class="direction-card">
+					<input type="radio" name="hand" value="PAPER" id="PAPER" onclick="handleSelection('PAPER')">
+					<span>✋</span>
+					<small>パー</small>
+				</label>
+
+			</div>
+
+			<button class="btn" id="submit-button" onclick="playGame()">勝負!</button>
+
+			<div class="result-actions">
+				<button id="retry-button" style="display:none" onclick="retryGame()">もう一回</button>
+				<form th:action="@{/menu}" method="get">
+					<button id="exit-button" class="btn btn-secondary" style="display:none;">やめる</button>
+				</form>
+			</div>
+
+		</main>
+	</div>
+
+
+	<script th:src="@{/js/janken.js}"></script>
+	<script th:src="@{/js/sidebar.js}"></script>
 </body>
 
 </html>
