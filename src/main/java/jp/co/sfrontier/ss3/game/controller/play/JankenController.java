@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * じゃんけんゲームコントローラー（最終版）
+ * じゃんけんゲームコントローラー
  */
 @Slf4j
 @Controller
@@ -32,12 +32,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JankenController {
 
-    private static final String SESSION_LOGIN_USER = "loginUser";
-
     private final JankenService jankenService;
 
     /**
-     * 対戦画面を表示
+     * 対戦画面を表示する
      */
     @GetMapping("/play")
     public String show() {
@@ -84,7 +82,7 @@ public class JankenController {
             JankenResult jankenResult = jankenService.fight(player);
 
             response.put("status", "OK");
-            response.put("result", jankenResult.getResult()); // 勝敗結果
+            response.put("result", jankenResult.getResultCode()); // 勝敗結果
             response.put("cpuHand", jankenResult.getCpuHand().name()); // CPUの手
 
             return ResponseEntity.ok(response);

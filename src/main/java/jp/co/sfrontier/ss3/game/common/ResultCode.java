@@ -1,12 +1,18 @@
 package jp.co.sfrontier.ss3.game.common;
 
-public enum ResultCode {
-	
+import jp.co.sfrontier.ss3.game.service.core.GameAction;
+
+/**
+ * 判定結果を表す enum <br>
+ * <br>
+ */
+public enum ResultCode implements GameAction{
+
 	LOSE(0, "負け"),
 
 	WIN(1, "勝ち"),
-	
-	DRAW(2,"引き分け"),
+
+	DRAW(2, "引き分け"),
 
 	INIT(10, "初期化失敗"),
 	;
@@ -27,12 +33,13 @@ public enum ResultCode {
 		return label;
 	}
 
+	// TODO コメント記入 （優先度：低）
 	/**
-     * DB の数値から ResultCode を取得する <br>
+	 * DB の数値から ResultCode を取得する <br>
 	 * <br>
-	 * @param code 
-	 * @return ResultCode  DB から受け取った数値
-	 */ 
+	 * @param code DB に保存されている結果コード
+	 * @return ResultCod DB から受け取った数値
+	 */
 	public static ResultCode fromCode(Integer code) {
 		if (code == null) {
 			return null;
@@ -44,4 +51,26 @@ public enum ResultCode {
 		}
 		throw new IllegalArgumentException("Unknown ResultCode: " + code);
 	}
+
+	/**
+	 * 判定結果を反転する<br>
+	 * <br>
+	 * 
+	 * @param resultCode プレイヤーの勝敗
+	 * @return CPU の勝敗
+	 */
+	public ResultCode reverse(ResultCode resultCode) {
+
+		return switch (resultCode) {
+
+		case WIN -> ResultCode.LOSE;
+
+		case LOSE -> ResultCode.WIN;
+
+		case DRAW -> ResultCode.DRAW;
+
+		default -> resultCode;
+		};
+	}
+
 }

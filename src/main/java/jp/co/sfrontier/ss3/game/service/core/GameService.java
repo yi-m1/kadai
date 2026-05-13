@@ -1,36 +1,44 @@
 package jp.co.sfrontier.ss3.game.service.core;
 
-import jp.co.sfrontier.ss3.game.common.ResultCode;
-
 /**
  * ゲーム共通の進行処理を提供するクラス<br>
  * <br>
+ * 具体的なゲーム処理は、本クラスを継承したサービスクラスにて実装する。
+ * 
+ * @param <T> ゲーム内で使用する行動の型
+ * @param <R> ゲーム結果の型
  */
-public abstract class GameService<T> {
+public abstract class GameService<T extends GameAction, R extends GameResult> {
 
-	private final OpponentActionStrategy<T> opponentActionStrategy;
+	private final CpuActionStrategy<T> cpuActionStrategy;
 
-	private final GameRule<T> gameRule;
+	private final GameRule<T, R> gameRule;
 
-	public GameService(OpponentActionStrategy<T> opponentActionStrategy, GameRule<T> gameRule) {
-		this.opponentActionStrategy = opponentActionStrategy;
+	public GameService(CpuActionStrategy<T> opponentActionStrategy, GameRule<T, R> gameRule) {
+		this.cpuActionStrategy = opponentActionStrategy;
 		this.gameRule = gameRule;
 	}
 
 	/**
-	 * 相手の行動を取得する
+	 * CPU の行動を取得する
+	 * 
+	 * @return CPU が選択した行動
 	 */
 	protected T getOpponentAction() {
 
-		return opponentActionStrategy.getAction();
+		return cpuActionStrategy.getAction();
 	}
 
 	/**
-	 * 勝敗を判定する
+	 * 2人のプレイヤーの行動から勝敗を判定する
+	 * 
+	 * @param player1 player1の行動
+	 * @param player2 player2の行動
+	 * @return 判定結果
 	 */
-	protected ResultCode judge(T player1Action, T player2Action) {
+	protected R judge(T player1, T player2) {
 
-		return gameRule.judge(player1Action, player2Action);
+		return gameRule.judge(player1, player2);
 	}
 
 }

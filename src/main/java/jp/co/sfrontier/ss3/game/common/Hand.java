@@ -1,9 +1,11 @@
 package jp.co.sfrontier.ss3.game.common;
 
+import jp.co.sfrontier.ss3.game.service.core.GameAction;
+
 /**
  * じゃんけんの手を定義する
  */
-public enum Hand {
+public enum Hand implements GameAction{
     /** グー */
     ROCK(1),
 

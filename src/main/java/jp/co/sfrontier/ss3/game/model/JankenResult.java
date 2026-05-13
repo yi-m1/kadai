@@ -1,13 +1,16 @@
 package jp.co.sfrontier.ss3.game.model;
 
-public class GameResult {
+/**
+ * TODO じゃんけんで使用するモデルクラスのリファクタリング（優先度：低）
+ */
+public class JankenResult {
     private int userId;
     private String userChoice;
     private String aiChoice;
     private String resultMessage;
 
     // コンストラクタ
-    public GameResult(int userId, String userChoice, String aiChoice, String resultMessage) {
+    public JankenResult(int userId, String userChoice, String aiChoice, String resultMessage) {
         this.userId = userId;
         this.userChoice = userChoice;
         this.aiChoice = aiChoice;

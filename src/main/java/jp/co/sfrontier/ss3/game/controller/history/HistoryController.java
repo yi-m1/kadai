@@ -69,7 +69,7 @@ public class HistoryController {
 			result = historyService.findPageByGameType(GameType.JANKEN, page, size);
 			break;
 		case "acchi":
-			result = historyService.findPageByGameType(GameType.ACCHI, page, size);
+			result = historyService.findPageByGameType(GameType.LOOKOVERTHERE, page, size);
 			break;
 		default:
 			// 何もしない（findPageAllのまま）

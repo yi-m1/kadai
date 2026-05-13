@@ -8,7 +8,7 @@ package jp.co.sfrontier.ss3.game.repository;
 
 import java.sql.SQLException;
 
-import jp.co.sfrontier.ss3.game.model.GameResult;
+import jp.co.sfrontier.ss3.game.model.JankenResult;
 
 /**
  *
@@ -17,6 +17,6 @@ import jp.co.sfrontier.ss3.game.model.GameResult;
  */
 public interface JankenGameDao {
 
-	void recordGameResult(GameResult gameResult) throws SQLException;
+	void recordGameResult(JankenResult gameResult) throws SQLException;
 
 }

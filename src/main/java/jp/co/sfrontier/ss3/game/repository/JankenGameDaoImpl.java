@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import jp.co.sfrontier.ss3.game.model.GameResult;
+import jp.co.sfrontier.ss3.game.model.JankenResult;
 import jp.co.sfrontier.ss3.game.model.GameType;
 
 /**
@@ -41,7 +41,7 @@ public class JankenGameDaoImpl implements JankenGameDao {
 	 * @throws SQLException SQL例外
 	 */
 	@Override
-	public void recordGameResult(GameResult gameResult) throws SQLException {
+	public void recordGameResult(JankenResult gameResult) throws SQLException {
 
 		String sql = "INSERT INTO result_history_tbl ("
 				+ " user_id, game_type_id, result_id, execute_datetime, opponent,"
@@ -76,7 +76,7 @@ public class JankenGameDaoImpl implements JankenGameDao {
 	 * 1 = 負け
 	 * 2 = あいこ
 	 */
-	private int convertResultId(GameResult gameResult) {
+	private int convertResultId(JankenResult gameResult) {
 		return switch (gameResult.getResultMessage()) {
 		case "WIN" -> 0;
 		case "LOSE" -> 1;
