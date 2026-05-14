@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import jp.co.sfrontier.ss3.game.model.ResultHistory;
+import jp.co.sfrontier.ss3.game.model.ResultHistoryViewModel;
 
 /**
  * 履歴周りのデータベース処理をまとめたクラス
@@ -34,13 +34,13 @@ public class ResultHistoryDao {
 	 * @return DBにある対戦履歴をリストに格納したもの または 空のList
 	 * @throws SQLException
 	 */
-	public List<ResultHistory> getResultHistoryInfo(int userId) throws SQLException {
+	public List<ResultHistoryViewModel> getResultHistoryInfo(int userId) throws SQLException {
 
 		String sql;
 		PreparedStatement pstmt;
 
 		// 取得した対戦履歴をリストに格納するため用意
-		List<ResultHistory> resuhisList = new ArrayList<ResultHistory>();
+		List<ResultHistoryViewModel> resuhisList = new ArrayList<ResultHistoryViewModel>();
 
 		// コネクション取得
 		Connection conn = getConnection();
@@ -65,7 +65,7 @@ public class ResultHistoryDao {
 
 		while (rset.next()) {
 			// オブジェクトにデータを一時格納
-			ResultHistory resuhisInfo = new ResultHistory();
+			ResultHistoryViewModel resuhisInfo = new ResultHistoryViewModel();
 			resuhisInfo.setUserName(rset.getString("user_name"));
 			resuhisInfo.setExecuteDatetime(rset.getString("execute_datetime"));
 			resuhisInfo.setOpponent(rset.getString("opponent_name"));

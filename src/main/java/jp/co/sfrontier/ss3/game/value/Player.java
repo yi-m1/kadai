@@ -2,33 +2,33 @@ package jp.co.sfrontier.ss3.game.value;
 
 import java.io.Serializable;
 
-import jp.co.sfrontier.ss3.game.common.Hand;
+import jp.co.sfrontier.ss3.game.service.core.GameAction;
 
 /**
- * プレイヤーの情報を格納するクラス
+ * プレイヤーの情報を保持するクラス<br>
+ * <br>
  */
-public class Player implements Serializable {
+public class Player<T extends GameAction> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	/** ユーザーID */
-	private int userId;
+	private final int userId;
 
-	/** じゃんけんの手 */
-	private Hand hand;
+	/**  プレイヤーの行動 */
+	private final T action;
 
-	public Player(int i, Hand hand) {
-		super();
-		this.userId = i;
-		this.hand = hand;
+	public Player(int userId, T action) {
+		this.userId = userId;
+		this.action = action;
 	}
 
 	public int getUserId() {
 		return userId;
 	}
 
-	public Hand getHand() {
-		return hand;
+	public T getAction() {
+		return action;
 	}
 
 }

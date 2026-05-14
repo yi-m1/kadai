@@ -1,13 +1,12 @@
 package jp.co.sfrontier.ss3.game.common;
 
-import jp.co.sfrontier.ss3.game.service.core.GameAction;
-
 /**
  * 判定結果を表す enum <br>
  * <br>
  */
-public enum ResultCode implements GameAction{
+public enum ResultCode{
 
+	// TODO 勝敗の数値を変更する
 	LOSE(0, "負け"),
 
 	WIN(1, "勝ち"),
@@ -59,9 +58,9 @@ public enum ResultCode implements GameAction{
 	 * @param resultCode プレイヤーの勝敗
 	 * @return CPU の勝敗
 	 */
-	public ResultCode reverse(ResultCode resultCode) {
+	public ResultCode reverse() {
 
-		return switch (resultCode) {
+		return switch (this) {
 
 		case WIN -> ResultCode.LOSE;
 
@@ -69,7 +68,7 @@ public enum ResultCode implements GameAction{
 
 		case DRAW -> ResultCode.DRAW;
 
-		default -> resultCode;
+		default -> this;
 		};
 	}
 

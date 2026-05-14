@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
-<%@ page import="jp.co.sfrontier.ss3.game.model.ResultHistory"%>
+<%@ page import="jp.co.sfrontier.ss3.game.model.jp.co.sfrontier.ss3.game.model.ResultHistoryViewModel"%>
 <%
-List<ResultHistory> resultHistory = (List<ResultHistory>) request.getAttribute("history");
+List<ResultHistoryViewModel> resultHistory = (List<ResultHistoryViewModel>) request.getAttribute("history");
 %>
 
 <!DOCTYPE html>
@@ -31,7 +31,7 @@ List<ResultHistory> resultHistory = (List<ResultHistory>) request.getAttribute("
 			</thead>
 			<tbody>
 				<%
-				for (ResultHistory rhi : resultHistory) {
+				for (ResultHistoryViewModel rhi : resultHistory) {
 				%>
 				<tr>
 					<td><%=rhi.getExecuteDatetime()%></td>

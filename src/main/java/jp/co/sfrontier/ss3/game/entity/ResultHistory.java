@@ -1,22 +1,39 @@
 package jp.co.sfrontier.ss3.game.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import lombok.Data;
+import jp.co.sfrontier.ss3.game.common.ResultCode;
+import jp.co.sfrontier.ss3.game.model.GameType;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * RESULT_HISTORY_TBL 用のEntity
+ * RESULT_HISTORY_TBL 用のEntity<br>
+ * <br>
  */
-@Data
+@Getter
+@Setter
+@Builder
 public class ResultHistory {
-	  private Long historyId;
-	  private Long userId;
-	  private Integer gameTypeId;
-	  private Integer resultId;
-	  private Date executeDatetime;
-	  private Long opponent;
-	  private String userChoice;
-	  private Date createDatetime;
-	  private Date updateDatetime;
-	  private Integer version;
+
+	private Long historyId;
+
+	private Long userId;
+
+	private Long opponentUserId;
+
+	private GameType gameType;
+
+	private ResultCode resultCode;
+
+	private LocalDateTime executeDatetime;
+
+	private String userChoice;
+
+	private LocalDateTime createDatetime;
+
+	private LocalDateTime updateDatetime;
+
+	private Integer version;
 }

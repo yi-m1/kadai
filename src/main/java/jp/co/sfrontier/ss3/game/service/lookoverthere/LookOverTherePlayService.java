@@ -11,10 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import jp.co.sfrontier.ss3.game.common.Direction;
 import jp.co.sfrontier.ss3.game.common.ResultCode;
 import jp.co.sfrontier.ss3.game.mapper.MatchResultMapper;
-import jp.co.sfrontier.ss3.game.service.MatchResultService;
+import jp.co.sfrontier.ss3.game.service.core.BattleResult;
 import jp.co.sfrontier.ss3.game.service.login.LoginUserDetails;
 import jp.co.sfrontier.ss3.game.service.lookoverthere.value.LookOverThereResult;
 import jp.co.sfrontier.ss3.game.value.LookOverThereMatchHistory;
+import jp.co.sfrontier.ss3.game.value.Player;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,36 +36,17 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class LookOverTherePlayService {
 
-	//	private static final Logger logger = LoggerFactory.getLogger(AcchiMuiteHoiService.class);
-
 	/** 「あっちむいてほい」のゲームID */
 	public static final Long GAME_ID = Long.valueOf(2L);
 
 	/** CPU のプレイヤーID */
 	private static final Long CPU_ID = Long.valueOf(0L);
 
-	private final MatchResultService matchResultService;
+	private final LookOverThereHistoryRecorder lookOverThereHistoryRecorder;
 
 	private final MatchResultMapper matchResultMapper;
 
 	private final Random random = new Random();
-
-	/**
-	 * 現在ログインしているユーザのuserIdを取得する。
-	 * 
-	 * @return ログインユーザの userId
-	 */
-	private Long getFilterUserId() {
-
-		// Spring Security のセキュリティコンテキストから、現在ログイン中の認証情報を取得する
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-		// 認証時に設定した UserDetails を取得する
-		LoginUserDetails user = (LoginUserDetails) auth.getPrincipal();
-
-		// ログインユーザの userId を返す
-		return user.getUser().getUserId();
-	}
 
 	/** 
 	 * 「あっちむいてほい」を1回実行し、結果を保存した上で Controller 用の結果を返す<br>
@@ -75,7 +57,7 @@ public class LookOverTherePlayService {
 	 */
 	public LookOverThereResult play(Direction attackerDirection) {
 
-		log.debug("play() 開始 attackerDirection={}", attackerDirection);
+		log.debug("あっちむいてほい開始 attackerDirection={}", attackerDirection);
 
 		Direction defenderDirection = decideDefenderDirection();
 
@@ -85,12 +67,14 @@ public class LookOverTherePlayService {
 
 		log.info("勝敗判定 attacker={}, defender={}, result={}",
 				attackerDirection, defenderDirection, resultCode);
+		
+		BattleResult battleResult = new BattleResult(resultCode);
 
-		saveMatchResult(attackerDirection, defenderDirection, resultCode);
+		saveMatchResult(attackerDirection, defenderDirection, battleResult);
 
-		LookOverThereResult result = new LookOverThereResult(resultCode, attackerDirection, defenderDirection, null);
+		LookOverThereResult result = new LookOverThereResult(battleResult.getResultCode(), attackerDirection, defenderDirection, null);
 
-		// ★ defenderDirection に応じて画像設定
+		// defenderDirection に応じて画像設定
 		switch (defenderDirection) {
 		case UP:
 			result.setFaceImage("face_up.png");
@@ -136,19 +120,16 @@ public class LookOverTherePlayService {
 	private void saveMatchResult(
 			Direction attackerDirection,
 			Direction defenderDirection,
-			ResultCode resultCode) {
-		// TODO 後でセッション連携する
-		// Long attackerId = Long attackerId = 1L;
-		Long attackerId = getFilterUserId(); //セッション取得
-		Long defenderId = CPU_ID;
+			BattleResult battleResult) {
 
-		matchResultService.save(
-				attackerId,
-				defenderId,
-				resultCode,
-				attackerDirection.getVal(),
-				defenderDirection.getVal(),
-				GAME_ID);
+		Player<Direction> attacker = new Player<>(getFilterUserId().intValue(), attackerDirection);
+
+		Player<Direction> defender = new Player<>(CPU_ID.intValue(), defenderDirection);
+
+		lookOverThereHistoryRecorder.record(
+				attacker,
+				defender,
+				battleResult);
 	}
 
 	/**
@@ -179,6 +160,24 @@ public class LookOverTherePlayService {
 	 */
 	public List<LookOverThereMatchHistory> getHistory(Long playerId) {
 		return matchResultMapper.selectHistory(playerId);
+	}
+	
+
+	/**
+	 * 現在ログインしているユーザのuserIdを取得する。
+	 * 
+	 * @return ログインユーザの userId
+	 */
+	private Long getFilterUserId() {
+
+		// Spring Security のセキュリティコンテキストから、現在ログイン中の認証情報を取得する
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		// 認証時に設定した UserDetails を取得する
+		LoginUserDetails user = (LoginUserDetails) auth.getPrincipal();
+
+		// ログインユーザの userId を返す
+		return user.getUser().getUserId();
 	}
 
 }

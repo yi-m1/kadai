@@ -11,22 +11,20 @@ import jp.co.sfrontier.ss3.game.service.core.GameRule;
 import jp.co.sfrontier.ss3.game.service.core.GameService;
 import jp.co.sfrontier.ss3.game.service.core.HistoryRecorder;
 import jp.co.sfrontier.ss3.game.value.Player;
-import lombok.extern.slf4j.Slf4j;
 
 /**
- * じゃんけんゲームを提供するサービスクラス<br>
+ * じゃんけんゲームの進行を行うクラス<br>
  * <br>
  */
-@Slf4j
 @Service
 public class JankenService extends GameService<Hand,BattleResult> {
 
-	private final HistoryRecorder historyRecorder;
+	private final HistoryRecorder<Hand,BattleResult> historyRecorder;
 
 	public static final int CPU_USER_ID = 0;
 
 	public JankenService(CpuActionStrategy<Hand> opponentActionStrategy, GameRule<Hand,BattleResult> gameRule,
-			HistoryRecorder historyRecorder) {
+			HistoryRecorder<Hand,BattleResult> historyRecorder) {
 
 		super(opponentActionStrategy, gameRule);
 
@@ -37,25 +35,26 @@ public class JankenService extends GameService<Hand,BattleResult> {
 	/**
 	 * プレイヤー vs CPU でじゃんけん対戦する
 	 */
-	public JankenResult fight(Player player) throws SQLException {
+	// TODO（中）Service から SQL 例外を出さないようにする。GameException を作成する。
+	public JankenResult fight(Player<Hand> player) throws SQLException {
 
 		// CPUの手を作成
-		Player cpu = new Player(CPU_USER_ID, getOpponentAction());
+		Player<Hand> cpu = new Player<Hand>(CPU_USER_ID, getOpponentAction());
 
 		// 勝敗判定
 		BattleResult battleResult = fight(player, cpu);
 
 		// 結果とCPUの手を返す
-		return new JankenResult(battleResult, cpu.getHand());
+		return new JankenResult(battleResult, cpu.getAction());
 	}
 
 	/**
-	 * プレイヤー同士でじゃんけん対戦する
+	 * 対戦する
 	 */
-	public BattleResult fight(Player player1, Player player2) throws SQLException {
+	public BattleResult fight(Player<Hand> player1, Player<Hand> player2) throws SQLException {
 
 		// 勝敗判定
-		BattleResult battleResult = judge(player1.getHand(), player2.getHand());
+		BattleResult battleResult = judge(player1.getAction(), player2.getAction());
 
 		// 対戦履歴を保存する
 		historyRecorder.record(player1, player2, battleResult);

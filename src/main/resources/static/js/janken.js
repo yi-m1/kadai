@@ -42,9 +42,9 @@ function playGame() {
     .then(data => {
       if (data.status !== "OK") {
         console.log(data);
-        
+
         alert("エラーが発生しました");
-        
+
         submitButton.disabled = false;
         return;
       }
@@ -75,6 +75,8 @@ function playGame() {
 
       document.getElementById('retry-button').style.display = 'inline-block';
       document.getElementById('exit-button').style.display = 'inline-block';
+      document.getElementById('game-sentence').style.display = 'none';
+
     })
     .catch(error => {
 
@@ -94,6 +96,7 @@ function retryGame() {
   document.getElementById('retry-button').style.display = 'none';
   document.getElementById('cpu-hand').style.display = 'none';
   document.getElementById('exit-button').style.display = 'none';
+  document.getElementById('game-sentence').style.display = 'inline-block';
 
   const buttons = document.querySelectorAll('input[name="hand"]');
   buttons.forEach(button => button.checked = false);
