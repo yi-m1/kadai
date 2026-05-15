@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import jp.co.sfrontier.ss3.game.dto.UserSearchRequest;
-import jp.co.sfrontier.ss3.game.dto.UserUpdateRequest;
-import jp.co.sfrontier.ss3.game.model.UserInfoModel;
+import jp.co.sfrontier.ss3.game.dto.user.UserInfoResponse;
+import jp.co.sfrontier.ss3.game.dto.user.UserSearchRequest;
+import jp.co.sfrontier.ss3.game.dto.user.UserUpdateRequest;
 import jp.co.sfrontier.ss3.game.service.admin.UserInfoService;
 
 /**
@@ -39,7 +39,7 @@ public class UserInfoController {
 	@GetMapping("/user/list")
 	public String list(Model model) {
 
-		List<UserInfoModel> userList = userInfoService.findAll();
+		List<UserInfoResponse> userList = userInfoService.findAll();
 
 		model.addAttribute("userlist", userList);
 		model.addAttribute("userSearchRequest", new UserSearchRequest());
@@ -55,7 +55,7 @@ public class UserInfoController {
 			@ModelAttribute UserSearchRequest userSearchRequest,
 			Model model) {
 
-		List<UserInfoModel> userList = userInfoService.search(userSearchRequest);
+		List<UserInfoResponse> userList = userInfoService.search(userSearchRequest);
 
 		model.addAttribute("userlist", userList);
 		model.addAttribute("userSearchRequest",userSearchRequest);
@@ -69,7 +69,7 @@ public class UserInfoController {
 	@GetMapping("/user/{id}/edit")
 	public String edit(@PathVariable Long id, Model model) {
 
-		UserInfoModel user = userInfoService.findById(id);
+		UserInfoResponse user = userInfoService.findById(id);
 
 		UserUpdateRequest request = new UserUpdateRequest();
 		request.setUserId(user.getUserId());

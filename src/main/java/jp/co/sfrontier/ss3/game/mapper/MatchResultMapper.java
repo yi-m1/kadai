@@ -6,9 +6,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import jp.co.sfrontier.ss3.game.dto.MatchResultRequest;
-import jp.co.sfrontier.ss3.game.entity.MatchResult;
-import jp.co.sfrontier.ss3.game.value.LookOverThereMatchHistory;
+import jp.co.sfrontier.ss3.game.dto.game.MatchResultRequest;
+import jp.co.sfrontier.ss3.game.entity.game.MatchResult;
+import jp.co.sfrontier.ss3.game.service.game.lookoverthere.history.LookOverThereMatchHistory;
 
 @Mapper
 public interface MatchResultMapper {

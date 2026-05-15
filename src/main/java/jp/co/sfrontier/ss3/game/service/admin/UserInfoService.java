@@ -11,10 +11,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jp.co.sfrontier.ss3.game.dto.UserSearchRequest;
-import jp.co.sfrontier.ss3.game.dto.UserUpdateRequest;
-import jp.co.sfrontier.ss3.game.model.UserInfoModel;
-import jp.co.sfrontier.ss3.game.repository.UserInfoMapper;
+import jp.co.sfrontier.ss3.game.dto.user.UserInfoResponse;
+import jp.co.sfrontier.ss3.game.dto.user.UserSearchRequest;
+import jp.co.sfrontier.ss3.game.dto.user.UserUpdateRequest;
+import jp.co.sfrontier.ss3.game.repository.mybatis.UserInfoMapper;
 
 
 /**
@@ -29,21 +29,21 @@ public class UserInfoService {
 	/**
 	 * ユーザー情報全件検索
 	 */
-	public List<UserInfoModel> findAll(){
+	public List<UserInfoResponse> findAll(){
 		return userInfoMapper.findAll();
 	}
 
 	/**
 	 * ユーザー情報主キー検索
 	 */
-	public UserInfoModel findById(Long id) {
+	public UserInfoResponse findById(Long id) {
 		return userInfoMapper.findById(id);
 	}
 
 	/**
 	 * ユーザー情報検索
 	 */
-	public List<UserInfoModel> search(UserSearchRequest request){
+	public List<UserInfoResponse> search(UserSearchRequest request){
 		return userInfoMapper.search(request);
 	}
 

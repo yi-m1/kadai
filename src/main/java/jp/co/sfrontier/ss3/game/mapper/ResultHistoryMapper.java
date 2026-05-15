@@ -2,7 +2,7 @@ package jp.co.sfrontier.ss3.game.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import jp.co.sfrontier.ss3.game.entity.ResultHistory;
+import jp.co.sfrontier.ss3.game.entity.history.ResultHistory;
 
 @Mapper
 public interface ResultHistoryMapper {

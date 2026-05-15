@@ -5,10 +5,10 @@ import java.sql.SQLException;
 
 import org.springframework.stereotype.Repository;
 
-import jp.co.sfrontier.ss3.game.entity.ResultHistory;
-import jp.co.sfrontier.ss3.game.repository.DbUtil;
-import jp.co.sfrontier.ss3.game.repository.ResultHistoryInsertDao;
+import jp.co.sfrontier.ss3.game.entity.history.ResultHistory;
 import jp.co.sfrontier.ss3.game.repository.core.ResultHistoryRepository;
+import jp.co.sfrontier.ss3.game.repository.jdbc.dao.ResultHistoryInsertDao;
+import jp.co.sfrontier.ss3.game.repository.jdbc.util.DbUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**

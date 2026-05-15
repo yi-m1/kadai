@@ -3,7 +3,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="jp.co.sfrontier.ss3.game.model.jp.co.sfrontier.ss3.game.model.ResultHistoryViewModel"%>
 <%
-List<ResultHistoryViewModel> resultHistory = (List<ResultHistoryViewModel>) request.getAttribute("history");
+List<ResultHistoryResponse> resultHistory = (List<ResultHistoryResponse>) request.getAttribute("history");
 %>
 
 <!DOCTYPE html>
@@ -31,7 +31,7 @@ List<ResultHistoryViewModel> resultHistory = (List<ResultHistoryViewModel>) requ
 			</thead>
 			<tbody>
 				<%
-				for (ResultHistoryViewModel rhi : resultHistory) {
+				for (ResultHistoryResponse rhi : resultHistory) {
 				%>
 				<tr>
 					<td><%=rhi.getExecuteDatetime()%></td>

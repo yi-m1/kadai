@@ -7,11 +7,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import jp.co.sfrontier.ss3.game.dto.MatchPageResultRequest;
-import jp.co.sfrontier.ss3.game.dto.MatchResultRequest;
+import jp.co.sfrontier.ss3.game.common.GameType;
+import jp.co.sfrontier.ss3.game.dto.game.MatchResultRequest;
+import jp.co.sfrontier.ss3.game.dto.history.MatchPageResultRequest;
 import jp.co.sfrontier.ss3.game.mapper.MatchResultMapper;
-import jp.co.sfrontier.ss3.game.model.GameType;
-import jp.co.sfrontier.ss3.game.service.login.LoginUserDetails;
+import jp.co.sfrontier.ss3.game.service.auth.LoginUserDetails;
 
 /**
  * 対戦履歴に関する業務処理を提供する Service クラス。

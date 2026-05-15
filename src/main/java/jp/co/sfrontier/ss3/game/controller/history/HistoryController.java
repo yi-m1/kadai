@@ -5,8 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jp.co.sfrontier.ss3.game.dto.MatchPageResultRequest;
-import jp.co.sfrontier.ss3.game.model.GameType;
+import jp.co.sfrontier.ss3.game.common.GameType;
+import jp.co.sfrontier.ss3.game.dto.history.MatchPageResultRequest;
 import jp.co.sfrontier.ss3.game.service.history.HistoryService;
 import lombok.RequiredArgsConstructor;
 

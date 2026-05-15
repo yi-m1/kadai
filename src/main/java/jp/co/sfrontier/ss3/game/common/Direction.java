@@ -2,7 +2,7 @@ package jp.co.sfrontier.ss3.game.common;
 
 import java.util.Objects;
 
-import jp.co.sfrontier.ss3.game.service.core.GameAction;
+import jp.co.sfrontier.ss3.game.service.game.core.GameAction;
 
 /**
  * 「あっち向いてほい」の方角情報を定義する。<br>

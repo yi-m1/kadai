@@ -5,8 +5,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import jp.co.sfrontier.ss3.game.entity.UserInformationTbl;
-import jp.co.sfrontier.ss3.game.service.login.LoginUserDetails;
+import jp.co.sfrontier.ss3.game.entity.user.UserInformation;
+import jp.co.sfrontier.ss3.game.service.auth.LoginUserDetails;
 
 /**
  * 各画面共通で表示する情報を管理するクラス
@@ -18,7 +18,7 @@ public class CommonViewAdvice {
 	 * 全画面共通で LoginUser を Model に追加する
 	 */
 	@ModelAttribute("loginUser")
-	public UserInformationTbl loginUser() {
+	public UserInformation loginUser() {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 

@@ -6,7 +6,7 @@
 <mapper namespace="jp.co.sfrontier.ss3.game.mapper.UserMapper">
 
 	<resultMap id="UserResultMap"
-		type="jp.co.sfrontier.ss3.game.entity.UserInformationTbl">
+		type="jp.co.sfrontier.ss3.game.entity.user.UserInformation">
 
 		<id column="user_id" property="userId" />
 		<result column="user_name" property="userName" />
@@ -41,7 +41,7 @@
 	</select>
 
 	<insert id="addUser"
-		parameterType="jp.co.sfrontier.ss3.game.entity.UserInformationTbl">
+		parameterType="jp.co.sfrontier.ss3.game.entity.user.UserInformation">
 		INSERT INTO user_information_tbl(user_name,
 		mail_address, password, status)
 		VALUES(#{userName}, #{mailAddress},
@@ -49,7 +49,7 @@
 	</insert>
 
 	<update id="updatePassword"
-		parameterType="jp.co.sfrontier.ss3.game.entity.UserInformationTbl">
+		parameterType="jp.co.sfrontier.ss3.game.entity.user.UserInformation">
 		UPDATE user_information_tbl
 		SET password = #{password},
 		update_datetime = CURRENT_TIMESTAMP,

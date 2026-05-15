@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import jp.co.sfrontier.ss3.game.service.login.UserDetailsServiceImpl;
+import jp.co.sfrontier.ss3.game.service.auth.UserDetailsServiceImpl;
 
 /**
  * Spring Security を用いてログイン、権限制御、パスワード暗号化の設定を行うクラス
