@@ -50,6 +50,9 @@ public class SecurityConfig {
 
 				// 管理ユーザも一般ユーザもアクセス可能(履歴画面)
 				.antMatchers("/history").hasAnyRole("USER", "ADMIN")
+				
+				// 画面表示を確認するために一時的にアクセスを許可
+				.antMatchers("/test/**").permitAll()
 
 				// ログインしていればアクセス可能
 				.anyRequest().authenticated())

@@ -3,87 +3,53 @@ package jp.co.sfrontier.ss3.game.entity.user;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
- * ユーザ管理テーブルのエンティティクラス
+ * ユーザ管理テーブルのエンティティ
  */
+@Getter
+@Setter
+@Entity
+@Table(name="user_information_tbl")
+@NoArgsConstructor
 public class UserInformation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY) // 自動採番
+	@Column(name="user_id")
 	private Long userId;
+	
+	@Column(name="user_name")
 	private String userName;
+	
+	@Column(name="mail_address")
 	private String mailAddress;
+	
+	@Column(name="password")
 	private String password;
+	
+	@Column(name="status")
 	private int status;
+	
+	@Column(name="create_datetime")
 	private LocalDateTime createDatetime;
+	
+	@Column(name="update_datetime")
 	private LocalDateTime updateDatetime;
+	
+	@Column(name="version")
 	private Integer version;
 
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getMailAddress() {
-		return mailAddress;
-	}
-
-	public void setMailAddress(String mailAddress) {
-		this.mailAddress = mailAddress;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-	public LocalDateTime getCreateDatetime() {
-		return createDatetime;
-	}
-
-	public void setCreateDatetime(LocalDateTime createDatetime) {
-		this.createDatetime = createDatetime;
-	}
-
-	public LocalDateTime getUpdateDatetime() {
-		return updateDatetime;
-	}
-
-	public void setUpdateDatetime(LocalDateTime updateDatetime) {
-		this.updateDatetime = updateDatetime;
-	}
-
-	public Integer getVersion() {
-		return version;
-	}
-
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 }
